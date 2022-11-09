@@ -26,10 +26,10 @@ loadNetworkFlag = False
 
 #table = load_table('D:/data/genomics/unam/agromicrobioma/pacific_ocean.biom')
 #table = load_table('/mnt/d/data/genomics/unam/agromicrobioma/pacific_ocean.biom')
-table = load_table(f"chile.txt_9.biom")
+table = load_table(f"maiz.txt_9.biom")
 
 #table = load_table('~/solena/biom/solena_maiz.biom')
-outName = f"chile_species"
+outName = f"maiz_species"
 
 # https://biom-format.org/documentation/table_objects.html
 numTaxons = int(table.shape[0])
@@ -43,7 +43,7 @@ print ( f"loading: \t {finish-start}")
 network =list()
 
 if loadNetworkFlag:
-    network = statisticsFunctions.loadNetwork('chile_network_Pval.csv')
+    network = statisticsFunctions.loadNetwork('maiz_network_Pval.csv')
 else:
         #network = efficientStats.CalculateMetrics(rawData)
     network = statisticsFunctions.CalculateMetricsParallel(rawData)
@@ -59,11 +59,11 @@ print ( f"raw network: \t {finish-start}")
 
 statisticsFunctions.PermutationTest(rawData, network, numPermutations = numPermutations, reBoot = True)
 finish = datetime.datetime.now()
-statisticsFunctions.printNetwork(network,"chile_network_PermTest.csv")
+statisticsFunctions.printNetwork(network,"maiz_network_PermTest.csv")
 print ( f"PERMUTATION test: \t {finish-start}")
 
 
 statisticsFunctions.PermutationTest(rawData, network, bootstrap=True, numPermutations = numPermutations, reBoot = True)
 finish = datetime.datetime.now()
-statisticsFunctions.printNetwork(network,"chile_network_complete.csv")
+statisticsFunctions.printNetwork(network,"maiz_network_complete.csv")
 print ( f"BOOTSTRAP test: \t {finish-start}")

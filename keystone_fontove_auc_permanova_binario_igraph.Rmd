@@ -1,0 +1,119 @@
+---
+title: "keystone_species_binario_igraph"
+output: html_document
+date: '2022-10-21'
+---
+
+#Datos
+##Muestras 
+
+```{r}
+getwd()
+setwd("~/proyecto/redes_correlacion_coocurrencia")
+
+#Se cargan los datos de las muestras
+data <- read.table("table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
+
+#Se excluyeron 3 outliers según un análisis pcoa con diversidad bray-curtis
+data <- data[,c(1,3:6,9:21)]
+
+#Se agrega una columna que a cada otu asigna la etiqueta correspondiente en la red
+data$nodos <- 0:(dim(data)[1]-1)
+
+
+#Dado que hay varios otus solo presentes en una muestra, y tienen por lo tanto grado artificialmente alto, dichos otus son descartados. Esta filtración puede modificarse para descartar otus presentes en a lo más otra cota de muestras
+
+#Se crea el vector que escogerá los otus en más de una 
+filt <- c()
+for (i in 1:dim(data)[1]) {
+  #nos concentramos en las columnas referentes a las muestras
+  v_i <- as.vector(data[i,1:7])
+  #el siguiente 1 es filtro
+  if (length(v_i [ v_i > 0 ]) > 1 ) {
+    filt <- c(filt, i)
+  }
+}
+
+data <- data[filt,]
+
+head(data)
+dim(data)
+```
+
+##Separación de las muestras por metadatos
+
+```{r}
+#La separación es por etapa fenológica; los siguientes vectores describen qué muestras corresponden a cada etapa
+produccion <- c("V2","V4","V5")
+llenado_de_fruto <- c("V6", "V7")
+#plantacion <- c()
+#por_transplantar <- c("V9")
+desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22")
+
+#no_des <- c()
+
+grupos <- list()
+grupos[[1]] <- produccion
+grupos[[2]] <- llenado_de_fruto
+grupos[[3]] <- desarrollo
+
+
+```
+
+```{r}
+#Se carga la red
+red <- read.csv("networks/tomate_species_raw_network.csv")
+red = red[,1:3]
+
+#Dado que se han filtrado otus, solo retendremos las aristas que se refieren a los otus conservados en nuestros datos
+edges <- c()
+for (i in 1:dim(red)[1]) {
+  if (is.element(red[i,1], data$nodos) && is.element(red[i,2], data$nodos) && red[i,3] > 0  ){
+    edges <- c(edges , i)
+  }
+}
+
+red <- red[edges, 1:2]
+red <- red + 1
+
+data$nodos <- data$nodos + 1
+
+head(red)
+dim(red)
+```
+
+```{r}
+library(igraph)
+red <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
+red
+```
+
+```{r}
+degrees <- c()
+for (i in 1:dim(data)[1]) {
+  d_i <- degree(red, data[i,"nodos"])
+  degrees <- c(degrees, d_i)
+}
+data$degrees <- degrees
+```
+
+
+```{r}
+closeness_cent <- c()
+for (i in 1:dim(data)[1]) {
+  c_i <- closeness(red, data[i,"nodos"])
+  closeness_cent <- c(closeness_cent, c_i)
+}
+data$closeness <- closeness_cent
+```
+
+
+```{r}
+betweenness_cent <- c()
+for (i in 1:dim(data)[1]) {
+  b_i <- betweenness(red, data[i,"nodos"])
+  print(c(b_i , i))
+  betweenness_cent <- c(betweenness_cent, b_i)
+}
+data$betweenness <- betweenness_cent
+```
