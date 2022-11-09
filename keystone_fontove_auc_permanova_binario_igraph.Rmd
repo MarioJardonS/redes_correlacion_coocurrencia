@@ -9,7 +9,7 @@ date: '2022-10-21'
 
 ```{r}
 getwd()
-setwd("~/proyecto/redes_correlacion_coocurrencia")
+setwd("~/redes_correlacion_coocurrencia")
 
 #Se cargan los datos de las muestras
 data <- read.table("table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
@@ -60,6 +60,10 @@ grupos[[3]] <- desarrollo
 
 ```
 
+
+##Red de coocurrencia
+
+
 ```{r}
 #Se carga la red
 red <- read.csv("networks/tomate_species_raw_network.csv")
@@ -88,6 +92,9 @@ red <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
 red
 ```
 
+##Cálculo de medidas de centralidad 
+
+
 ```{r}
 degrees <- c()
 for (i in 1:dim(data)[1]) {
@@ -112,8 +119,166 @@ data$closeness <- closeness_cent
 betweenness_cent <- c()
 for (i in 1:dim(data)[1]) {
   b_i <- betweenness(red, data[i,"nodos"])
-  print(c(b_i , i))
   betweenness_cent <- c(betweenness_cent, b_i)
 }
 data$betweenness <- betweenness_cent
+```
+##Funciones para área bajo la curva y proporción de área bajo la curva
+
+
+```{r}
+
+#Esta función calcula el área bajo la curva de una función representada como un dataframe, donde la columna 1 es el dominio, y sus imágenes están en la columna con nombre feature. 
+auc <- function(df, centrality){
+  sm_p <- 0
+  for (i in 1:dim(df)[1]) {
+  f_i = df[i, centrality]
+  if (is.nan(f_i) == FALSE)
+  {sm_p = sm_p + f_i}
+}
+
+return(sm_p)}
+```
+
+```{r}
+#Con un dataframe que represente una función, y una cota superior (se espera que sea una fracción del área bajo la curva de dicha funcion). Nos devuelve la cantidad de "otus", como están ordenados según el dataframe, que alcanzan dicha cota.
+auc_percent <- function(df, centrality, bound){
+  #df es nuestro dataframe de muestras y medidas de centralidad, centrality un string con el nombre de nuestra centralidad, y bound un número positivo 
+  
+  i <- 1
+  sum_par <- 0
+  #c <- c() 
+  while(i <= dim(df)[1] && sum_par < bound) {
+    #c <- c(c,i)
+    g_i = df[i, centrality]
+    sum_par = sum_par + g_i
+    i = i+1
+  }
+  return(i-1)
+}
+```
+
+##Función para estadístico pseudo-F, para comparar entre medidas por grupos
+
+
+```{r}
+library(plyr)
+library(vegan)
+pseudo_F <- function(df , groups){
+  #df es dataframe de muestras, groups, una lista de vectores de etiquetas por grupo , por grupos
+  N <- dim(df)[2] #número de muestras
+  a <- length(groups) #número de grupos
+  
+  df_groups <- list() #se crea la lista que incluirá los subdataframes por grupo
+  
+  for (i in 1:length(groups)){
+    df_i <- df[,groups[[i]]]
+    df_groups[[i]] <- df_i
+  } 
+  
+  
+  
+  
+  n_s <- llply( .data = df_groups , .fun = ncol )
+  n_s <- unlist(n_s)
+  n <- mean(n_s) #número promedio de muestras por grupo
+  
+  dist <- vegdist(t(df))
+  dist <- as.vector(dist) #distancias bray_curtis entre todo par de muestras
+  
+ 
+  df_groups <- llply(.data = df_groups , .fun = t)
+  in_dist <- llply(.data = df_groups , .fun = vegdist )
+  in_dist <- llply(.data = in_dist , .fun = as.vector )
+  in_dist <- unlist(in_dist) #distancias bray-curtis intra-grupo
+  
+  #calculo del estadistico pseudo-f
+  
+  ss_t <- sum(dist^2)/N 
+  
+  ss_w <- sum(in_dist^2)/n
+  
+  ss_a <- ss_t - ss_w
+
+  f_stat <- (ss_a/(a-1))/(ss_w/(N-a))
+  
+  return(f_stat)
+}
+
+```
+
+##Candidatos para especie clave según las medidas de centralidad
+
+
+```{r}
+#Se o
+data_deg <- data[order(data$degrees, decreasing = TRUE),]
+data_close <- data[order(data$closeness , decreasing = TRUE),]
+#data_between <- data[order(data$betweenness, decreasing = TRUE),]
+```
+
+
+
+```{r}
+area_deg <- auc(data_deg , "degrees")
+auc5_percent_deg <- c()
+for (x in 1:20){
+  auc5_percent_deg = c(auc5_percent_deg , auc_percent(data_deg, "degrees" ,(area_deg/20)*x))
+  print(auc_percent(data_deg, "degrees", (area_deg/20)*x))
+}
+```
+
+
+```{r}
+area_close <- auc(data_close , "closeness")
+auc5_percent_close <- c()
+for (x in 1:20){
+  auc5_percent_close = c(auc5_percent_close , auc_percent(data_close, "closeness" ,(area_close/20)*x))
+  print(auc_percent(data_close, "closeness" , (area_close/20)*x))
+}
+```
+
+
+```{r}
+#area_between <- auc(data_between , "betweenness")
+#auc5_percent_between <- c()
+#for (x in 1:20){
+ # auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
+  #print(auc_percent(data_between, "betweenness" , (area/20)*x))
+#}
+```
+
+
+
+```{r}
+f_stat_deg <- c()
+for (i in auc5_percent_deg){
+  df_i <- data_deg[1:i ,1:18]
+  f_i <- pseudo_F(df_i , grupos)
+  f_stat_deg <- c(f_stat_deg , f_i) 
+  print(c(f_i ,var(f_stat_deg)))
+}
+```
+
+
+```{r}
+f_stat_close <- c()
+for (i in auc5_percent_close){
+  df_i <- data_close[1:i ,1:18]
+  f_i <- pseudo_F(df_i , grupos)
+  f_stat_close <- c(f_stat_close , f_i) 
+  print(c(f_i ,var(f_stat_close)))
+}
+```
+
+
+
+```{r}
+f_stat_between <- c()
+for (i in auc5_percent_between){
+  df_i <- data_between[1:i ,1:18]
+  f_i <- pseudo_F(df_i , grupos)
+  f_stat_between <- c(f_stat_between , f_i) 
+  print(c(f_i ,var(f_stat_between)))
+}
 ```
