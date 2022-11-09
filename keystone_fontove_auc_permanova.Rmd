@@ -1,0 +1,197 @@
+---
+title: "keystone_fontove_auc_permanova"
+output: html_document
+date: '2022-10-03'
+---
+
+Muestras 
+
+```{r}
+getwd()
+setwd("~/redes_correlacion_coocurrencia")
+#Se cargan los datos de las muestras
+
+data <- read.table("table.from_chile.txt", header = FALSE , sep= "" )
+
+#Asumiendo que los otus pueden etiquetarse con números de 0 en adelante, y que la red puede describirse con estas etiquetas, se fijan
+data$enum <- 0:(dim(data)-1)
+head(data)
+```
+
+Separación artificial de las muestras para prueba
+
+```{r}
+data_1 <- data[,c(1,3,5,7)]
+head(data_1)
+data_2 <- data[,c(1,2,4,6,8)]
+head(data_2)
+```
+
+
+```{r}
+#Se carga la red
+red <- read.csv("networks/chile_species_raw_network.csv")
+red = red[,1:3]
+head(red)
+dim(red)
+
+otus <- data$enum
+```
+
+Calcular grado
+
+
+
+```{r}
+#Se ordenan las segundas entradas
+
+red_2 <- red[order(red[,2]),]
+red_2
+```
+
+
+
+```{r}
+
+# Dar un Otu numerico
+# variables son un OTU y un dataframe (red)
+# red tiene tres columnas, dos de otus y una de coeficente
+# funcion Ogrado_TOU_en_df
+
+deg_otu <- function(df , otu){
+  
+  x_1 <- 1
+  suma_otu <- 0
+  
+  while (x_1 <= dim(df)[1] && df[x_1, 1] != otu ){x_1 = x_1 + 1}
+  
+ 
+  
+  while (x_1 <= dim(df)[1] && df[x_1 ,1] == otu ){ suma_otu = suma_otu + df[x_1 ,3]
+  
+  x_1 = x_1 + 1}
+  
+return(suma_otu)}
+
+
+deg <- function(df , nodes){
+  #df debe ser un data frame cuyas primeras dos columnas representan los pares de otus, sin redundancias, y la tercera es el peso de la arista
+  #nodes es el vector de etiquetas ordenadas de los otus, y con cuyo orden se pueda ordenar las primeras dos columnas de df
+  
+  colnames(df) <- c("taxon1","taxon2","weight")
+  df <- df[order(df[,"taxon1"]),]
+  df_2 <- df[order(df[,"taxon2"]),]
+  
+  vec_deg <- c()
+  
+  
+  x_1 <- 1
+  x_2 <- 1
+  
+  for (i in 1:length(nodes)){
+    suma_otu <- 0
+    
+    while (x_1 <= dim(df)[1] && df[x_1 , "taxon1"] == nodes[i] ){ suma_otu = suma_otu + df[x_1 ,"weight"]
+  
+  x_1 = x_1 + 1}
+    
+    while (x_2 <= dim(df)[1] && df_2[x_2 ,"taxon2"] == nodes[i] ){ suma_otu = suma_otu + df_2[x_2 ,"weight"]
+  
+  x_2 = x_2 + 1}
+    
+    vec_deg = c(vec_deg , suma_otu)
+    }
+    
+    
+  
+  return(cbind.data.frame(as.data.frame(otus),as.data.frame(vec_deg)) )
+}
+
+# entra OTU, df
+# sale grado de OTU
+#_______________________
+
+
+
+grados <- deg(red, otus)
+
+```
+
+
+
+
+
+
+```{r}
+head(grados)
+dim(grados)
+dim(data)
+```
+```{r}
+
+data_deg <- cbind(data, grados$vec_deg)
+data_1_deg <- cbind(data_1 ,grados$vec_deg)
+data_2_deg <- cbind(data_2 ,grados$vec_deg)
+head(data_deg)
+```
+```{r}
+data_by_deg <- data_deg[order(data_deg[,10], decreasing = TRUE),]
+head(data_by_deg)
+data_1_by_deg <- data_1_deg[order(data_1_deg[,5], decreasing = TRUE),]
+head(data_1_by_deg)
+data_2_by_deg <- data_2_deg[order(data_2_deg[,6], decreasing = TRUE),]
+head(data_2_by_deg)
+```
+```{r}
+auc <- function(df_deg){
+  sm_p <- 0
+  for (i in 1:dim(df_deg)[1]) {
+  f_i = df_deg[i,dim(df_deg)[2]]
+  if (f_i >= 0){sm_p = sm_p + f_i}
+  else{sm_p = sm_p - f_i}
+}
+
+return(sm_p)}
+```
+
+```{r}
+auc_percent <- function(df_deg, propo){
+  i <- 1
+  sum_par <- 0
+  #c <- c() 
+  while(i <= dim(df_deg)[1] && sum_par < propo) {
+    #c <- c(c,i)
+    g_i = df_deg[i,dim(df_deg)[2]]
+    sum_par = sum_par + g_i
+    i = i+1
+  }
+  return(i)
+}
+```
+
+
+```{r}
+area <- auc(data_by_deg)
+c_auc5_percent <- c()
+for (x in 1:20){
+  c_auc5_percent = c(c_auc5_percent,auc_percent(data_by_deg, (area/20)*x))
+  print(auc_percent(data_by_deg, (area/20)*x))
+}
+```
+
+
+```{r}
+library(vegan
+        )
+
+data_by_deg_5per <- data_by_deg[1:133,1:7]
+bc_dist <- vegdist(t(data_by_deg_5per), method = "bray")
+
+```
+
+
+```{r}
+
+```
+
+
