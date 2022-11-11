@@ -1,9 +1,40 @@
 ## -----------------------------------------------------------------------------------------------------------------------
-getwd()
-setwd("~/redes_correlacion_coocurrencia")
+library(vegan)
+library(igraph)
+library(ggplot2)
+library(apcluster)
+
+#getwd()
+setwd("~/proyecto_redes")
 
 #Se cargan los datos de las muestras
-data <- read.table("table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
+data <- read.table("redes_correlacion_coocurrencia/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
+
+#La separación es por etapa fenológica; los siguientes vectores describen qué muestras corresponden a cada etapa
+
+produccion <- c("V2", "V3" ,"V4","V5")
+llenado_de_fruto <- c("V6", "V7", "V8")
+#plantacion <- c()
+por_transplantar <- c("V9")
+desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22")
+
+grupos <- list()
+grupos[[1]] <- produccion
+grupos[[2]] <- llenado_de_fruto
+grupos[[3]] <- por_transplantar
+grupos[[4]] <- desarrollo
+
+#Análisis pcoa y clusterización para detectar outliers
+
+bc_dist <- vegdist(t(data), method = "bray")
+PCoA <- cmdscale(bc_dist, eig = TRUE, k = 2)
+
+
+s <- negDistMat(PCoA$points , r=2)
+apcluster(s)
+
+
+
 
 #Se excluyeron 3 outliers según un análisis pcoa con diversidad bray-curtis
 data <- data[,c(1,3:6,9:21)]
@@ -32,19 +63,10 @@ dim(data)
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
-#La separación es por etapa fenológica; los siguientes vectores describen qué muestras corresponden a cada etapa
-produccion <- c("V2","V4","V5")
-llenado_de_fruto <- c("V6", "V7")
-#plantacion <- c()
-#por_transplantar <- c("V9")
-desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22")
 
-#no_des <- c()
 
-grupos <- list()
-grupos[[1]] <- produccion
-grupos[[2]] <- llenado_de_fruto
-grupos[[3]] <- desarrollo
+
+
 
 
 
@@ -72,7 +94,7 @@ dim(red)
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
-library(igraph)
+
 red <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
 red
 
