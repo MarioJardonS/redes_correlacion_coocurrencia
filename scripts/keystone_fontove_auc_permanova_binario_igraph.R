@@ -10,17 +10,19 @@ library(vegan)
 library(igraph)
 #library(ggplot2)
 library(apcluster)
-
+library(plyr)
 
 
 #getwd()
 setwd("~/proyecto_redes")
 
-#Se cargan los datos de las muestras
+#####DATOS#####
+
 data <- read.table("./redes_correlacion_coocurrencia/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
 
-#La separación es por etapa fenológica; los siguientes vectores describen qué muestras corresponden a cada etapa
+#####ANALISIS Y AGRUPACION DE LAS MUESTRAS####
 
+#Agrupación de las muestras según metadatos
 produccion <- c("V2", "V3" ,"V4","V5")
 llenado_de_fruto <- c("V6", "V7", "V8")
 #plantacion <- c()
@@ -43,7 +45,7 @@ no_outliers <- unlist(clusters_no_outliers)
 no_outliers <- names(no_outliers)
 data <- data[,no_outliers]
 
-
+#Agrupación sin outliers
 
 
 grupos <- list()
@@ -52,11 +54,17 @@ grupos[[2]] <- intersect(llenado_de_fruto,no_outliers)
 grupos[[3]] <- intersect(por_transplantar,no_outliers)
 grupos[[4]] <- intersect(desarrollo,no_outliers)
 
+#Grupos necesarios para el análisis auc
+len_list <- llply(grupos , length)
+len_list <- which(len_list > 1)
+grupos <- grupos[len_list]
 
+
+#######ANÁLISIS DE OTUS######
 
 data$nodos <- 0:(dim(data)[1]-1)
 
-
+#Eliminación de otus según su aparición en muestras
 filt <- c()
 for (i in 1:dim(data)[1]) {
   
@@ -70,24 +78,7 @@ for (i in 1:dim(data)[1]) {
 data <- data[filt,]
 
 
-
-#Dado que hay varios otus solo presentes en una muestra, y tienen por lo tanto grado artificialmente alto, dichos otus son descartados. Esta filtración puede modificarse para descartar otus presentes en a lo más otra cota de muestras
-
-#Se crea el vector que escogerá los otus en más de una 
-
-
-
-## -----------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-## -----------------------------------------------------------------------------------------------------------------------
-#Se carga la red
+######CARGA DE RED Y AJUSTE A FILTRACIÓN DE OTUS######
 red <- read.csv("./redes_correlacion_coocurrencia/networks/tomate_species_raw_network.csv")
 red = red[,1:3]
 
@@ -101,7 +92,7 @@ for (i in 1:dim(red)[1]) {
 
 red <- red[edges, 1:2]
 
-#ajuste para usar igraph
+#####AJUSTES PREVIOS AL ISO DE igraph######
 red <- red + 1
 
 for (i in 1:dim(red)[1]){
@@ -118,7 +109,9 @@ for (i in 1:dim(data)[1]){
 }
 
 
-## -----------------------------------------------------------------------------------------------------------------------
+########CARGA DE RED CON igraph Y ELECCION DE COMPONENTE CONEXA PRINCIPAL##### 
+
+
 net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
 
 
@@ -142,15 +135,14 @@ for (i in 1:dim(data)[1]){
 
 
 data <- data[filtro_componente,]
-#red <- induced_subgraph(red, compo_princ ,"auto")
+net_work <- induced_subgraph(net_work, compo_princ ,"auto")
 
 
 
-## -----------------------------------------------------------------------------------------------------------------------
+######CALCULO DE MEDIDAS DE CENTRALIDAD############
 degrees <- c()
 for (i in 1:dim(data)[1]) {
   d_i <- degree(net_work, data[i,"nodos"])
-  print(c(d_i , i , data[i,"nodos"]))
   degrees <- c(degrees, d_i)
 }
 data$degrees <- degrees
