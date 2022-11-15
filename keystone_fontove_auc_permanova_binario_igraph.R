@@ -1,14 +1,23 @@
+#!/usr/bin/env Rscript
 ## -----------------------------------------------------------------------------------------------------------------------
+install.packages("vegan")
+install.packages("igraph")
+install.packages("apcluster")
+install.packages("plyr")
+
+
 library(vegan)
 library(igraph)
-library(ggplot2)
+#library(ggplot2)
 library(apcluster)
+
+
 
 #getwd()
 setwd("~/proyecto_redes")
 
 #Se cargan los datos de las muestras
-data <- read.table("redes_correlacion_coocurrencia/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
+data <- read.table("./redes_correlacion_coocurrencia/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
 
 #La separación es por etapa fenológica; los siguientes vectores describen qué muestras corresponden a cada etapa
 
@@ -16,50 +25,56 @@ produccion <- c("V2", "V3" ,"V4","V5")
 llenado_de_fruto <- c("V6", "V7", "V8")
 #plantacion <- c()
 por_transplantar <- c("V9")
-desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22")
+desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
 
-grupos <- list()
-grupos[[1]] <- produccion
-grupos[[2]] <- llenado_de_fruto
-grupos[[3]] <- por_transplantar
-grupos[[4]] <- desarrollo
 
-#Análisis pcoa y clusterización para detectar outliers
+#Análisis pcoa y/o clusterización para detectar outliers
 
 bc_dist <- vegdist(t(data), method = "bray")
-PCoA <- cmdscale(bc_dist, eig = TRUE, k = 2)
+#PCoA <- cmdscale(bc_dist, eig = TRUE, k = 2)
+s <- 1 - bc_dist
+s <- as.matrix(s)
+clustering <- apcluster(s)
+
+clusters <- clustering@clusters
+filtro_0 <- lapply(clusters, length)
+clusters_no_outliers <- clusters[which(filtro_0 > 1)]
+no_outliers <- unlist(clusters_no_outliers)
+no_outliers <- names(no_outliers)
+data <- data[,no_outliers]
 
 
-s <- negDistMat(PCoA$points , r=2)
-apcluster(s)
+
+
+grupos <- list()
+grupos[[1]] <- intersect(produccion,no_outliers)
+grupos[[2]] <- intersect(llenado_de_fruto,no_outliers)
+grupos[[3]] <- intersect(por_transplantar,no_outliers)
+grupos[[4]] <- intersect(desarrollo,no_outliers)
 
 
 
-
-#Se excluyeron 3 outliers según un análisis pcoa con diversidad bray-curtis
-data <- data[,c(1,3:6,9:21)]
-
-#Se agrega una columna que a cada otu asigna la etiqueta correspondiente en la red
 data$nodos <- 0:(dim(data)[1]-1)
+
+
+filt <- c()
+for (i in 1:dim(data)[1]) {
+  
+    v_i <- as.vector(data[i,1:(dim(data)[2]-1)])
+    #el siguiente 1 es filtro
+      if (length(v_i [ v_i > 0 ]) > 1 ) {
+        filt <- c(filt, i)
+        }
+     }
+ 
+data <- data[filt,]
+
 
 
 #Dado que hay varios otus solo presentes en una muestra, y tienen por lo tanto grado artificialmente alto, dichos otus son descartados. Esta filtración puede modificarse para descartar otus presentes en a lo más otra cota de muestras
 
 #Se crea el vector que escogerá los otus en más de una 
-filt <- c()
-for (i in 1:dim(data)[1]) {
-  #nos concentramos en las columnas referentes a las muestras
-  v_i <- as.vector(data[i,1:7])
-  #el siguiente 1 es filtro
-  if (length(v_i [ v_i > 0 ]) > 1 ) {
-    filt <- c(filt, i)
-  }
-}
 
-data <- data[filt,]
-
-head(data)
-dim(data)
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
@@ -73,7 +88,7 @@ dim(data)
 
 ## -----------------------------------------------------------------------------------------------------------------------
 #Se carga la red
-red <- read.csv("networks/tomate_species_raw_network.csv")
+red <- read.csv("./redes_correlacion_coocurrencia/networks/tomate_species_raw_network.csv")
 red = red[,1:3]
 
 #Dado que se han filtrado otus, solo retendremos las aristas que se refieren a los otus conservados en nuestros datos
@@ -85,24 +100,57 @@ for (i in 1:dim(red)[1]) {
 }
 
 red <- red[edges, 1:2]
+
+#ajuste para usar igraph
 red <- red + 1
+
+for (i in 1:dim(red)[1]){
+  for (j in 1:dim(red)[2]){
+    red[i,j] <- paste("v_",as.character(red[i,j]))
+  }
+}
+
 
 data$nodos <- data$nodos + 1
 
-head(red)
-dim(red)
+for (i in 1:dim(data)[1]){
+  data[i,"nodos"] <- paste("v_" , as.character(data[i,"nodos"]))
+}
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
+net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
 
-red <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
-red
+
+
+##componente(s) conexa(s) principal(es)
+compo_conexas <- components(net_work)
+size_compo_conexas <- compo_conexas$csize
+princ <- which(size_compo_conexas == max(size_compo_conexas))
+pertenencia <- compo_conexas$membership
+compo_princ <- which(pertenencia == princ )
+compo_princ <- names(compo_princ)
+
+##nuevos datos
+
+filtro_componente <- c()
+for (i in 1:dim(data)[1]){
+  if(is.element(data[i,"nodos"],compo_princ)){
+    filtro_componente <- c(filtro_componente, i)
+  }
+}
+
+
+data <- data[filtro_componente,]
+#red <- induced_subgraph(red, compo_princ ,"auto")
+
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
 degrees <- c()
 for (i in 1:dim(data)[1]) {
-  d_i <- degree(red, data[i,"nodos"])
+  d_i <- degree(net_work, data[i,"nodos"])
+  print(c(d_i , i , data[i,"nodos"]))
   degrees <- c(degrees, d_i)
 }
 data$degrees <- degrees
@@ -111,7 +159,7 @@ data$degrees <- degrees
 ## -----------------------------------------------------------------------------------------------------------------------
 closeness_cent <- c()
 for (i in 1:dim(data)[1]) {
-  c_i <- closeness(red, data[i,"nodos"])
+  c_i <- closeness(net_work, data[i,"nodos"])
   closeness_cent <- c(closeness_cent, c_i)
 }
 data$closeness <- closeness_cent
@@ -120,12 +168,19 @@ data$closeness <- closeness_cent
 ## -----------------------------------------------------------------------------------------------------------------------
 betweenness_cent <- c()
 for (i in 1:dim(data)[1]) {
-  b_i <- betweenness(red, data[i,"nodos"])
+  b_i <- betweenness(net_work, data[i,"nodos"])
   betweenness_cent <- c(betweenness_cent, b_i)
 }
 data$betweenness <- betweenness_cent
 
 
+data_deg <- data[order(data$degrees, decreasing = TRUE),]
+data_close <- data[order(data$closeness , decreasing = TRUE),]
+data_between <- data[order(data$betweenness, decreasing = TRUE),]
+
+write.csv(data_deg,"./redes_correlacion_coocurrencia/table.from_tomate_bydegrees.csv", row.names = TRUE)
+write.csv(data_close,"./redes_correlacion_coocurrencia/table.from_tomate_bycloseness.csv", row.names = TRUE)
+write.csv(data_between,"./redes_correlacion_coocurrencia/table.from_tomate_bybetweenness.csv", row.names = TRUE)
 ## -----------------------------------------------------------------------------------------------------------------------
 
 #Esta función calcula el área bajo la curva de una función representada como un dataframe, donde la columna 1 es el dominio, y sus imágenes están en la columna con nombre feature. 
@@ -160,7 +215,6 @@ auc_percent <- function(df, centrality, bound){
 
 ## -----------------------------------------------------------------------------------------------------------------------
 library(plyr)
-library(vegan)
 pseudo_F <- function(df , groups){
   #df es dataframe de muestras, groups, una lista de vectores de etiquetas por grupo , por grupos
   N <- dim(df)[2] #número de muestras
@@ -206,9 +260,7 @@ pseudo_F <- function(df , groups){
 
 ## -----------------------------------------------------------------------------------------------------------------------
 #Se o
-data_deg <- data[order(data$degrees, decreasing = TRUE),]
-data_close <- data[order(data$closeness , decreasing = TRUE),]
-#data_between <- data[order(data$betweenness, decreasing = TRUE),]
+
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
@@ -216,7 +268,7 @@ area_deg <- auc(data_deg , "degrees")
 auc5_percent_deg <- c()
 for (x in 1:20){
   auc5_percent_deg = c(auc5_percent_deg , auc_percent(data_deg, "degrees" ,(area_deg/20)*x))
-  print(auc_percent(data_deg, "degrees", (area_deg/20)*x))
+  
 }
 
 
@@ -225,45 +277,62 @@ area_close <- auc(data_close , "closeness")
 auc5_percent_close <- c()
 for (x in 1:20){
   auc5_percent_close = c(auc5_percent_close , auc_percent(data_close, "closeness" ,(area_close/20)*x))
-  print(auc_percent(data_close, "closeness" , (area_close/20)*x))
+  
 }
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
-#area_between <- auc(data_between , "betweenness")
-#auc5_percent_between <- c()
-#for (x in 1:20){
- # auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
-  #print(auc_percent(data_between, "betweenness" , (area/20)*x))
-#}
+area_between <- auc(data_between , "betweenness")
+auc5_percent_between <- c()
+for (x in 1:20){
+  auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
+  
+}
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_deg <- c()
+var_deg <- c()
 for (i in auc5_percent_deg){
   df_i <- data_deg[1:i ,1:18]
   f_i <- pseudo_F(df_i , grupos)
   f_stat_deg <- c(f_stat_deg , f_i) 
-  print(c(f_i ,var(f_stat_deg)))
+  
+  var_i <- var(f_stat_deg)
+  var_deg <- c(var_deg, var_i)
 }
 
+analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
+write.csv(analisis_auc_deg, "./redes_correlacion_coocurrencia/tomate_analisis_auc_bydegrees.csv")
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_close <- c()
+var_close <- c()
 for (i in auc5_percent_close){
   df_i <- data_close[1:i ,1:18]
   f_i <- pseudo_F(df_i , grupos)
   f_stat_close <- c(f_stat_close , f_i) 
-  print(c(f_i ,var(f_stat_close)))
+  
+  var_i <- var(f_stat_close)
+  var_close <- c(var_close, var_i)
 }
+
+
+analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
+write.csv(analisis_auc_close, "./redes_correlacion_coocurrencia/tomate_analisis_auc_bycloseness.csv")
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_between <- c()
+var_between <- c()
 for (i in auc5_percent_between){
   df_i <- data_between[1:i ,1:18]
   f_i <- pseudo_F(df_i , grupos)
   f_stat_between <- c(f_stat_between , f_i) 
-  print(c(f_i ,var(f_stat_between)))
+  
+  var_i <- var(f_stat_between)
+  var_between <- c(var_between ,var_i)
 }
 
+analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
+write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/tomate_analisis_auc_bybetweenness.csv")
