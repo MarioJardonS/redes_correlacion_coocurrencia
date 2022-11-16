@@ -1,9 +1,9 @@
 #!/usr/bin/env Rscript
 ## -----------------------------------------------------------------------------------------------------------------------
-install.packages("vegan")
-install.packages("igraph")
-install.packages("apcluster")
-install.packages("plyr")
+#install.packages("vegan")
+#install.packages("igraph")
+#install.packages("apcluster")
+#install.packages("plyr")
 
 
 library(vegan)
@@ -18,7 +18,7 @@ setwd("~/proyecto_redes")
 
 #####DATOS#####
 
-data <- read.table("./redes_correlacion_coocurrencia/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
+data <- read.table("./redes_correlacion_coocurrencia/data/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
 
 #####ANALISIS Y AGRUPACION DE LAS MUESTRAS####
 
@@ -79,7 +79,7 @@ data <- data[filt,]
 
 
 ######CARGA DE RED Y AJUSTE A FILTRACIÓN DE OTUS######
-red <- read.csv("./redes_correlacion_coocurrencia/networks/tomate_species_raw_network.csv")
+red <- read.csv("./redes_correlacion_coocurrencia/data/networks/tomate_species_raw_network.csv")
 red = red[,1:3]
 
 #Dado que se han filtrado otus, solo retendremos las aristas que se refieren a los otus conservados en nuestros datos
@@ -170,9 +170,9 @@ data_deg <- data[order(data$degrees, decreasing = TRUE),]
 data_close <- data[order(data$closeness , decreasing = TRUE),]
 data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
-write.csv(data_deg,"./redes_correlacion_coocurrencia/table.from_tomate_bydegrees.csv", row.names = TRUE)
-write.csv(data_close,"./redes_correlacion_coocurrencia/table.from_tomate_bycloseness.csv", row.names = TRUE)
-write.csv(data_between,"./redes_correlacion_coocurrencia/table.from_tomate_bybetweenness.csv", row.names = TRUE)
+write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
+write.csv(data_close,"./redes_correlacion_coocurrencia/resultstable.from_tomate_bycloseness.csv", row.names = TRUE)
+write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
 ## -----------------------------------------------------------------------------------------------------------------------
 
 #Esta función calcula el área bajo la curva de una función representada como un dataframe, donde la columna 1 es el dominio, y sus imágenes están en la columna con nombre feature. 
@@ -295,7 +295,7 @@ for (i in auc5_percent_deg){
 }
 
 analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
-write.csv(analisis_auc_deg, "./redes_correlacion_coocurrencia/tomate_analisis_auc_bydegrees.csv")
+write.csv(analisis_auc_deg, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bydegrees.csv")
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_close <- c()
@@ -311,7 +311,7 @@ for (i in auc5_percent_close){
 
 
 analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
-write.csv(analisis_auc_close, "./redes_correlacion_coocurrencia/tomate_analisis_auc_bycloseness.csv")
+write.csv(analisis_auc_close, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bycloseness.csv")
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
@@ -327,4 +327,5 @@ for (i in auc5_percent_between){
 }
 
 analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
-write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/tomate_analisis_auc_bybetweenness.csv")
+write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bybetweenness.csv")
+
