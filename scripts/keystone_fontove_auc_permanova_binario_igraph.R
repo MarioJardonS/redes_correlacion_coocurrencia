@@ -171,7 +171,7 @@ data_close <- data[order(data$closeness , decreasing = TRUE),]
 data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
 write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
-write.csv(data_close,"./redes_correlacion_coocurrencia/resultstable.from_tomate_bycloseness.csv", row.names = TRUE)
+write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv", row.names = TRUE)
 write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
 ## -----------------------------------------------------------------------------------------------------------------------
 
@@ -277,7 +277,7 @@ for (x in 1:20){
 area_between <- auc(data_between , "betweenness")
 auc5_percent_between <- c()
 for (x in 1:20){
-  auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
+  auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area_between/20)*x))
   
 }
 
