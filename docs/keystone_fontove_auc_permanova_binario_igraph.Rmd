@@ -31,7 +31,7 @@ library(apcluster)
 library(plyr)
 ```
 
-#Carga y análisis de las muestras
+#Carga y análisis de las muestras 
 
 Como primer paso se carga la tabla de muestras, en este caso de rizósfera de tomate, como un dataframe de R. Los "nombres", presentes en la primera columna, se refieren al ID de NCBI a nivel especie y se usa como nombres de las filas del dataframe. Las demás columnas se refieren a las instancias (reads asignados?) de los otus por muestra. 
 
@@ -42,7 +42,9 @@ data <- read.table("./redes_correlacion_coocurrencia/data/table.from_tomate.txt"
 head(data)
 ```
 
-A continuación se agrupan las muestras según los metadatos presentes en el archivo "data/fastp_metadat.csv". En este caso, cada uno de los vectores se corresponde a una "etapa fenológica" del cultivo del tomate. Los elementos de las vectores son los nombres de las columnas del dataframe data correspondientes a cada grupo.
+##Agrupación de muestras y descarte de "outliers"
+
+A continuación se agrupan las muestras según los metadatos presentes en el archivo "data/fastp_metadat.csv". En este caso, cada uno de los vectores se corresponde a una "etapa fenológica" del cultivo del tomate. Los elementos de las vectores son los nombres de las columnas del dataframe "data" correspondientes a cada grupo.
 
 ```{r}
 produccion <- c("V2", "V3" ,"V4","V5")
@@ -52,7 +54,7 @@ por_transplantar <- c("V9")
 desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
 ```
 
-El análisis aquí planteado busca maximizar el parecido entre las muestras de un mismo grupo. Por esa razón se excluirán las muestras que al estar muy separadas de las demás, y por ende de su propio grupo, probablemente generando ruido. Las muestras que se considerarán outliers son las que queden en un clúster aislado en una clusterización de propagación de afinidad. 
+El análisis aquí planteado busca maximizar el parecido entre las muestras de un mismo grupo. Por esa razón se excluirán las muestras que al estar muy separadas de las demás, y por ende de su propio grupo, probablemente generen ruido. Las muestras que se considerarán outliers son las que queden en un clúster unitario tras una propagación de afinidad. 
 
 ```{r}
 bc_dist <- vegdist(t(data), method = "bray")
@@ -65,10 +67,13 @@ filtro_0 <- lapply(clusters, length)
 clusters_no_outliers <- clusters[which(filtro_0 > 1)]
 no_outliers <- unlist(clusters_no_outliers)
 no_outliers <- names(no_outliers)
-data <- data[,no_outliers]
-```
-#Agrupación sin outliers
 
+```
+
+En la siguiente celda finalmente se reducen las muestras (en la variable "data") y los grupos fenológicos a las no "outliers".
+
+```{r}
+data <- data[,no_outliers]
 
 grupos <- list()
 grupos[[1]] <- intersect(produccion,no_outliers)
@@ -80,13 +85,17 @@ grupos[[4]] <- intersect(desarrollo,no_outliers)
 len_list <- llply(grupos , length)
 len_list <- which(len_list > 1)
 grupos <- grupos[len_list]
+```
 
+##Filtración de OTUs según su aparición en las muestras
 
-#######ANÁLISIS DE OTUS######
+Se filtrarán los OTUs que aparezcan en una sola muestra, dado que estos OTUs tendrán un grado artificialmente alto en la red de correlación sin que esto refleje una "centralidad ecológica". Dado que los nodos en el archivo "data/networks/tomate_species_raw_network.csv" están ya numerados desde 0, una columna de nodos se agrega a data para no perder la biyección entre otus y su nodo en la red. 
 
+Filtraciones de este tipo se pueden generalizar a filtrar otus que aparezcan, por ejemplo, al menos 10 veces en solamente menos de 10% de las muestras. En futuros análisis estos umbrales podrían ajustarse. 
+
+```{r}
 data$nodos <- 0:(dim(data)[1]-1)
 
-#Eliminación de otus según su aparición en muestras
 filt <- c()
 for (i in 1:dim(data)[1]) {
   
@@ -98,13 +107,22 @@ for (i in 1:dim(data)[1]) {
      }
  
 data <- data[filt,]
+```
+
+#Carga y análisis de la red
+
+El siguiente paso es cargar la red de coocurrencia correspondiente a nuestras muestras. En este caso se trata de una red de correlación de Spearman, que está en el archivo "data/networks/tomate_species_raw_network.csv". Se trata de una red ponderada no dirigida cuyos pesos se encuentran entre -1 y 1. Cada una de las filas de este archivo se refiere a una arista de la red: las primeras dos entradas son los nodos correspondientes y la tercera es su peso. Este archivo se cargará como dataframe para el análisis previo a su conversión a red binaria no dirigida como objeto igraph. 
 
 
-######CARGA DE RED Y AJUSTE A FILTRACIÓN DE OTUS######
+```{r}
 red <- read.csv("./redes_correlacion_coocurrencia/data/networks/tomate_species_raw_network.csv")
 red = red[,1:3]
+```
+##Conversión a red binaria y limpieza previa al análisis igraph
 
-#Dado que se han filtrado otus, solo retendremos las aristas que se refieren a los otus conservados en nuestros datos
+En la siguiente celda se filtran las aristas de la red con el siguiente criterio: los nodos deben estar en data$nodos, es decir, deben haber sobrevivido a la filtración de OTUs, y su correlación debe ser positiva. En la red final estas aristas serán consideradas de peso 1. 
+
+```{r}
 edges <- c()
 for (i in 1:dim(red)[1]) {
   if (is.element(red[i,1], data$nodos) && is.element(red[i,2], data$nodos) && red[i,3] > 0  ){
@@ -114,7 +132,11 @@ for (i in 1:dim(red)[1]) {
 
 red <- red[edges, 1:2]
 
-#####AJUSTES PREVIOS AL ISO DE igraph######
+
+```
+En las siguientes dos celdas las etiquetas, hasta ahora numéricas, se transforman en los dataframes red y data a "strings" del tipo "v_#" para simplificar el trabajo con la librería igraph.
+
+```{r}
 red <- red + 1
 
 for (i in 1:dim(red)[1]){
@@ -122,16 +144,17 @@ for (i in 1:dim(red)[1]){
     red[i,j] <- paste("v_",as.character(red[i,j]))
   }
 }
+```
 
-
+```{r}
 data$nodos <- data$nodos + 1
 
 for (i in 1:dim(data)[1]){
   data[i,"nodos"] <- paste("v_" , as.character(data[i,"nodos"]))
 }
+```
 
-
-########CARGA DE RED CON igraph Y ELECCION DE COMPONENTE CONEXA PRINCIPAL##### 
+##Conversión de la red a objeto igraph y obtención de componente conexa principal
 
 
 net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
@@ -193,7 +216,7 @@ data_close <- data[order(data$closeness , decreasing = TRUE),]
 data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
 write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
-write.csv(data_close,"./redes_correlacion_coocurrencia/resultstable.from_tomate_bycloseness.csv", row.names = TRUE)
+write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv", row.names = TRUE)
 write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
 ## -----------------------------------------------------------------------------------------------------------------------
 
