@@ -156,12 +156,17 @@ for (i in 1:dim(data)[1]){
 
 ##Conversión de la red a objeto igraph y obtención de componente conexa principal
 
+Desde el dataframe, que esencialmente ya está convertido en una "lista" de aristas, obtenemos un objeto de igraph. 
+
+```{r}
 
 net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
 
+```
 
+En la siguiente celda se obtienen las componentes conexas de la red, con la función "components", se ubica la mayor de ellas y se obtiene finalmente el vector de los nodos que pertenecen a ella. Finalmente convertimos a la red en su mayor componente conexa. Este nuevo filtrado se llevó a cabo porque el aparentemente el cálculo de medidas de centralidad lo requeriría, y porque esta componente conexa resultó ser considerablemente más grande que el resto de ellas.
 
-##componente(s) conexa(s) principal(es)
+```{r}
 compo_conexas <- components(net_work)
 size_compo_conexas <- compo_conexas$csize
 princ <- which(size_compo_conexas == max(size_compo_conexas))
@@ -169,8 +174,12 @@ pertenencia <- compo_conexas$membership
 compo_princ <- which(pertenencia == princ )
 compo_princ <- names(compo_princ)
 
-##nuevos datos
+net_work <- induced_subgraph(net_work, compo_princ ,"auto")
+```
 
+En la siguiente celda reajustamos nuestros datos a la componente principal, que es nuestra nueva red. 
+
+```{r}
 filtro_componente <- c()
 for (i in 1:dim(data)[1]){
   if(is.element(data[i,"nodos"],compo_princ)){
@@ -180,37 +189,50 @@ for (i in 1:dim(data)[1]){
 
 
 data <- data[filtro_componente,]
-net_work <- induced_subgraph(net_work, compo_princ ,"auto")
+
+```
+
+#Cálculo de medidas de centralidad
 
 
+En esta búsqueda de potenciales especies clave se utilizaron tres medidas de centralidad de red para cada nodo v:
 
-######CALCULO DE MEDIDAS DE CENTRALIDAD############
+  * Grado, que es el número de aristas en las que participa v,
+  * Centralidad de cercanía, que es el inverso de la suma de las distancias de v a los demás, y
+  * Centralidad de intermediación, que es la proporción de caminos mínimos entre dos nodos que pasan por v, sobre el total de estos. 
+
+Cada una de las siguientes tres celdas cálcula las respectivas centralidades de nuestros OTUs y agrega la correspondiente columna al dataframe "data". La última de ellas, correspondiente al cálculo de centralidad de intermediación, tardó entre tres y cuatro horas en correr. 
+
+```{r}
 degrees <- c()
 for (i in 1:dim(data)[1]) {
   d_i <- degree(net_work, data[i,"nodos"])
   degrees <- c(degrees, d_i)
 }
 data$degrees <- degrees
+```
 
-
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 closeness_cent <- c()
 for (i in 1:dim(data)[1]) {
   c_i <- closeness(net_work, data[i,"nodos"])
   closeness_cent <- c(closeness_cent, c_i)
 }
 data$closeness <- closeness_cent
+```
 
-
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 betweenness_cent <- c()
 for (i in 1:dim(data)[1]) {
   b_i <- betweenness(net_work, data[i,"nodos"])
   betweenness_cent <- c(betweenness_cent, b_i)
 }
 data$betweenness <- betweenness_cent
+```
 
+En la siguiente celda se crean tres copias de data donde las filas (OTUs) se ordenan de forma decreciente según las medidas de centralidad. Dadas la importancia que estos datos pueden tener para otros análisis, y la particular tardanza de su cómputo, estas tres copias se guardan en archivos .csv. 
 
+```{r}
 data_deg <- data[order(data$degrees, decreasing = TRUE),]
 data_close <- data[order(data$closeness , decreasing = TRUE),]
 data_between <- data[order(data$betweenness, decreasing = TRUE),]
@@ -218,22 +240,27 @@ data_between <- data[order(data$betweenness, decreasing = TRUE),]
 write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
 write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv", row.names = TRUE)
 write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
-## -----------------------------------------------------------------------------------------------------------------------
+```
 
-#Esta función calcula el área bajo la curva de una función representada como un dataframe, donde la columna 1 es el dominio, y sus imágenes están en la columna con nombre feature. 
+##Funciones para la búsqueda de candidatos a especie clave
+
+La función calcula el área bajo la curva de las medidas de centralidad. Sus argumentos son un dataframe, y el nombre de alguna medida de centralidad, que debería ser el nombre de una columna del dataframe. Su valor es simplemente la suma los valores de dicha columna.
+
+```{r}
 auc <- function(df, centrality){
-  sm_p <- 0
-  for (i in 1:dim(df)[1]) {
-  f_i = df[i, centrality]
-  if (is.nan(f_i) == FALSE)
-  {sm_p = sm_p + f_i}
-}
-
+  #sm_p <- 0
+  #for (i in 1:dim(df)[1]) {
+  #f_i = df[i, centrality]
+  #if (is.nan(f_i) == FALSE)
+  #{sm_p = sm_p + f_i}
+#}
+  sm_p <- sum(df[,centrality],na.rm = TRUE)
 return(sm_p)}
+```
 
+El objetivo de la siguiente función es encontrar el "intervalo" máximo de OTUs cuyos valores por medida de centralidad sumen menos que cierta cota. Sus argumentos son un dataframe, que en nuestro caso estará ordenado por una medida de centralidad, el nombre de dicha medida de centralidad, y la cota deseada. Su valor es la longitud del intervalo buscado. 
 
-## -----------------------------------------------------------------------------------------------------------------------
-#Con un dataframe que represente una función, y una cota superior (se espera que sea una fracción del área bajo la curva de dicha funcion). Nos devuelve la cantidad de "otus", como están ordenados según el dataframe, que alcanzan dicha cota.
+```{r}
 auc_percent <- function(df, centrality, bound){
   #df es nuestro dataframe de muestras y medidas de centralidad, centrality un string con el nombre de nuestra centralidad, y bound un número positivo 
   
@@ -248,7 +275,7 @@ auc_percent <- function(df, centrality, bound){
   }
   return(i-1)
 }
-
+```
 
 ## -----------------------------------------------------------------------------------------------------------------------
 library(plyr)
