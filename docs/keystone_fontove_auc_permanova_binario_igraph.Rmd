@@ -1,22 +1,19 @@
 ---
-title: "Estimación de especies clave desde redes de correlación según un análisis de área bajo la curva con algunas medidas de centralidad"
+title: "Estimación de especies clave desde redes de correlación según un análisis de área bajo la curva con algunas medidas de centralidad dentro de redes de coocurrencia"
 output: html_document
 date: '2022-10-21'
 ---
 
 #Introducción
 
-Los códigos de R aquí presentados se plantean como una posibilidad para estimar las especies clave de cierto tipo de microbiomas (o ecosistemas en general). Se parte de un conjunto de muestras de microbiomas y una red de correlación (o de coocurrencia), ya construida a partir de dichas muestras. Las muestras de microbiomas, siendo en general del mismo tipo, deben estar agrupadas según consideraciones ecológicas. Por su parte, cada nodo de la red de correlación representa un OTU, y el peso de cada arista representa la correlación (según cierta medida) entre los respectivos OTUs. Se orderán decrecientemente los OTUs según diversas medidas de centralidad dentro de la red y el segmento inicial que maximice la diferencia entre los grupos de muestras y maximice el parecido dentro de los grupos serán nuestros candidatos a especie clave. Las idea general proviene de . En este caso se ejemplificará el funcionamiento de este código con unas muestras de rizósfera de tomate y la respectiva red de correlación de Spearman. Para los análisis de centralidad se usará el paquete igraph aplicada a la red binaria que solo contemple las correlaciones positivas (y las iguale a 1). Los datos se pueden encontrar en el repositorio redes_correlacion_coocurrencia. 
+Se entiende por "especie clave" a aquella especie que tiene un efecto desproporcionado en la salud de su ecosistema, o en el caso de bacterias, de su comunidad microbiana. Particularmente se entiende que la remoción de las especies clave tiene un efecto deletorio desproporcionado en el resto de la comunidad. Por su parte, las redes de coorrelación o de coocurrencia son frecuentemente utilizadas para detectar interacciones entre las especies: si en nuestras muestras se encuentra una correlación positiva (resp. negativa) entre dos especies, esto puede signicar una interacción positiva (resp. negativa) entre dichas especies. Por todo esto, se ha hipotetizado que la posición de un OTU dentro de la red de correlación de su comunidad determine cuán clave sea su papel dentro de la comunidad. Particularmente su "centralidad", se trate del número de conexiones, su cercanía con respecto a los demás nodos, etc. se ha considerado como un posible factor para declarar a un OTU como clave. En el caso del script de R aquí desglosado se reproduce una idea proveniente de \cite{SEmodeling} para declarar candidatos a especie clave en microbiomas de la rizósfera de tomate. A grandes rasgos se trata de encontrar un conjunto de OTUs centrales que maximice la diferencia entre muestras de diferentes grupos, en este caso, etapas fenológicas. Se ejemplificará el funcionamiento de este código con unas muestras de rizósfera de tomate y la respectiva red de correlación de Spearman. Para los análisis de centralidad se usará el paquete igraph aplicada a la red binaria que solo contemple las correlaciones positivas (y las iguale a 1). Los datos se pueden encontrar en el repositorio redes_correlacion_coocurrencia. 
 
 
-#Carga de paquetes y datos
+#Carga de paquetes
 
-##Paquetes
-
-Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis entre las muestras. "igraph" será utilizada para calcular la componente conexa principal y las medidas de centralidad. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. La celda 1 se correrá solo con los paquetes no instalados. La celda 2 consiste en llamar estos paquetes.
+Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis (\beta-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. La primera celda se correrá solo si los paquetes no están instalados. La siguiente celda consiste en llamar estos paquetes.
 
 ```{r}
-#1
 #install.packages("vegan")
 #install.packages("igraph")
 #install.packages("apcluster")
@@ -24,7 +21,6 @@ Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "v
 ```
 
 ```{r}
-#2
 library(vegan)
 library(igraph)
 library(apcluster)
@@ -33,7 +29,7 @@ library(plyr)
 
 #Carga y análisis de las muestras 
 
-Como primer paso se carga la tabla de muestras, en este caso de rizósfera de tomate, como un dataframe de R. Los "nombres", presentes en la primera columna, se refieren al ID de NCBI a nivel especie y se usa como nombres de las filas del dataframe. Las demás columnas se refieren a las instancias (reads asignados?) de los otus por muestra. 
+Como primer paso se carga la tabla de muestras como un dataframe de R. Los "nombres" de los OTUs, presentes en la primera columna, se refieren al ID de NCBI a nivel especie del respectivo OTU. Esta columna se usa para nombrar las filas del dataframe. Las demás columnas se refieren a las instancias (reads asignados?) de los OTUs por muestra. 
 
 ```{r}
 #getwd()
@@ -54,15 +50,20 @@ por_transplantar <- c("V9")
 desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
 ```
 
-El análisis aquí planteado busca maximizar el parecido entre las muestras de un mismo grupo. Por esa razón se excluirán las muestras que al estar muy separadas de las demás, y por ende de su propio grupo, probablemente generen ruido. Las muestras que se considerarán outliers son las que queden en un clúster unitario tras una propagación de afinidad. 
+El análisis aquí planteado busca maximizar el parecido entre las muestras de un mismo grupo. Por esa razón se excluirán las muestras que al estar muy separadas de las demás, y por ende de su propio grupo, probablemente generen ruido. Como se mencionó anteriormente la "distancia" usada en este script es la disimilaridad de Bray-Curtis. Las muestras que se considerarán "outliers" son las que queden en un clúster unitario tras una clusterización por propagación de afinidad. 
 
 ```{r}
+#Se crea la "matriz" de disimilaridades de bray-curtis
 bc_dist <- vegdist(t(data), method = "bray")
+
+#Dado que la propagación de afinidad requiere de similaridades, a 1 restamos la distancia bray-curtis para poder usarla. Convertimos dichas similaridades en una matriz de R.
 s <- 1 - bc_dist
 s <- as.matrix(s)
+#La función apcluster hace la clusterización
 clustering <- apcluster(s)
-
+#El objeto de clusterin que nos interesa es el llamado clusters
 clusters <- clustering@clusters
+#Aquí preguntamos qué clústeres tienen tamaño al menos uno (no outliers) y nos quedamos con el vector de dichas muestras
 filtro_0 <- lapply(clusters, length)
 clusters_no_outliers <- clusters[which(filtro_0 > 1)]
 no_outliers <- unlist(clusters_no_outliers)
@@ -242,7 +243,7 @@ write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate
 write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
 ```
 
-##Funciones para la búsqueda de candidatos a especie clave
+#Funciones para la búsqueda de candidatos a especie clave
 
 La función calcula el área bajo la curva de las medidas de centralidad. Sus argumentos son un dataframe, y el nombre de alguna medida de centralidad, que debería ser el nombre de una columna del dataframe. Su valor es simplemente la suma los valores de dicha columna.
 
@@ -277,8 +278,9 @@ auc_percent <- function(df, centrality, bound){
 }
 ```
 
-## -----------------------------------------------------------------------------------------------------------------------
-library(plyr)
+En la siguiente celda se incluye una función para calcular el estadístico pseudo-F que se utiliza en los análisis de permanova. Su objetivo es comparar la similaridad de nuestros datos (en este caso muestras) dentro de unos grupos dados (en este caso etapas fenológicos) con respecto a la similaridad entre todas las muestras. Su valor será mayor si las disimilaridades entre cualquier par de muestras es en promedio mayores a las disimilaridades entre las muestras provenientes del mismo grupo. En este caso la disimilaridad entre las muestras es la de Bray-Curtis. Los argumentos de esta función son un dataframe de muestras y una lista de los grupos. Su valor es el estadístico. 
+
+```{r}
 pseudo_F <- function(df , groups){
   #df es dataframe de muestras, groups, una lista de vectores de etiquetas por grupo , por grupos
   N <- dim(df)[2] #número de muestras
@@ -290,9 +292,6 @@ pseudo_F <- function(df , groups){
     df_i <- df[,groups[[i]]]
     df_groups[[i]] <- df_i
   } 
-  
-  
-  
   
   n_s <- llply( .data = df_groups , .fun = ncol )
   n_s <- unlist(n_s)
@@ -319,42 +318,43 @@ pseudo_F <- function(df , groups){
   
   return(f_stat)
 }
+```
 
 
+#Intervalos de n*5% de área bajo la curva y varianza correspondiente
 
-## -----------------------------------------------------------------------------------------------------------------------
-#Se o
+En las siguientes celdas de código se calculan finalmente los intervalos de OTUs correspondientes a n*5% (con n entre 1 y 20) del área bajo la curva por medida de centralidad. En cada caso se guardan en un vector las longitudes de dichos intervalos. 
 
-
-
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 area_deg <- auc(data_deg , "degrees")
 auc5_percent_deg <- c()
 for (x in 1:20){
   auc5_percent_deg = c(auc5_percent_deg , auc_percent(data_deg, "degrees" ,(area_deg/20)*x))
   
 }
+```
 
-
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 area_close <- auc(data_close , "closeness")
 auc5_percent_close <- c()
 for (x in 1:20){
   auc5_percent_close = c(auc5_percent_close , auc_percent(data_close, "closeness" ,(area_close/20)*x))
   
 }
+```
 
-
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 area_between <- auc(data_between , "betweenness")
 auc5_percent_between <- c()
 for (x in 1:20){
   auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
   
 }
+```
 
+En las próximas celdas finalmente se computa el estadístico pseudo-F con cada una de las medidas y cada uno de los dataframes restringidos a los intervalos. Se calcula también la varianza acumulada de dicho estadístico conforme los intervalos crecen. Se guarda finalmente un archivo .csv con las longitudes de los intervalos, y los estadísticos pseudo-F con las varianzas correspondientes. Los OTUs del intervalo con un máximo local del estadístico que tenga baja varianza serán considerados OTUs clave. 
 
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 f_stat_deg <- c()
 var_deg <- c()
 for (i in auc5_percent_deg){
@@ -368,8 +368,9 @@ for (i in auc5_percent_deg){
 
 analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
 write.csv(analisis_auc_deg, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bydegrees.csv")
+```
 
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 f_stat_close <- c()
 var_close <- c()
 for (i in auc5_percent_close){
@@ -384,9 +385,9 @@ for (i in auc5_percent_close){
 
 analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
 write.csv(analisis_auc_close, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bycloseness.csv")
+```
 
-
-## -----------------------------------------------------------------------------------------------------------------------
+```{r}
 f_stat_between <- c()
 var_between <- c()
 for (i in auc5_percent_between){
@@ -400,4 +401,4 @@ for (i in auc5_percent_between){
 
 analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
 write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bybetweenness.csv")
-
+```
