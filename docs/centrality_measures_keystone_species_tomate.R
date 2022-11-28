@@ -33,7 +33,7 @@ Como primer paso se carga la tabla de muestras como un dataframe de R. Los "nomb
 
 ```{r}
 #getwd()
-#setwd("~/proyecto_redes")
+setwd("~/proyecto_redes")
 data <- read.table("./redes_correlacion_coocurrencia/data/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
 head(data)
 ```
