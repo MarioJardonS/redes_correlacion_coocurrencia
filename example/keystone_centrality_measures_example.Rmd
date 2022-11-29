@@ -1,6 +1,8 @@
 ---
 title: "Ejemplo sobre los pasos que sigue el script scripts/centrality_measures_keystone_species_tomate.R"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: '2022-10-21'
 ---
 
@@ -10,7 +12,7 @@ Este documento RMarkdown presenta un ejemplo sencillo para entender el uso del s
 
 #Carga de paquetes
 
-Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis (\beta-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. La primera celda se correrá solo si los paquetes no están instalados. La siguiente celda consiste en llamar estos paquetes.
+Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis ($\beta$s-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. La primera celda se correrá solo si los paquetes no están instalados. La siguiente celda consiste en llamar estos paquetes.
 
 ```{r}
 #install.packages("vegan")
