@@ -1,34 +1,67 @@
 #!/usr/bin/env Rscript
 ## -----------------------------------------------------------------------------------------------------------------------
-#install.packages("vegan")
-#install.packages("igraph")
-#install.packages("apcluster")
-#install.packages("plyr")
 
-
-library(vegan)
-library(igraph)
-#library(ggplot2)
-library(apcluster)
-library(plyr)
-
-
-#getwd()
-setwd("~/proyecto_redes")
 
 #####DATOS#####
 
-data <- read.table("./redes_correlacion_coocurrencia/data/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
+#data <- paste0("./data/", args[1])
+#data <- read.table(data , row.names = 1, header = FALSE , sep= "" )
 
 #####ANALISIS Y AGRUPACION DE LAS MUESTRAS####
 
 #Agrupación de las muestras según metadatos
-produccion <- c("V2", "V3" ,"V4","V5")
-llenado_de_fruto <- c("V6", "V7", "V8")
+#produccion <- c("V2", "V3" ,"V4","V5")
+#llenado_de_fruto <- c("V6", "V7", "V8")
 #plantacion <- c()
-por_transplantar <- c("V9")
-desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
+#por_transplantar <- c("V9")
+#desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
 
+
+args = commandArgs(trailingOnly=TRUE)
+
+if (!require(vegan)) install.packages('vegan')
+library(vegan)
+if (!require(igraph)) install.packages('igraph')
+library(igraph)
+#library(ggplot2)
+if (!require(apcluster)) install.packages('apcluster')
+library(apcluster)
+if (!require(plyr)) install.packages('plyr')
+library(plyr)
+
+
+#getwd()
+setwd("..")
+
+#####DATOS#####
+
+data <- paste0("./data/tables/", args[1])
+data <- read.table(data , row.names = 1, header = TRUE , sep= "" )
+print(colnames(data))
+
+metadata <- paste0("./data/metadata/", args[2] )
+metadata <- read.csv(metadata , row.names = 1, colClasses = "character")#el 2 me inquieta todavia
+r_n_metadata <- metadata[,1] 
+for (i in 1:length(r_n_metadata)){
+  r_n_metadata[i] <- make.names(r_n_metadata[i])
+}
+metadata[,1] <- r_n_metadata
+colnames(metadata) <- c("ID","Grupos")
+print(metadata)
+
+grupos <- unique(metadata[,"Grupos"])
+grouping <- list()
+for (i in 1:length(grupos)){
+  grouping_i <- c()
+  for (j in 1:dim(metadata)[1]){
+    if (metadata[j,"Grupos"] == grupos[i]){
+      grouping_i <- c(grouping_i , metadata[j,"ID"])
+    }
+  }
+  grouping[[i]] <- grouping_i
+}
+
+print(grouping)
 
 #Análisis pcoa y/o clusterización para detectar outliers
 

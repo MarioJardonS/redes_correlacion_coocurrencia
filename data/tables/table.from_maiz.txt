@@ -1,5 +1,5 @@
 # Constructed from biom file
-#OTU ID	pse1M2MAIPOOA100685.extra.kraken2.report	AJwcM2MAIPOOA100700.extra.kraken2.report	Ia7iM2MAIPOOB100245.extra.kraken2.report	P0ZQM2MAIPOOA100240.extra.kraken2.report	qU3SM2MAIPOOM070605.extra.kraken2.report	B7zTM2MAIPOOA070610.extra.kraken2.report	c5isM2MAIPOOA070615.extra.kraken2.report	TgLUM2MAIPOOM070620.extra.kraken2.report
+OTU_ID	pse1M2MAIPOOA100685.extra.kraken2.report	AJwcM2MAIPOOA100700.extra.kraken2.report	Ia7iM2MAIPOOB100245.extra.kraken2.report	P0ZQM2MAIPOOA100240.extra.kraken2.report	qU3SM2MAIPOOM070605.extra.kraken2.report	B7zTM2MAIPOOA070610.extra.kraken2.report	c5isM2MAIPOOA070615.extra.kraken2.report	TgLUM2MAIPOOM070620.extra.kraken2.report
 38300	2186.0	10157.0	617.0	496.0	1230.0	92.0	631.0	890.0
 1827580	1693.0	4232.0	10374.0	5141.0	15274.0	1017.0	8426.0	24929.0
 54571	896.0	7416.0	4240.0	4040.0	4874.0	280.0	4902.0	4113.0
