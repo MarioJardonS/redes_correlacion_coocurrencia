@@ -37,31 +37,31 @@ setwd("..")
 
 data <- paste0("./data/tables/", args[1])
 data <- read.table(data , row.names = 1, header = TRUE , sep= "" )
-print(colnames(data))
+
 
 metadata <- paste0("./data/metadata/", args[2] )
-metadata <- read.csv(metadata , row.names = 1, colClasses = "character")#el 2 me inquieta todavia
+metadata <- read.csv(metadata , row.names = 1, colClasses = "character")#el formato de estos metadatos me inquieta
 r_n_metadata <- metadata[,1] 
 for (i in 1:length(r_n_metadata)){
   r_n_metadata[i] <- make.names(r_n_metadata[i])
 }
 metadata[,1] <- r_n_metadata
 colnames(metadata) <- c("ID","Grupos")
-print(metadata)
 
-grupos <- unique(metadata[,"Grupos"])
-grouping <- list()
-for (i in 1:length(grupos)){
-  grouping_i <- c()
+
+n_grupos <- unique(metadata[,"Grupos"])
+grupos <- list()
+for (i in 1:length(n_grupos)){
+  grupos_i <- c()
   for (j in 1:dim(metadata)[1]){
-    if (metadata[j,"Grupos"] == grupos[i]){
-      grouping_i <- c(grouping_i , metadata[j,"ID"])
+    if (metadata[j,"Grupos"] == n_grupos[i]){
+      grupos_i <- c(grupos_i , metadata[j,"ID"])
     }
   }
-  grouping[[i]] <- grouping_i
+  grupos[[i]] <- grupos_i
 }
 
-print(grouping)
+
 
 #Análisis pcoa y/o clusterización para detectar outliers
 
@@ -80,12 +80,9 @@ data <- data[,no_outliers]
 
 #Agrupación sin outliers
 
-
-grupos <- list()
-grupos[[1]] <- intersect(produccion,no_outliers)
-grupos[[2]] <- intersect(llenado_de_fruto,no_outliers)
-grupos[[3]] <- intersect(por_transplantar,no_outliers)
-grupos[[4]] <- intersect(desarrollo,no_outliers)
+for (i in 1:length(grupos)){
+  grupos[[i]] <- intersect(grupos[[i]], no_outliers)
+}
 
 #Grupos necesarios para el análisis auc
 len_list <- llply(grupos , length)
@@ -112,8 +109,9 @@ data <- data[filt,]
 
 
 ######CARGA DE RED Y AJUSTE A FILTRACIÓN DE OTUS######
-red <- read.csv("./redes_correlacion_coocurrencia/data/networks/tomate_species_raw_network.csv")
-red = red[,1:3]
+red <- paste0("./data/networks/", args[3])
+red <- read.csv(red)
+red = red[,1:3]#se asume la forma del archivo de red
 
 #Dado que se han filtrado otus, solo retendremos las aristas que se refieren a los otus conservados en nuestros datos
 edges <- c()
@@ -126,19 +124,19 @@ for (i in 1:dim(red)[1]) {
 red <- red[edges, 1:2]
 
 #####AJUSTES PREVIOS AL ISO DE igraph######
-red <- red + 1
+#red <- red + 1
 
 for (i in 1:dim(red)[1]){
   for (j in 1:dim(red)[2]){
-    red[i,j] <- paste("v_",as.character(red[i,j]))
+    red[i,j] <- paste0("v_",as.character(red[i,j]))
   }
 }
 
 
-data$nodos <- data$nodos + 1
+#data$nodos <- data$nodos + 1
 
 for (i in 1:dim(data)[1]){
-  data[i,"nodos"] <- paste("v_" , as.character(data[i,"nodos"]))
+  data[i,"nodos"] <- paste0("v_" , as.character(data[i,"nodos"]))
 }
 
 
@@ -203,9 +201,12 @@ data_deg <- data[order(data$degrees, decreasing = TRUE),]
 data_close <- data[order(data$closeness , decreasing = TRUE),]
 data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
-write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
-write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv", row.names = TRUE)
-write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
+
+file <- args[4]
+
+write.csv(data_deg , paste0("./results/",file,"_bydegree.csv") , row.names = TRUE)
+write.csv(data_close,paste0("./results/",file,"_bycloseness.csv") , row.names = TRUE)
+write.csv(data_between, paste0("./results/",file,"_bydegree.csv") , row.names = TRUE)
 ## -----------------------------------------------------------------------------------------------------------------------
 
 #Esta función calcula el área bajo la curva de una función representada como un dataframe, donde la columna 1 es el dominio, y sus imágenes están en la columna con nombre feature. 
