@@ -2,21 +2,6 @@
 ## -----------------------------------------------------------------------------------------------------------------------
 
 
-#####DATOS#####
-
-#data <- paste0("./data/", args[1])
-#data <- read.table(data , row.names = 1, header = FALSE , sep= "" )
-
-#####ANALISIS Y AGRUPACION DE LAS MUESTRAS####
-
-#Agrupación de las muestras según metadatos
-#produccion <- c("V2", "V3" ,"V4","V5")
-#llenado_de_fruto <- c("V6", "V7", "V8")
-#plantacion <- c()
-#por_transplantar <- c("V9")
-#desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
-
-
 args = commandArgs(trailingOnly=TRUE)
 
 if (!require(vegan)) install.packages('vegan')
@@ -36,11 +21,11 @@ setwd("..")
 #####DATOS#####
 
 data <- paste0("./data/tables/", args[1])
-data <- read.table(data , row.names = 1, header = TRUE , sep= "" )
+data <- read.table(data , row.names = 1, header = TRUE , sep = "" )
 
 
-metadata <- paste0("./data/metadata/", args[2] )
-metadata <- read.csv(metadata , row.names = 1, colClasses = "character")#el formato de estos metadatos me inquieta
+metadata <- paste0("./data/metadata/", args[2])
+metadata <- read.csv(metadata , colClasses = "character")
 r_n_metadata <- metadata[,1] 
 for (i in 1:length(r_n_metadata)){
   r_n_metadata[i] <- make.names(r_n_metadata[i])
@@ -49,9 +34,18 @@ metadata[,1] <- r_n_metadata
 colnames(metadata) <- c("ID","Grupos")
 
 
+
 n_grupos <- unique(metadata[,"Grupos"])
+n_grupos <- setdiff( n_grupos , c(NA) )#parche
+
+
+vector_no_na <- which(is.na(metadata[,"Grupos"]) == FALSE)
+
+metadata <- metadata[vector_no_na,]
+
+
 grupos <- list()
-for (i in 1:length(n_grupos)){
+for (i in 1:(length(n_grupos))){
   grupos_i <- c()
   for (j in 1:dim(metadata)[1]){
     if (metadata[j,"Grupos"] == n_grupos[i]){
@@ -98,13 +92,13 @@ data$nodos <- 0:(dim(data)[1]-1)
 filt <- c()
 for (i in 1:dim(data)[1]) {
   
-    v_i <- as.vector(data[i,1:(dim(data)[2]-1)])
-    #el siguiente 1 es filtro
-      if (length(v_i [ v_i > 0 ]) > 1 ) {
-        filt <- c(filt, i)
-        }
-     }
- 
+  v_i <- as.vector(data[i,1:(dim(data)[2]-1)])
+  #el siguiente 1 es filtro
+  if (length(v_i [ v_i > 0 ]) > 1 ) {
+    filt <- c(filt, i)
+  }
+}
+
 data <- data[filt,]
 
 
@@ -166,11 +160,9 @@ for (i in 1:dim(data)[1]){
 
 
 data <- data[filtro_componente,]
+print(dim(data))
 net_work <- induced_subgraph(net_work, compo_princ ,"auto")
 
-
-
-######CALCULO DE MEDIDAS DE CENTRALIDAD############
 degrees <- c()
 for (i in 1:dim(data)[1]) {
   d_i <- degree(net_work, data[i,"nodos"])
@@ -188,10 +180,10 @@ for (i in 1:dim(data)[1]) {
 data$closeness <- closeness_cent
 
 
-## -----------------------------------------------------------------------------------------------------------------------
 betweenness_cent <- c()
 for (i in 1:dim(data)[1]) {
   b_i <- betweenness(net_work, data[i,"nodos"])
+  
   betweenness_cent <- c(betweenness_cent, b_i)
 }
 data$betweenness <- betweenness_cent
@@ -202,11 +194,32 @@ data_close <- data[order(data$closeness , decreasing = TRUE),]
 data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
 
+
+
+
 file <- args[4]
 
 write.csv(data_deg , paste0("./results/",file,"_bydegree.csv") , row.names = TRUE)
 write.csv(data_close,paste0("./results/",file,"_bycloseness.csv") , row.names = TRUE)
-write.csv(data_between, paste0("./results/",file,"_bydegree.csv") , row.names = TRUE)
+write.csv(data_between, paste0("./results/",file,"_bybetweenness.csv") , row.names = TRUE)
+
+report_1 <- args[5]
+
+hdeg <- which(data$degrees >= quantile(data$degrees , probs = seq(0, 1, 0.33))[3])
+hclose <- which(data$closeness >= quantile(data$closeness , probs = seq(0, 1, 0.33))[3])
+lbetween <- which(data$betweenness <= quantile(data$betweenness , probs = seq(0, 1, 0.33))[2])
+
+results_1 <- intersect(hdeg,hclose)
+results_1 <- intersect(results_lv , lbetween)
+
+data_report_1 <- data[results_1,]
+
+write.csv(data_report_1 , paste0("./results/",report_1) , row.names = TRUE)
+
+
+
+if (length(grupos) < 2){
+  stop("Solo hay un reporte de otus clave")}
 ## -----------------------------------------------------------------------------------------------------------------------
 
 #Esta función calcula el área bajo la curva de una función representada como un dataframe, donde la columna 1 es el dominio, y sus imágenes están en la columna con nombre feature. 
@@ -315,12 +328,12 @@ for (x in 1:20){
   
 }
 
-
+report_2 <- args[6]
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_deg <- c()
 var_deg <- c()
 for (i in auc5_percent_deg){
-  df_i <- data_deg[1:i ,1:18]
+  df_i <- data_deg[1:i ,1:length(no_outliers)]
   f_i <- pseudo_F(df_i , grupos)
   f_stat_deg <- c(f_stat_deg , f_i) 
   
@@ -328,14 +341,16 @@ for (i in auc5_percent_deg){
   var_deg <- c(var_deg, var_i)
 }
 
+
+
 analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
-write.csv(analisis_auc_deg, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bydegrees.csv")
+write.csv(analisis_auc_deg, paste0("/results/",report_2,"degree.csv"))
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_close <- c()
 var_close <- c()
 for (i in auc5_percent_close){
-  df_i <- data_close[1:i ,1:18]
+  df_i <- data_close[1:i ,1:length(no_outliers)]
   f_i <- pseudo_F(df_i , grupos)
   f_stat_close <- c(f_stat_close , f_i) 
   
@@ -345,14 +360,14 @@ for (i in auc5_percent_close){
 
 
 analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
-write.csv(analisis_auc_close, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bycloseness.csv")
+write.csv(analisis_auc_close, paste0("/results/",report_2,"closeness.csv"))
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_between <- c()
 var_between <- c()
 for (i in auc5_percent_between){
-  df_i <- data_between[1:i ,1:18]
+  df_i <- data_between[1:i ,1:length(no_outliers)]
   f_i <- pseudo_F(df_i , grupos)
   f_stat_between <- c(f_stat_between , f_i) 
   
@@ -361,5 +376,5 @@ for (i in auc5_percent_between){
 }
 
 analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
-write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bybetweenness.csv")
+write.csv(analisis_auc_between, paste0("/results/",report_2,"betweenness.csv"))
 

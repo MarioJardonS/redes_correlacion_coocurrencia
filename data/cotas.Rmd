@@ -1,0 +1,10 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-12-08'
+---
+
+```{r}
+data_deg <- read.csv
+```
+

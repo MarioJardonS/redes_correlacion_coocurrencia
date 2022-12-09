@@ -181,26 +181,26 @@ data$degrees <- degrees
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
-#closeness_cent <- c()
-#for (i in 1:dim(data)[1]) {
-#  c_i <- closeness(net_work, data[i,"nodos"])
-#  closeness_cent <- c(closeness_cent, c_i)
-#}
-#data$closeness <- closeness_cent
+closeness_cent <- c()
+for (i in 1:dim(data)[1]) {
+  c_i <- closeness(net_work, data[i,"nodos"])
+  closeness_cent <- c(closeness_cent, c_i)
+}
+data$closeness <- closeness_cent
 
 
-#betweenness_cent <- c()
-#for (i in 1:dim(data)[1]) {
-#  b_i <- betweenness(net_work, data[i,"nodos"])
-#  print(b_i)
-#  betweenness_cent <- c(betweenness_cent, b_i)
-#}
-#data$betweenness <- betweenness_cent
+betweenness_cent <- c()
+for (i in 1:dim(data)[1]) {
+  b_i <- betweenness(net_work, data[i,"nodos"])
+  
+  betweenness_cent <- c(betweenness_cent, b_i)
+}
+data$betweenness <- betweenness_cent
 
 
 data_deg <- data[order(data$degrees, decreasing = TRUE),]
-#data_close <- data[order(data$closeness , decreasing = TRUE),]
-#data_between <- data[order(data$betweenness, decreasing = TRUE),]
+data_close <- data[order(data$closeness , decreasing = TRUE),]
+data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
 
 
@@ -209,8 +209,8 @@ data_deg <- data[order(data$degrees, decreasing = TRUE),]
 file <- args[4]
 
 write.csv(data_deg , paste0("./results/",file,"_bydegree.csv") , row.names = TRUE)
-#write.csv(data_close,paste0("./results/",file,"_bycloseness.csv") , row.names = TRUE)
-#write.csv(data_between, paste0("./results/",file,"_bybetweenness.csv") , row.names = TRUE)
+write.csv(data_close,paste0("./results/",file,"_bycloseness.csv") , row.names = TRUE)
+write.csv(data_between, paste0("./results/",file,"_bybetweenness.csv") , row.names = TRUE)
 ######CALCULO DE MEDIDAS DE CENTRALIDAD############
 
 

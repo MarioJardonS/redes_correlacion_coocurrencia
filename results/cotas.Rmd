@@ -1,0 +1,27 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-12-08'
+---
+
+```{r}
+data <- read.csv("./table.from_tomate_bybetweenness.csv" , row.names = 1)
+
+```
+
+```{r}
+data_lv <- data
+
+hdeg <- which(data$degrees >= quantile(data$degrees , probs = seq(0, 1, 0.33))[3])
+hclose <- which(data$closeness >= quantile(data$closeness , probs = seq(0, 1, 0.33))[3])
+lbetween <- which(data$betweenness <= quantile(data$betweenness , probs = seq(0, 1, 0.33))[2])
+
+results_lv <- intersect(hdeg,hclose)
+results_lv <- intersect(results_lv , lbetween)
+```
+
+```{r}
+data_lv <- data[results_lv,]
+data_lv
+row.names(data_lv)
+```
