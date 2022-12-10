@@ -24,6 +24,13 @@ data <- paste0("./data/tables/", args[1])
 data <- read.table(data , row.names = 1, header = TRUE , sep = "" )
 
 
+#Normalización
+for (i in 1:dim(data)[1]){
+  data[,i] <- data[,i]/sum(data[,i])
+}
+
+
+
 metadata <- paste0("./data/metadata/", args[2])
 metadata <- read.csv(metadata , colClasses = "character")
 r_n_metadata <- metadata[,1] 
@@ -100,11 +107,6 @@ for (i in 1:dim(data)[1]) {
 }
 
 data <- data[filt,]
-
-#Normalización
-for (i in 1:length(no_outliers)){
-  data[,1] <- data[,i]/sum(data[,1])
-}
 
 
 ######CARGA DE RED Y AJUSTE A FILTRACIÓN DE OTUS######
