@@ -101,6 +101,11 @@ for (i in 1:dim(data)[1]) {
 
 data <- data[filt,]
 
+#Normalización
+for (i in 1:length(no_outliers)){
+  data[,1] <- data[,i]/sum(data[,1])
+}
+
 
 ######CARGA DE RED Y AJUSTE A FILTRACIÓN DE OTUS######
 red <- paste0("./data/networks/", args[3])
@@ -210,7 +215,7 @@ hclose <- which(data$closeness >= quantile(data$closeness , probs = seq(0, 1, 0.
 lbetween <- which(data$betweenness <= quantile(data$betweenness , probs = seq(0, 1, 0.33))[2])
 
 results_1 <- intersect(hdeg,hclose)
-results_1 <- intersect(results_lv , lbetween)
+results_1 <- intersect(results_1 , lbetween)
 
 data_report_1 <- data[results_1,]
 
@@ -328,7 +333,7 @@ for (x in 1:20){
   
 }
 
-report_2 <- args[6]
+analisis_auc <- args[6]
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
@@ -346,7 +351,13 @@ for (i in auc5_percent_deg){
 
 
 analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
-write.csv(analisis_auc_deg, paste0("/results/",report_2,"degree.csv"))
+write.csv(analisis_auc_deg, paste0("/results/", analisis_auc ,"degree.csv"))
+
+analisis_auc_deg <- analisis_auc_deg[2:dim(analisis_auc_deg)[1],]
+n_auc_deg <- which((analisis_auc_deg[,2] - analisis_auc_deg[,3]) == max(analisis_auc_deg[,2] - analisis_auc_deg[,3]))
+n_auc_deg <- n_auc_deg + 1
+n_auc_deg <- auc5_percent_deg[n_auc_deg]
+
 
 ## -----------------------------------------------------------------------------------------------------------------------
 f_stat_close <- c()
@@ -362,7 +373,12 @@ for (i in auc5_percent_close){
 
 
 analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
-write.csv(analisis_auc_close, paste0("/results/",report_2,"closeness.csv"))
+write.csv(analisis_auc_deg, paste0("/results/", analisis_auc ,"closeness.csv"))
+
+analisis_auc_close <- analisis_auc_close[2:dim(analisis_auc_close)[1],]
+n_auc_close <- which((analisis_auc_close[,2] - analisis_auc_close[,3]) == max(analisis_auc_close[,2] - analisis_auc_close[,3]))
+n_auc_close <- n_auc_close + 1
+n_auc_close <- auc5_percent_close[n_auc_close]
 
 
 ## -----------------------------------------------------------------------------------------------------------------------
@@ -378,5 +394,20 @@ for (i in auc5_percent_between){
 }
 
 analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
-write.csv(analisis_auc_between, paste0("/results/",report_2,"betweenness.csv"))
+write.csv(analisis_auc_deg, paste0("/results/", analisis_auc ,"betweenness.csv"))
+
+analisis_auc_between <- analisis_auc_between[2:dim(analisis_auc_between)[1],]
+n_auc_between <- which((analisis_auc_between[,2] - analisis_auc_between[,3]) == max(analisis_auc_between[,2] - analisis_auc_between[,3]))
+n_auc_between <- n_auc_between + 1
+n_auc_between <- auc5_percent_between[n_auc_between]
+
+
+report_2 <- args[7]
+
+results_2_deg <- row.names(data_deg[1:n_auc_deg,])
+results_2_close <- row.names(data_close[1:n_auc_close])
+results_2_between <- row.names(data_between[1:n_auc_between,])
+
+results_2 <- union(results_2_deg , results_2_close)
+results_2 <- union(results_2 , results_2_between)
 

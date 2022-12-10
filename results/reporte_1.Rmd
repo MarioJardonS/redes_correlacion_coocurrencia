@@ -1,0 +1,194 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-12-10'
+---
+
+```{r}
+data <- read.csv("./table.from_chile_bybetweenness.csv" , row.names = 1)
+
+
+hdeg <- which(data$degrees >= quantile(data$degrees , probs = seq(0, 1, 0.33))[3])
+hclose <- which(data$closeness >= quantile(data$closeness , probs = seq(0, 1, 0.33))[3])
+lbetween <- which(data$betweenness <= quantile(data$betweenness , probs = seq(0, 1, 0.33))[2])
+
+results_1 <- intersect(hdeg,hclose)
+results_1 <- intersect(results_1 , lbetween)
+
+data_report_1 <- data[results_1,]
+
+write.csv(data_report_1 , "./chile_key_otus_reporte_1" , row.names = TRUE)
+```
+
+
+```{r}
+auc <- function(df, centrality){
+  sm_p <- 0
+  for (i in 1:dim(df)[1]) {
+  f_i = df[i, centrality]
+  if (is.nan(f_i) == FALSE)
+  {sm_p = sm_p + f_i}
+}
+
+return(sm_p)}
+
+
+## -----------------------------------------------------------------------------------------------------------------------
+#Con un dataframe que represente una función, y una cota superior (se espera que sea una fracción del área bajo la curva de dicha funcion). Nos devuelve la cantidad de "otus", como están ordenados según el dataframe, que alcanzan dicha cota.
+auc_percent <- function(df, centrality, bound){
+  #df es nuestro dataframe de muestras y medidas de centralidad, centrality un string con el nombre de nuestra centralidad, y bound un número positivo 
+  
+  i <- 1
+  sum_par <- 0
+  #c <- c() 
+  while(i <= dim(df)[1] && sum_par < bound) {
+    #c <- c(c,i)
+    g_i = df[i, centrality]
+    sum_par = sum_par + g_i
+    i = i+1
+  }
+  return(i-1)
+}
+
+
+## -----------------------------------------------------------------------------------------------------------------------
+library(plyr)
+pseudo_F <- function(df , groups){
+  #df es dataframe de muestras, groups, una lista de vectores de etiquetas por grupo , por grupos
+  N <- dim(df)[2] #número de muestras
+  a <- length(groups) #número de grupos
+  
+  print(N)
+  print(a)
+  
+  df_groups <- list() #se crea la lista que incluirá los subdataframes por grupo
+  
+  for (i in 1:length(groups)){
+    df_i <- df[,groups[[i]]]
+    print(head(df_i))
+    df_groups[[i]] <- df_i
+  } 
+  
+  
+  
+  
+  n_s <- llply( .data = df_groups , .fun = ncol )
+  n_s <- unlist(n_s)
+  n <- mean(n_s) #número promedio de muestras por grupo
+  
+  print(n)
+  
+  dist <- vegdist(t(df))
+  dist <- as.vector(dist) #distancias bray_curtis entre todo par de muestras
+  
+  print(dist)
+  
+  df_groups <- llply(.data = df_groups , .fun = t)
+  in_dist <- llply(.data = df_groups , .fun = vegdist )
+  in_dist <- llply(.data = in_dist , .fun = as.vector )
+  in_dist <- unlist(in_dist) #distancias bray-curtis intra-grupo
+  
+  print(in_dist)
+  #calculo del estadistico pseudo-f
+  
+  ss_t <- sum(dist^2)/N 
+  print(ss_t)
+  ss_w <- sum(in_dist^2)/n
+  print(ss_w)
+  ss_a <- ss_t - ss_w
+
+  f_stat <- (ss_a/(a-1))/(ss_w/(N-a))
+  
+  return(f_stat)
+}
+
+
+
+## -----------------------------------------------------------------------------------------------------------------------
+
+```
+
+
+```{r}
+data <- read.csv("./table.from_chile_bybetweenness.csv" , row.names = 1)
+
+
+area_deg <- auc(data_deg , "degrees")
+auc5_percent_deg <- c()
+for (x in 1:20){
+  auc5_percent_deg = c(auc5_percent_deg , auc_percent(data_deg, "degrees" ,(area_deg/20)*x))
+  
+}
+
+
+## -----------------------------------------------------------------------------------------------------------------------
+area_close <- auc(data_close , "closeness")
+auc5_percent_close <- c()
+for (x in 1:20){
+  auc5_percent_close = c(auc5_percent_close , auc_percent(data_close, "closeness" ,(area_close/20)*x))
+  
+}
+
+
+## -----------------------------------------------------------------------------------------------------------------------
+area_between <- auc(data_between , "betweenness")
+auc5_percent_between <- c()
+for (x in 1:20){
+  auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area_between/20)*x))
+  
+}
+```
+
+
+```{r}
+f_stat_deg <- c()
+var_deg <- c()
+for (i in auc5_percent_deg){
+  df_i <- data_deg[1:i ,1:length(no_outliers)]
+  f_i <- pseudo_F(df_i , grupos)
+  f_stat_deg <- c(f_stat_deg , f_i) 
+  
+  var_i <- var(f_stat_deg)
+  var_deg <- c(var_deg, var_i)
+}
+
+
+
+analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
+write.csv(analisis_auc_deg, paste0("/results/",report_2,"degree.csv"))
+
+## -----------------------------------------------------------------------------------------------------------------------
+f_stat_close <- c()
+var_close <- c()
+for (i in auc5_percent_close){
+  df_i <- data_close[1:i ,1:length(no_outliers)]
+  f_i <- pseudo_F(df_i , grupos)
+  f_stat_close <- c(f_stat_close , f_i) 
+  
+  var_i <- var(f_stat_close)
+  var_close <- c(var_close, var_i)
+}
+
+
+analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
+write.csv(analisis_auc_close, paste0("/results/",report_2,"closeness.csv"))
+
+
+## -----------------------------------------------------------------------------------------------------------------------
+f_stat_between <- c()
+var_between <- c()
+for (i in auc5_percent_between){
+  df_i <- data_between[1:i ,1:length(no_outliers)]
+  f_i <- pseudo_F(df_i , grupos)
+  f_stat_between <- c(f_stat_between , f_i) 
+  
+  var_i <- var(f_stat_between)
+  var_between <- c(var_between ,var_i)
+}
+
+analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
+write.csv(analisis_auc_between, paste0("/results/",report_2,"betweenness.csv"))
+
+
+```
+
