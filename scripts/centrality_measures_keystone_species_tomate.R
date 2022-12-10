@@ -25,7 +25,7 @@ data <- read.table(data , row.names = 1, header = TRUE , sep = "" )
 
 
 #Normalización
-for (i in 1:dim(data)[1]){
+for (i in 1:dim(data)[2]){
   data[,i] <- data[,i]/sum(data[,i])
 }
 
