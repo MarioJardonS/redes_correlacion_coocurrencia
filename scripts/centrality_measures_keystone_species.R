@@ -407,9 +407,11 @@ n_auc_between <- auc5_percent_between[n_auc_between]
 report_2 <- args[7]
 
 results_2_deg <- row.names(data_deg[1:n_auc_deg,])
-results_2_close <- row.names(data_close[1:n_auc_close])
+results_2_close <- row.names(data_close[1:n_auc_close,])
 results_2_between <- row.names(data_between[1:n_auc_between,])
 
 results_2 <- union(results_2_deg , results_2_close)
 results_2 <- union(results_2 , results_2_between)
 
+data_report_2 <- data[results_2,]
+write.csv(data_report_2 , paste0("./results/",report_2) , row.names = TRUE)
