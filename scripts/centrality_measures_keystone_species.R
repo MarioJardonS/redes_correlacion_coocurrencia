@@ -353,7 +353,7 @@ for (i in auc5_percent_deg){
 
 
 analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
-write.csv(analisis_auc_deg, paste0("/results/", analisis_auc ,"degree.csv"))
+write.csv(analisis_auc_deg, paste0("./results/", analisis_auc ,"degree.csv"))
 
 analisis_auc_deg <- analisis_auc_deg[2:dim(analisis_auc_deg)[1],]
 n_auc_deg <- which((analisis_auc_deg[,2] - analisis_auc_deg[,3]) == max(analisis_auc_deg[,2] - analisis_auc_deg[,3]))
@@ -375,7 +375,7 @@ for (i in auc5_percent_close){
 
 
 analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
-write.csv(analisis_auc_deg, paste0("/results/", analisis_auc ,"closeness.csv"))
+write.csv(analisis_auc_deg, paste0("./results/", analisis_auc ,"closeness.csv"))
 
 analisis_auc_close <- analisis_auc_close[2:dim(analisis_auc_close)[1],]
 n_auc_close <- which((analisis_auc_close[,2] - analisis_auc_close[,3]) == max(analisis_auc_close[,2] - analisis_auc_close[,3]))
@@ -396,7 +396,7 @@ for (i in auc5_percent_between){
 }
 
 analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
-write.csv(analisis_auc_deg, paste0("/results/", analisis_auc ,"betweenness.csv"))
+write.csv(analisis_auc_deg, paste0("./results/", analisis_auc ,"betweenness.csv"))
 
 analisis_auc_between <- analisis_auc_between[2:dim(analisis_auc_between)[1],]
 n_auc_between <- which((analisis_auc_between[,2] - analisis_auc_between[,3]) == max(analisis_auc_between[,2] - analisis_auc_between[,3]))
