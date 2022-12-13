@@ -8,4 +8,5 @@ Estos tres archivos deben estar respectivamente en las carpetas ./data/tables/ ,
 2. El nombre del primer reporte (intersección de grado alto, centralidad alta e intermediación baja)
 3. El nombre de las tablas con pseudo F-estadísticos según cortes de 5% de las medidas de centralidad
 4. El nombre del segundo reporte (OTUs centrales que maximicen la diferencia entre las muestras).
+
 Estos archivos .csv aparecerán en la carpeta ./results. 
