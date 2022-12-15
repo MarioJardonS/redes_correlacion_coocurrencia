@@ -6,191 +6,208 @@ date: '2022-10-21'
 
 #Introducción
 
-Se entiende por "especie clave" a aquella especie que tiene un efecto desproporcionado en la salud de su ecosistema, o en el caso de bacterias, de su comunidad microbiana. Particularmente se entiende que la remoción de las especies clave tiene un efecto deletorio desproporcionado en el resto de la comunidad. Por su parte, las redes de coorrelación o de coocurrencia son frecuentemente utilizadas para detectar interacciones entre las especies: si en nuestras muestras se encuentra una correlación positiva (resp. negativa) entre dos especies, esto puede signicar una interacción positiva (resp. negativa) entre dichas especies. Por todo esto, se ha hipotetizado que la posición de un OTU dentro de la red de correlación de su comunidad determine cuán clave sea su papel dentro de la comunidad. Particularmente su "centralidad", se trate del número de conexiones, su cercanía con respecto a los demás nodos, etc. se ha considerado como un posible factor para declarar a un OTU como clave. En el caso del script de R aquí desglosado se reproduce una idea proveniente de \cite{SEmodeling} para declarar candidatos a especie clave en microbiomas de la rizósfera de tomate. A grandes rasgos se trata de encontrar un conjunto de OTUs centrales que maximice la diferencia entre muestras de diferentes grupos, en este caso, etapas fenológicas. Se ejemplificará el funcionamiento de este código con unas muestras de rizósfera de tomate y la respectiva red de correlación de Spearman. Para los análisis de centralidad se usará el paquete igraph aplicada a la red binaria que solo contemple las correlaciones positivas (y las iguale a 1). Los datos se pueden encontrar en el repositorio redes_correlacion_coocurrencia. 
+Se entiende por "especie clave" a aquella especie que tiene un efecto desproporcionado en la salud de su ecosistema, o en el caso de bacterias, de su comunidad microbiana. Particularmente se entiende que la remoción de las especies clave tiene un efecto deleterio desproporcionado en el resto de la comunidad. Por su parte, las redes de correlación o de coocurrencia son frecuentemente utilizadas para detectar interacciones entre las especies: si en nuestras muestras se encuentra una correlación positiva (resp. negativa) entre dos especies, esto puede significar una interacción positiva (resp. negativa) entre dichas especies. Por todo esto, se ha hipotetizado que la posición de un OTU dentro de la red de correlación de su comunidad determina cuán clave es su papel dentro de la comunidad. Particularmente la "centralidad" de un OTU, ya se trate del número de conexiones, de su cercanía con respecto a los demás nodos, etc. se ha considerado como un posible factor para declararlo OTU clave. En el caso del script de R centrality_measures_keystone_species, aquí desglosado se reproducen un par de ideas provenientes de \cite{SEmodeling} y \cite{Detecting_keystones} para declarar candidatos a especie clave en microbiomas. La primera idea consiste en buscar OTUs que simultáneamente tengan grado alto, cercanía alta e intermediación baja. La segunda consiste encontrar un conjunto de OTUs centrales que maximice la diferencia entre muestras de diferentes grupos, en este caso, por etapas fenológicas. Se ejemplificará el funcionamiento de este código con unas muestras de rizósfera de tomate y la respectiva red de correlación de Spearman. Para los análisis de centralidad se usará el paquete igraph aplicada a la red binaria que solo contemple las correlaciones positivas (y las iguale a 1). Los datos se pueden encontrar en el repositorio https://github.com/MarioJardonS/redes_correlacion_coocurrencia.git., en la carpeta ./data/, y el script en la carpeta ./scripts/.
 
+#Argumentos 
+
+El script aquí desglosado requiere de siete argumentos que se cargan en la variable presente en esta celda de código. En este archivo el vector args se irá construyendo entrada por entrada en las siguientes celdas. 
+
+```{r}
+#args = commandArgs(trailingOnly=TRUE)
+```
 
 #Carga de paquetes
 
-Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis (\beta-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. La primera celda se correrá solo si los paquetes no están instalados. La siguiente celda consiste en llamar estos paquetes.
+En la primera parte del código se llaman los paquetes necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis ($\beta$-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. 
 
 ```{r}
-#install.packages("vegan")
-#install.packages("igraph")
-#install.packages("apcluster")
-#install.packages("plyr")
-```
-
-```{r}
-library(vegan)
-library(igraph)
-library(apcluster)
-library(plyr)
+#if (!require(vegan)) install.packages('vegan')
+#library(vegan)
+#if (!require(igraph)) install.packages('igraph')
+#library(igraph)
+#if (!require(apcluster)) install.packages('apcluster')
+#library(apcluster)
+#if (!require(plyr)) install.packages('plyr')
+#library(plyr)
 ```
 
 #Carga y análisis de las muestras 
 
-Como primer paso se carga la tabla de muestras como un dataframe de R. Los "nombres" de los OTUs, presentes en la primera columna, se refieren al ID de NCBI a nivel especie del respectivo OTU. Esta columna se usa para nombrar las filas del dataframe. Las demás columnas se refieren a las instancias (reads asignados?) de los OTUs por muestra. 
+Establecida la carpeta sobre la carpeta scripts como directorio de trabajo, se carga la tabla de muestras (argumento 1) como un dataframe de R. La tabla de las muestras tiene el formato de salida de la función biom.table desde un archivo biom, con la fila de nombres de las muestras sin símbolo #. Los "nombres" de los OTUs, presentes en la primera columna, se refieren al ID de NCBI a nivel especie del respectivo OTU. Esta columna se usa para nombrar las filas del dataframe. Las demás columnas se refieren a los reads asignados a los OTUs por muestra. Los conteos de las muestras se convierten en frecuencias para coincidir con la construcción de la red, que idealmente debió construirse a partir de datos normalizados.
 
 ```{r}
-#getwd()
-setwd("~/proyecto_redes")
-data <- read.table("./redes_correlacion_coocurrencia/data/table.from_tomate.txt", row.names = 1, header = FALSE , sep= "" )
-head(data)
+#setwd("..")
+#args <- c("table.from_tomate.txt")
+#data <- paste0("./data/tables/", args[1])
+#data <- read.table(data , row.names = 1, header = TRUE , sep = "" )
+#for (i in 1:dim(data)[2]){
+#  data[,i] <- data[,i]/sum(data[,i])
+#}
+#head(data)
 ```
 
-##Agrupación de muestras y descarte de "outliers"
+##Carga de metadatos para grupación de muestras y descarte de "outliers"
 
-A continuación se agrupan las muestras según los metadatos presentes en el archivo "data/fastp_metadat.csv". En este caso, cada uno de los vectores se corresponde a una "etapa fenológica" del cultivo del tomate. Los elementos de las vectores son los nombres de las columnas del dataframe "data" correspondientes a cada grupo.
+El segundo argumento debe ser un archivo .csv de metadatos cuya primera columna sean los nombres de las columnas ya presentes en el dataframe data (los nombres de las muestras), y la segunda indique el grupo "ecológico" al que pertenezca la muestra. Este archivo se carga en la variable metadata como dataframe. Dado que los nombres de las muestras en la celda anterior adquirieron por default un nombre apropiado a las reglas de R, en la primera columna se aplica la función make.names para que los nombres coincidan. La segunda columna del archivo de metadatos puede tener un nombre que se corresponda a un gradiente ecológico de interés del usuario. Los nombres de las columnas se cambian a "ID" y "Grupos" para el funcionamiento general del script. 
 
 ```{r}
-produccion <- c("V2", "V3" ,"V4","V5")
-llenado_de_fruto <- c("V6", "V7", "V8")
-#plantacion <- c()
-por_transplantar <- c("V9")
-desarrollo <- c("V10", "V11", "V12", "V13", "V14", "V15", "V16", "V17","V18","V19","V20","V21","V22","V23")
+#args <- c(args , "metadata_tomate.csv")
+#metadata <- paste0("./data/metadata/", args[2])
+#metadata <- read.csv(metadata , colClasses = "character")
+#r_n_metadata <- metadata[,1] 
+#for (i in 1:length(r_n_metadata)){
+#  r_n_metadata[i] <- make.names(r_n_metadata[i])
+#}
+#metadata[,1] <- r_n_metadata
+#colnames(metadata) <- c("ID","Grupos")
 ```
 
-El análisis aquí planteado busca maximizar el parecido entre las muestras de un mismo grupo. Por esa razón se excluirán las muestras que al estar muy separadas de las demás, y por ende de su propio grupo, probablemente generen ruido. Como se mencionó anteriormente la "distancia" usada en este script es la disimilaridad de Bray-Curtis. Las muestras que se considerarán "outliers" son las que queden en un clúster unitario tras una clusterización por propagación de afinidad. 
+La siguiente parte del código se limita a excluir las muestras que estén en un grupo llamado NA, se creó para lidiar con esta situación estaba presente en uno de los conjuntos de datos sobre los que se probó el script, y posiblemente sea excluible en una versión futura.
 
 ```{r}
-#Se crea la "matriz" de disimilaridades de bray-curtis
-bc_dist <- vegdist(t(data), method = "bray")
-
-#Dado que la propagación de afinidad requiere de similaridades, a 1 restamos la distancia bray-curtis para poder usarla. Convertimos dichas similaridades en una matriz de R.
-s <- 1 - bc_dist
-s <- as.matrix(s)
-#La función apcluster hace la clusterización
-clustering <- apcluster(s)
-#El objeto de clusterin que nos interesa es el llamado clusters
-clusters <- clustering@clusters
-#Aquí preguntamos qué clústeres tienen tamaño al menos uno (no outliers) y nos quedamos con el vector de dichas muestras
-filtro_0 <- lapply(clusters, length)
-clusters_no_outliers <- clusters[which(filtro_0 > 1)]
-no_outliers <- unlist(clusters_no_outliers)
-no_outliers <- names(no_outliers)
-
+#n_grupos <- unique(metadata[,"Grupos"])
+#n_grupos <- setdiff( n_grupos , c(NA) )
+#vector_no_na <- which(is.na(metadata[,"Grupos"]) == FALSE)
+#metadata <- metadata[vector_no_na,]
 ```
 
-En la siguiente celda finalmente se reducen las muestras (en la variable "data") y los grupos fenológicos a las no "outliers".
+En la siguiente celda se crean la lista grupos cuyas entradas serán vectores que se correspondan a las muestras pertenecientes a cada grupo presente en los metadatos.
 
 ```{r}
-data <- data[,no_outliers]
+#grupos <- list()
+#for (i in 1:(length(n_grupos))){
+#  grupos_i <- c()
+#  for (j in 1:dim(metadata)[1]){
+#    if (metadata[j,"Grupos"] == n_grupos[i]){
+#      grupos_i <- c(grupos_i , metadata[j,"ID"])
+#    }
+#  }
+#  grupos[[i]] <- grupos_i
+#}
+```
 
-grupos <- list()
-grupos[[1]] <- intersect(produccion,no_outliers)
-grupos[[2]] <- intersect(llenado_de_fruto,no_outliers)
-grupos[[3]] <- intersect(por_transplantar,no_outliers)
-grupos[[4]] <- intersect(desarrollo,no_outliers)
+Uno de los dos reportes que se hacen en el presente script busca maximizar el parecido entre las muestras de un mismo grupo. Por esa razón se excluirán las muestras que al estar muy separadas de las demás, y por ende de su propio grupo, probablemente generen ruido. Como se mencionó anteriormente la "distancia" usada en este script es la disimilaridad de Bray-Curtis, aquí usada con la función vegdist del paquete vegan. Las muestras que se considerarán "outliers" son las que queden en un clúster unitario tras una clusterización por propagación de afinidad, hecha con la función apcluster del paquete con el mismo nombre, que se aplica a nuestra matriz de similaridades s. Finalmente obtenemos los nombres de las muestras que no son outliers en la variable no_outliers.   
 
-#Grupos necesarios para el análisis auc
-len_list <- llply(grupos , length)
-len_list <- which(len_list > 1)
-grupos <- grupos[len_list]
+```{r}
+#bc_dist <- vegdist(t(data), method = "bray")
+#s <- 1 - bc_dist
+#s <- as.matrix(s)
+#clustering <- apcluster(s)
+#clusters <- clustering@clusters
+#filtro_0 <- lapply(clusters, length)
+#clusters_no_outliers <- clusters[which(filtro_0 > 1)]
+#no_outliers <- unlist(clusters_no_outliers)
+#no_outliers <- names(no_outliers)
+```
+
+En la siguiente celda finalmente se reducen las muestras (en la variable "data") y las entradas de la lista grupos a las muestras que no sean "outliers". Igualemente nos quedamos con los grupos que retengan más de una muestra. 
+
+```{r}
+#data <- data[,no_outliers]
+
+#for (i in 1:length(grupos)){
+#  grupos[[i]] <- intersect(grupos[[i]], no_outliers)
+#}
+
+#len_list <- llply(grupos , length)
+#len_list <- which(len_list > 1)
+#grupos <- grupos[len_list]
 ```
 
 ##Filtración de OTUs según su aparición en las muestras
 
-Se filtrarán los OTUs que aparezcan en una sola muestra, dado que estos OTUs tendrán un grado artificialmente alto en la red de correlación sin que esto refleje una "centralidad ecológica". Dado que los nodos en el archivo "data/networks/tomate_species_raw_network.csv" están ya numerados desde 0, una columna de nodos se agrega a data para no perder la biyección entre otus y su nodo en la red. 
+Se filtrarán los OTUs que aparezcan en una sola muestra, dado que estos OTUs tendrán un grado artificialmente alto en la red de correlación sin que esto refleje una "centralidad ecológica". Dado que el script asume que los nodos están enumerados a partir de 0 en el correspondiente archivo de red, una columna de nodos se agrega a data para no perder la biyección entre otus y etiqueta. 
 
-Filtraciones de este tipo se pueden generalizar a filtrar otus que aparezcan, por ejemplo, al menos 10 veces en solamente menos de 10% de las muestras. En futuros análisis estos umbrales podrían ajustarse. 
+Filtraciones de este tipo se pueden generalizar a filtrar otus que aparezcan, por ejemplo, al menos 10 veces en solamente menos de 10% de las muestras. En futuras versiones de este script estos umbrales podrían ajustarse. 
 
 ```{r}
-data$nodos <- 0:(dim(data)[1]-1)
+#data$nodos <- 0:(dim(data)[1]-1)
 
-filt <- c()
-for (i in 1:dim(data)[1]) {
-  
-    v_i <- as.vector(data[i,1:(dim(data)[2]-1)])
-    #el siguiente 1 es filtro
-      if (length(v_i [ v_i > 0 ]) > 1 ) {
-        filt <- c(filt, i)
-        }
-     }
+#filt <- c()
+#for (i in 1:dim(data)[1]) {
+# v_i <- as.vector(data[i,1:(dim(data)[2]-1)])
+#    if (length(v_i [ v_i > 0 ]) > 1 ) {
+#        filt <- c(filt, i)
+#        }
+#     }
  
-data <- data[filt,]
+#data <- data[filt,]
 ```
 
 #Carga y análisis de la red
 
-El siguiente paso es cargar la red de coocurrencia correspondiente a nuestras muestras. En este caso se trata de una red de correlación de Spearman, que está en el archivo "data/networks/tomate_species_raw_network.csv". Se trata de una red ponderada no dirigida cuyos pesos se encuentran entre -1 y 1. Cada una de las filas de este archivo se refiere a una arista de la red: las primeras dos entradas son los nodos correspondientes y la tercera es su peso. Este archivo se cargará como dataframe para el análisis previo a su conversión a red binaria no dirigida como objeto igraph. 
-
+El siguiente paso es cargar la red de coocurrencia correspondiente a nuestras muestras, que es el tercer argumento del script. Se asume que el archivo es de tipo .csv. Cada una de las filas de este archivo se refiere a una arista de la red: las primeras dos entradas son los nodos correspondientes y la tercera debe ser su peso. Este archivo se cargará como dataframe en la variable red para el análisis previo a su conversión a red binaria no dirigida como objeto igraph. 
 
 ```{r}
-red <- read.csv("./redes_correlacion_coocurrencia/data/networks/tomate_species_raw_network.csv")
-red = red[,1:3]
+#args <- c(args , args[3])
+#red <- paste0("./data/networks/", args[3])
+#red <- read.csv(red)
+#red = red[,1:3]
 ```
+
 ##Conversión a red binaria y limpieza previa al análisis igraph
 
 En la siguiente celda se filtran las aristas de la red con el siguiente criterio: los nodos deben estar en data$nodos, es decir, deben haber sobrevivido a la filtración de OTUs, y su correlación debe ser positiva. En la red final estas aristas serán consideradas de peso 1. 
 
 ```{r}
-edges <- c()
-for (i in 1:dim(red)[1]) {
-  if (is.element(red[i,1], data$nodos) && is.element(red[i,2], data$nodos) && red[i,3] > 0  ){
-    edges <- c(edges , i)
-  }
-}
+#edges <- c()
+#for (i in 1:dim(red)[1]) {
+#  if (is.element(red[i,1], data$nodos) && is.element(red[i,2], data$nodos) && red[i,3] > 0  ){
+#    edges <- c(edges , i)
+#  }
+#}
 
-red <- red[edges, 1:2]
-
-
+#red <- red[edges, 1:2]
 ```
-En las siguientes dos celdas las etiquetas, hasta ahora numéricas, se transforman en los dataframes red y data a "strings" del tipo "v_#" para simplificar el trabajo con la librería igraph.
+
+En las siguientes dos celdas las etiquetas de los OTUs, hasta ahora numéricas, se transforman en los dataframes red y data a "strings" del tipo "v_#" para simplificar el trabajo con la librería igraph.
 
 ```{r}
-red <- red + 1
-
-for (i in 1:dim(red)[1]){
-  for (j in 1:dim(red)[2]){
-    red[i,j] <- paste("v_",as.character(red[i,j]))
-  }
-}
+#for (i in 1:dim(red)[1]){
+#  for (j in 1:dim(red)[2]){
+#    red[i,j] <- paste("v_",as.character(red[i,j]))
+#  }
+#}
 ```
 
 ```{r}
-data$nodos <- data$nodos + 1
-
-for (i in 1:dim(data)[1]){
-  data[i,"nodos"] <- paste("v_" , as.character(data[i,"nodos"]))
-}
+#for (i in 1:dim(data)[1]){
+#  data[i,"nodos"] <- paste("v_" , as.character(data[i,"nodos"]))
+#}
 ```
 
 ##Conversión de la red a objeto igraph y obtención de componente conexa principal
 
-Desde el dataframe, que esencialmente ya está convertido en una "lista" de aristas, obtenemos un objeto de igraph. 
+Desde el dataframe red, que esencialmente ya está convertido en una "lista" de aristas, obtenemos un objeto de igraph, en la variable net_work. 
 
 ```{r}
-
-net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
-
+#net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
 ```
 
-En la siguiente celda se obtienen las componentes conexas de la red, con la función "components", se ubica la mayor de ellas y se obtiene finalmente el vector de los nodos que pertenecen a ella. Finalmente convertimos a la red en su mayor componente conexa. Este nuevo filtrado se llevó a cabo porque el aparentemente el cálculo de medidas de centralidad lo requeriría, y porque esta componente conexa resultó ser considerablemente más grande que el resto de ellas.
+En la siguiente celda se obtienen las componentes conexas de la red, con la función "components" del paquete igraph, se ubica la mayor de ellas en el vector compo_conexas$size, y se obtiene finalmente el vector de los nodos que pertenecen a ella que se guarda en la variable compo_princ. Finalmente reducimos la red a su mayor componente conexa con la función induced_subgraph. Este nuevo filtrado se llevó a cabo para facilitar el cálculo de las medidas de centralidad, y porque esta componente conexa resultó ser considerablemente más grande que el resto de ellas.
 
 ```{r}
-compo_conexas <- components(net_work)
-size_compo_conexas <- compo_conexas$csize
-princ <- which(size_compo_conexas == max(size_compo_conexas))
-pertenencia <- compo_conexas$membership
-compo_princ <- which(pertenencia == princ )
-compo_princ <- names(compo_princ)
+#compo_conexas <- components(net_work)
+#size_compo_conexas <- compo_conexas$csize
+#princ <- which(size_compo_conexas == max(size_compo_conexas))
+#pertenencia <- compo_conexas$membership
+#compo_princ <- which(pertenencia == princ )
+#compo_princ <- names(compo_princ)
 
-net_work <- induced_subgraph(net_work, compo_princ ,"auto")
+#net_work <- induced_subgraph(net_work, compo_princ ,"auto")
 ```
 
-En la siguiente celda reajustamos nuestros datos a la componente principal, que es nuestra nueva red. 
+En la siguiente celda se ajusta el dataframe data a la componente principal, que es nuestra nueva red. 
 
 ```{r}
-filtro_componente <- c()
-for (i in 1:dim(data)[1]){
-  if(is.element(data[i,"nodos"],compo_princ)){
-    filtro_componente <- c(filtro_componente, i)
-  }
-}
+#filtro_componente <- c()
+#for (i in 1:dim(data)[1]){
+#  if(is.element(data[i,"nodos"],compo_princ)){
+#    filtro_componente <- c(filtro_componente, i)
+#  }
+#}
 
-
-data <- data[filtro_componente,]
-
+#data <- data[filtro_componente]
 ```
 
 #Cálculo de medidas de centralidad
@@ -199,206 +216,266 @@ data <- data[filtro_componente,]
 En esta búsqueda de potenciales especies clave se utilizaron tres medidas de centralidad de red para cada nodo v:
 
   * Grado, que es el número de aristas en las que participa v,
-  * Centralidad de cercanía, que es el inverso de la suma de las distancias de v a los demás, y
+  * Centralidad de cercanía, que es el inverso multiplicativo de la suma de las distancias de v a los demás, y
   * Centralidad de intermediación, que es la proporción de caminos mínimos entre dos nodos que pasan por v, sobre el total de estos. 
 
-Cada una de las siguientes tres celdas cálcula las respectivas centralidades de nuestros OTUs y agrega la correspondiente columna al dataframe "data". La última de ellas, correspondiente al cálculo de centralidad de intermediación, tardó entre tres y cuatro horas en correr. 
+Cada una de las siguientes tres celdas cálcula las respectivas centralidades de nuestros OTUs y agrega la correspondiente columna al dataframe "data". La última de ellas, correspondiente al cálculo de centralidad de intermediación, tardó varias horas en correr. 
 
 ```{r}
-degrees <- c()
-for (i in 1:dim(data)[1]) {
-  d_i <- degree(net_work, data[i,"nodos"])
-  degrees <- c(degrees, d_i)
-}
-data$degrees <- degrees
+#degrees <- c()
+#for (i in 1:dim(data)[1]) {
+#  d_i <- degree(net_work, data[i,"nodos"])
+#  degrees <- c(degrees, d_i)
+#}
+#data$degrees <- degrees
 ```
 
 ```{r}
-closeness_cent <- c()
-for (i in 1:dim(data)[1]) {
-  c_i <- closeness(net_work, data[i,"nodos"])
-  closeness_cent <- c(closeness_cent, c_i)
-}
-data$closeness <- closeness_cent
+#closeness_cent <- c()
+#for (i in 1:dim(data)[1]) {
+#  c_i <- closeness(net_work, data[i,"nodos"])
+#  closeness_cent <- c(closeness_cent, c_i)
+#}
+#data$closeness <- closeness_cent
 ```
 
 ```{r}
-betweenness_cent <- c()
-for (i in 1:dim(data)[1]) {
-  b_i <- betweenness(net_work, data[i,"nodos"])
-  betweenness_cent <- c(betweenness_cent, b_i)
-}
-data$betweenness <- betweenness_cent
+#betweenness_cent <- c()
+#for (i in 1:dim(data)[1]) {
+#  b_i <- betweenness(net_work, data[i,"nodos"])
+#  betweenness_cent <- c(betweenness_cent, b_i)
+#}
+#data$betweenness <- betweenness_cent
 ```
 
-En la siguiente celda se crean tres copias de data donde las filas (OTUs) se ordenan de forma decreciente según las medidas de centralidad. Dadas la importancia que estos datos pueden tener para otros análisis, y la particular tardanza de su cómputo, estas tres copias se guardan en archivos .csv. 
+En la siguiente celda se crean tres copias de data donde las filas (OTUs) se ordenan de forma decreciente según las medidas de centralidad. Dadas la importancia que estos datos pueden tener para otros análisis, y la particular tardanza de su cómputo, estas tres copias se guardan en archivos .csv, en la carpeta ./results/. El nombre de los archivos se construirá a partir del cuarto argumento de entrada.
 
 ```{r}
-data_deg <- data[order(data$degrees, decreasing = TRUE),]
-data_close <- data[order(data$closeness , decreasing = TRUE),]
-data_between <- data[order(data$betweenness, decreasing = TRUE),]
+#data_deg <- data[order(data$degrees, decreasing = TRUE),]
+#data_close <- data[order(data$closeness , decreasing = TRUE),]
+#data_between <- data[order(data$betweenness, decreasing = TRUE),]
 
-write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
-write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv", row.names = TRUE)
-write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
+#args <- c(args , "table.from_tomate")
+
+#file <- args[4]
+#write.csv(data_deg , paste0("./results/",file,"_bydegree.csv") , row.names = TRUE)
+#write.csv(data_close,paste0("./results/",file,"_bycloseness.csv") , row.names = TRUE)
+#write.csv(data_between, paste0("./results/",file,"_bybetweenness.csv") , row.names = TRUE)
+```
+#Primer reporte de OTUs clave 
+
+A partir de las tablas ordenadas por medidas de centralidad es posible conseguir un primer reporte de posibles candidatos a OTU clave. Serían los de simultáneamente mayor grado, mayor centralidad de cercanía y menor centralidad de intermediación. En esta versión del script "mayor" significa pertenecer al último tercil, y "menor" significa pertenecer al primer tercil, en la distribución de las medidas de centralidad. Este criterio se tomó dado que al tratarse de cuartiles se obtuvieron reportes vacíos. La interpretación y posible cambio de estos criterios que da a futura consideración. Finalmente el dataframe con estos OTUs clave se guarda en la carpeta ./results/ con un nombre por el quinto argumento de entrada. 
+
+```{r}
+#hdeg <- which(data$degrees >= quantile(data$degrees , probs = seq(0, 1, 0.33))[3])
+#hclose <- which(data$closeness >= quantile(data$closeness , probs = seq(0, 1, 0.33))[3])
+#lbetween <- which(data$betweenness <= quantile(data$betweenness , probs = seq(0, 1, 0.33))[2])
+
+#results_1 <- intersect(hdeg,hclose)
+#results_1 <- intersect(results_1 , lbetween)
+#data_report_1 <- data[results_1,]
+
+#args <- c(args , "reporte_1")
+#report_1 <- args[5]
+#write.csv(data_report_1 , paste0("./results/",report_1) , row.names = TRUE)
 ```
 
-#Funciones para la búsqueda de candidatos a especie clave
+Finalmente, si los grupos que se retuvieron en el análisis inicial de los datos son menos de 2, el script se detiene, habiéndonos dado solo un reporte de OTUs clave. 
 
-La función calcula el área bajo la curva de las medidas de centralidad. Sus argumentos son un dataframe, y el nombre de alguna medida de centralidad, que debería ser el nombre de una columna del dataframe. Su valor es simplemente la suma los valores de dicha columna.
+```{r}
+#if (length(grupos) < 2){
+#  stop("Solo hay un reporte de otus clave")}
+```
+
+#Funciones para la búsqueda de candidatos a especie clave para el reporte 2
+
+La función auc calcula el área bajo la curva de las medidas de centralidad. Sus argumentos son un dataframe, y el nombre de alguna medida de centralidad, que debería ser el nombre de una columna del dataframe. Su valor es simplemente la suma los valores de dicha columna.
 
 ```{r}
 auc <- function(df, centrality){
-  #sm_p <- 0
-  #for (i in 1:dim(df)[1]) {
-  #f_i = df[i, centrality]
-  #if (is.nan(f_i) == FALSE)
-  #{sm_p = sm_p + f_i}
-#}
   sm_p <- sum(df[,centrality],na.rm = TRUE)
 return(sm_p)}
 ```
 
-El objetivo de la siguiente función es encontrar el "intervalo" máximo de OTUs cuyos valores por medida de centralidad sumen menos que cierta cota. Sus argumentos son un dataframe, que en nuestro caso estará ordenado por una medida de centralidad, el nombre de dicha medida de centralidad, y la cota deseada. Su valor es la longitud del intervalo buscado. 
+El objetivo de la función auc_percent es encontrar el "intervalo" máximo de OTUs cuyos valores por medida de centralidad sumen menos que cierta cota. Sus argumentos son un dataframe, que en nuestro caso estará ordenado por una medida de centralidad, el nombre de dicha medida de centralidad, y la cota deseada. Su valor es la longitud del intervalo buscado. 
 
 ```{r}
-auc_percent <- function(df, centrality, bound){
-  #df es nuestro dataframe de muestras y medidas de centralidad, centrality un string con el nombre de nuestra centralidad, y bound un número positivo 
-  
-  i <- 1
-  sum_par <- 0
-  #c <- c() 
-  while(i <= dim(df)[1] && sum_par < bound) {
-    #c <- c(c,i)
-    g_i = df[i, centrality]
-    sum_par = sum_par + g_i
-    i = i+1
-  }
-  return(i-1)
-}
+#auc_percent <- function(df, centrality, bound){
+#  i <- 1
+#  sum_par <- 0
+#  while(i <= dim(df)[1] && sum_par < bound) {
+#    g_i = df[i, centrality]
+#    sum_par = sum_par + g_i
+#    i = i+1
+#  }
+#  return(i-1)
+#}
 ```
 
-En la siguiente celda se incluye una función para calcular el estadístico pseudo-F que se utiliza en los análisis de permanova. Su objetivo es comparar la similaridad de nuestros datos (en este caso muestras) dentro de unos grupos dados (en este caso etapas fenológicos) con respecto a la similaridad entre todas las muestras. Su valor será mayor si las disimilaridades entre cualquier par de muestras es en promedio mayores a las disimilaridades entre las muestras provenientes del mismo grupo. En este caso la disimilaridad entre las muestras es la de Bray-Curtis. Los argumentos de esta función son un dataframe de muestras y una lista de los grupos. Su valor es el estadístico. 
+En la siguiente celda se incluye una función para calcular el estadístico pseudo-F que se utiliza en los análisis de permanova. Su objetivo es comparar la similaridad de nuestros datos dentro de los grupos enlistados en la variable "grupos" con respecto a la similaridad entre todas las muestras. Su valor será mayor si las disimilaridades entre cualquier par de muestras es en promedio mayores a las disimilaridades entre las muestras provenientes del mismo grupo. En este caso la disimilaridad entre las muestras es la de Bray-Curtis. Los argumentos de esta función son un dataframe de muestras y una lista de los grupos. Su valor es el estadístico. 
 
 ```{r}
-pseudo_F <- function(df , groups){
+#pseudo_F <- function(df , groups){
   #df es dataframe de muestras, groups, una lista de vectores de etiquetas por grupo , por grupos
-  N <- dim(df)[2] #número de muestras
-  a <- length(groups) #número de grupos
+#  N <- dim(df)[2] #número de muestras
+#  a <- length(groups) #número de grupos
   
-  df_groups <- list() #se crea la lista que incluirá los subdataframes por grupo
+#  df_groups <- list() #se crea la lista que incluirá los subdataframes por grupo
   
-  for (i in 1:length(groups)){
-    df_i <- df[,groups[[i]]]
-    df_groups[[i]] <- df_i
-  } 
+#  for (i in 1:length(groups)){
+#    df_i <- df[,groups[[i]]]
+#    df_groups[[i]] <- df_i
+#  } 
   
-  n_s <- llply( .data = df_groups , .fun = ncol )
-  n_s <- unlist(n_s)
-  n <- mean(n_s) #número promedio de muestras por grupo
+#  n_s <- llply( .data = df_groups , .fun = ncol )
+#  n_s <- unlist(n_s)
+#  n <- mean(n_s) #número promedio de muestras por grupo
   
-  dist <- vegdist(t(df))
-  dist <- as.vector(dist) #distancias bray_curtis entre todo par de muestras
+#  dist <- vegdist(t(df))
+#  dist <- as.vector(dist) #distancias bray_curtis entre todo par de muestras
   
  
-  df_groups <- llply(.data = df_groups , .fun = t)
-  in_dist <- llply(.data = df_groups , .fun = vegdist )
-  in_dist <- llply(.data = in_dist , .fun = as.vector )
-  in_dist <- unlist(in_dist) #distancias bray-curtis intra-grupo
+#  df_groups <- llply(.data = df_groups , .fun = t)
+#  in_dist <- llply(.data = df_groups , .fun = vegdist )
+#  in_dist <- llply(.data = in_dist , .fun = as.vector )
+#  in_dist <- unlist(in_dist) #distancias bray-curtis intra-grupo
   
   #calculo del estadistico pseudo-f
   
-  ss_t <- sum(dist^2)/N 
+#  ss_t <- sum(dist^2)/N 
   
-  ss_w <- sum(in_dist^2)/n
+#  ss_w <- sum(in_dist^2)/n
   
-  ss_a <- ss_t - ss_w
+#  ss_a <- ss_t - ss_w
 
-  f_stat <- (ss_a/(a-1))/(ss_w/(N-a))
+#  f_stat <- (ss_a/(a-1))/(ss_w/(N-a))
   
-  return(f_stat)
-}
+#  return(f_stat)
+#}
 ```
-
 
 #Intervalos de n*5% de área bajo la curva y varianza correspondiente
 
-En las siguientes celdas de código se calculan finalmente los intervalos de OTUs correspondientes a n*5% (con n entre 1 y 20) del área bajo la curva por medida de centralidad. En cada caso se guardan en un vector las longitudes de dichos intervalos. 
+En las siguientes celdas de código se calculan finalmente los intervalos de OTUs correspondientes a n*5% (con n entre 1 y 20) del área bajo la curva por medida de centralidad. En cada caso se guardan en los vectores auc5_percent_. las longitudes de dichos intervalos. 
 
 ```{r}
-area_deg <- auc(data_deg , "degrees")
-auc5_percent_deg <- c()
-for (x in 1:20){
-  auc5_percent_deg = c(auc5_percent_deg , auc_percent(data_deg, "degrees" ,(area_deg/20)*x))
+#area_deg <- auc(data_deg , "degrees")
+#auc5_percent_deg <- c()
+#for (x in 1:20){
+#  auc5_percent_deg = c(auc5_percent_deg , auc_percent(data_deg, "degrees" ,(area_deg/20)*x))
   
-}
+#}
 ```
 
 ```{r}
-area_close <- auc(data_close , "closeness")
-auc5_percent_close <- c()
-for (x in 1:20){
-  auc5_percent_close = c(auc5_percent_close , auc_percent(data_close, "closeness" ,(area_close/20)*x))
+#area_close <- auc(data_close , "closeness")
+#auc5_percent_close <- c()
+#for (x in 1:20){
+#  auc5_percent_close = c(auc5_percent_close , auc_percent(data_close, "closeness" ,(area_close/20)*x))
   
-}
+#}
 ```
 
 ```{r}
-area_between <- auc(data_between , "betweenness")
-auc5_percent_between <- c()
-for (x in 1:20){
-  auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
+#area_between <- auc(data_between , "betweenness")
+#auc5_percent_between <- c()
+#for (x in 1:20){
+#  auc5_percent_between = c(auc5_percent_between , auc_percent(data_between, "betweenness" ,(area/20)*x))
   
-}
+#}
 ```
 
-En las próximas celdas finalmente se computa el estadístico pseudo-F con cada una de las medidas y cada uno de los dataframes restringidos a los intervalos. Se calcula también la varianza acumulada de dicho estadístico conforme los intervalos crecen. Se guarda finalmente un archivo .csv con las longitudes de los intervalos, y los estadísticos pseudo-F con las varianzas correspondientes. Los OTUs del intervalo con un máximo local del estadístico que tenga baja varianza serán considerados OTUs clave. 
+#Segundo reporte de OTUs clave
+
+En las próximas celdas finalmente se computa el estadístico pseudo-F con cada una de las medidas y cada uno de los dataframes restringidos a los intervalos. Se calcula también la varianza acumulada de dicho estadístico conforme los intervalos crecen. Se guarda finalmente un archivo .csv, cuyo nombre está asociado al sexto argumento de entrada, con las longitudes de los intervalos, los estadísticos pseudo-F y las varianzas correspondientes. 
 
 ```{r}
-f_stat_deg <- c()
-var_deg <- c()
-for (i in auc5_percent_deg){
-  df_i <- data_deg[1:i ,1:18]
-  f_i <- pseudo_F(df_i , grupos)
-  f_stat_deg <- c(f_stat_deg , f_i) 
+#args <- c(args , "analisis_auc")
+
+#f_stat_deg <- c()
+#var_deg <- c()
+#for (i in auc5_percent_deg){
+#  df_i <- data_deg[1:i ,1:18]
+#  f_i <- pseudo_F(df_i , grupos)
+#  f_stat_deg <- c(f_stat_deg , f_i) 
   
-  var_i <- var(f_stat_deg)
-  var_deg <- c(var_deg, var_i)
-}
+#  var_i <- var(f_stat_deg)
+#  var_deg <- c(var_deg, var_i)
+#}
 
-analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
-write.csv(analisis_auc_deg, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bydegrees.csv")
-```
-
-```{r}
-f_stat_close <- c()
-var_close <- c()
-for (i in auc5_percent_close){
-  df_i <- data_close[1:i ,1:18]
-  f_i <- pseudo_F(df_i , grupos)
-  f_stat_close <- c(f_stat_close , f_i) 
-  
-  var_i <- var(f_stat_close)
-  var_close <- c(var_close, var_i)
-}
-
-
-analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
-write.csv(analisis_auc_close, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bycloseness.csv")
+#analisis_auc_deg <- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
+#write.csv(analisis_auc_deg, paste0("./results/", args[6] ,"degree.csv"))
 ```
 
 ```{r}
-f_stat_between <- c()
-var_between <- c()
-for (i in auc5_percent_between){
-  df_i <- data_between[1:i ,1:18]
-  f_i <- pseudo_F(df_i , grupos)
-  f_stat_between <- c(f_stat_between , f_i) 
+#f_stat_close <- c()
+#var_close <- c()
+#for (i in auc5_percent_close){
+#  df_i <- data_close[1:i ,1:18]
+#  f_i <- pseudo_F(df_i , grupos)
+#  f_stat_close <- c(f_stat_close , f_i) 
   
-  var_i <- var(f_stat_between)
-  var_between <- c(var_between ,var_i)
-}
+#  var_i <- var(f_stat_close)
+#  var_close <- c(var_close, var_i)´
+#}
 
-analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
-write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bybetweenness.csv")
+
+#analisis_auc_close <- data.frame(auc5_percent_close, f_stat_close , var_close)
+#write.csv(analisis_auc_deg, paste0("./results/", args[6] ,"closeness.csv"))
 ```
+
+```{r}
+#f_stat_between <- c()
+#var_between <- c()
+#for (i in auc5_percent_between){
+#  df_i <- data_between[1:i ,1:18]
+#  f_i <- pseudo_F(df_i , grupos)
+#  f_stat_between <- c(f_stat_between , f_i) 
+  
+#  var_i <- var(f_stat_between)
+#  var_between <- c(var_between ,var_i)
+#}
+
+#analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
+#write.csv(analisis_auc_deg, paste0("./results/", args[6] ,"betweenness.csv"))
+```
+
+El script finaliza por dar un segundo reporte de OTUs clave consistente de los OTUs que por medida de centralidad maximicen el valor del esatdístico pseudo-F y minimicen la varianza acumulada. En esta versión del script esto se logró maximizando la resta de el valor del estadístico menos la varianza. En las siguientes tres celdas se muestra este proceso para cada medida de centralidad. En la variable n_auc_. se guarda la cantidad de OTUs de centralidad mayor que serán considerados para el segundo reporte. 
+
+```{r}
+#analisis_auc_deg <- analisis_auc_deg[2:dim(analisis_auc_deg)[1],]
+#n_auc_deg <- which((analisis_auc_deg[,2] - analisis_auc_deg[,3]) == max(analisis_auc_deg[,2] - analisis_auc_deg[,3]))
+#n_auc_deg <- n_auc_deg + 1
+#n_auc_deg <- auc5_percent_deg[n_auc_deg]
+```
+
+```{r}
+#analisis_auc_close <- analisis_auc_close[2:dim(analisis_auc_close)[1],]
+#n_auc_close <- which((analisis_auc_close[,2] - analisis_auc_close[,3]) == max(analisis_auc_close[,2] - analisis_auc_close[,3]))
+#n_auc_close <- n_auc_close + 1
+#n_auc_close <- auc5_percent_close[n_auc_close]
+```
+
+```{r}
+#analisis_auc_between <- analisis_auc_between[2:dim(analisis_auc_between)[1],]
+#n_auc_between <- which((analisis_auc_between[,2] - analisis_auc_between[,3]) == max(analisis_auc_between[,2] - analisis_auc_between[,3]))
+#n_auc_between <- n_auc_between + 1
+#n_auc_between <- auc5_percent_between[n_auc_between]
+```
+
+En esta última celda se guardan los nombres de los OTUs elegidos en las celdas elegidas, se unen y se usan para filtrar los OTUs clave en el dataframe data. Estos OTUs clave se guardan en un archivo .csv cuyo nombre está dado por el séptimo argumento del script. 
+
+```{r}
+#results_2_deg <- row.names(data_deg[1:n_auc_deg,])
+#results_2_close <- row.names(data_close[1:n_auc_close,])
+#results_2_between <- row.names(data_between[1:n_auc_between,])
+
+#results_2 <- union(results_2_deg , results_2_close)
+#results_2 <- union(results_2 , results_2_between)
+
+#args <- c(args, reporte_2)
+#report_2 <- args[7] 
+#data_report_2 <- data[results_2,]
+#write.csv(data_report_2 , paste0("./results/",report_2) , row.names = TRUE)
+```
+

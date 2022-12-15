@@ -44,10 +44,7 @@ colnames(metadata) <- c("ID","Grupos")
 
 n_grupos <- unique(metadata[,"Grupos"])
 n_grupos <- setdiff( n_grupos , c(NA) )#parche
-
-
 vector_no_na <- which(is.na(metadata[,"Grupos"]) == FALSE)
-
 metadata <- metadata[vector_no_na,]
 
 
@@ -167,8 +164,10 @@ for (i in 1:dim(data)[1]){
 
 
 data <- data[filtro_componente,]
-print(dim(data))
+#print(dim(data))
 net_work <- induced_subgraph(net_work, compo_princ ,"auto")
+
+
 
 degrees <- c()
 for (i in 1:dim(data)[1]) {
