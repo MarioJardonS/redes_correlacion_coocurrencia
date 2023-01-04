@@ -8,34 +8,33 @@ date: '2022-10-21'
 
 #Introducción
 
-Este documento RMarkdown presenta un ejemplo sencillo para entender el uso del script scripts/centrality_measures_keystone_species_tomate.R, así como una versión más breve del RMarkdown docs/centrality_measures_keystone_species_tomate.R. Los datos con los que se corre este ejemplo son una versión de "juguete" (una pequeña componente conexa) de los datos presentes en el archivo data/table.from_maiz.txt, y de su red correspondiente data/networks/maiz_species_raw_network.csv.
+Este documento RMarkdown representa un ejemplo sencillo para entender el uso del script ../scripts/centrality_measures_keystone_species_tomate.R, así como una versión más breve del RMarkdown ../docs/centrality_measures_keystone_species_tomate.R. Los datos con los que se corre este ejemplo son una versión de "juguete" (una pequeña componente conexa) de los datos presentes en el archivo data/table.from_maiz.txt, y de su red correspondiente data/networks/maiz_species_raw_network.csv.
 
 #Carga de paquetes
 
-Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis ($\beta$s-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas. La primera celda se correrá solo si los paquetes no están instalados. La siguiente celda consiste en llamar estos paquetes.
+Aquí se presentan los paquetes que serán necesarios para nuestro análisis. "vegan" se usará para calcular disimilaridades de Bray-Curtis ($\beta$s-diversidad) entre las muestras. "igraph" será utilizada para calcular la componente conexa principal de la red de correlación y las medidas de centralidad de los nodos. "apcluster" será usada para descartar muestras "ruido". "plyr" se usará para simplificar la aplicación de funciones a listas.
 
 ```{r}
-#install.packages("vegan")
-#install.packages("igraph")
-#install.packages("apcluster")
-#install.packages("plyr")
-```
-
-```{r}
+if (!require(vegan)) install.packages('vegan')
 library(vegan)
+if (!require(igraph)) install.packages('igraph')
 library(igraph)
+if (!require(apcluster)) install.packages('apcluster')
 library(apcluster)
+if (!require(plyr)) install.packages('plyr')
 library(plyr)
 ```
 
 #Carga y análisis de las muestras 
 
-Como primer paso se carga la tabla de muestras como un dataframe de R. Los "nombres" de los OTUs, presentes en la primera columna, se refieren al ID de NCBI a nivel especie del respectivo OTU. Esta columna se usa para nombrar las filas del dataframe. Las demás columnas se refieren a las instancias (reads asignados?) de los OTUs por muestra. 
+Como primer paso se carga la tabla de muestras como un dataframe de R. Los "nombres" de los OTUs, presentes en la primera columna, se refieren al ID de NCBI a nivel especie del respectivo OTU. Esta columna se usa para nombrar las filas del dataframe. Las demás columnas se refieren a las instancias (reads asignados) de los OTUs por muestra. Los datos son normalizados por columna. 
 
 ```{r}
-#getwd()
-#setwd("~/proyecto_redes/redes_correlacion_coocurrencia/example")
-data <- read.table("./table_maiz_toy.txt", row.names = 1, header = FALSE, sep = "," )
+setwd(".")
+data <- read.table("./table_maiz_toy.txt" , row.names = 1, header = FALSE , sep = "," )
+for (i in 1:dim(data)[2]){
+  data[,i] <- data[,i]/sum(data[,i])
+}
 head(data)
 ```
 
@@ -59,7 +58,7 @@ s <- 1 - bc_dist
 s <- as.matrix(s)
 #La función apcluster hace la clusterización
 clustering <- apcluster(s)
-#El objeto de clusterin que nos interesa es el llamado clusters
+#El objeto de clustering que nos interesa es el llamado clusters
 clusters <- clustering@clusters
 #Aquí preguntamos qué clústeres tienen tamaño al menos uno (no outliers) y nos quedamos con el vector de dichas muestras
 filtro_0 <- lapply(clusters, length)
@@ -122,8 +121,7 @@ En la siguiente celda se filtran las aristas de la red con el siguiente criterio
 ```{r}
 edges <- c()
 for (i in 1:dim(red)[1]) {
-  #if (is.element(red[i,1], data$nodos) && is.element(red[i,2], data$nodos) && red[i,3] > 0  ){
-   # edges <- c(edges , i)
+  
   
   if (is.element(red[i,1], data$nodos) && is.element(red[i,2], data$nodos) && red[i,3] > 0  ){
     edges <- c(edges , i)
@@ -137,8 +135,6 @@ red <- red[edges, 1:2]
 En las siguientes dos celdas las etiquetas, hasta ahora numéricas, se transforman en los dataframes red y data a "strings" del tipo "v_#" para simplificar el trabajo con la librería igraph.
 
 ```{r}
-red <- red + 1
-
 for (i in 1:dim(red)[1]){
   for (j in 1:dim(red)[2]){
     red[i,j] <- paste("v_",as.character(red[i,j]))
@@ -147,8 +143,6 @@ for (i in 1:dim(red)[1]){
 ```
 
 ```{r}
-data$nodos <- data$nodos + 1
-
 for (i in 1:dim(data)[1]){
   data[i,"nodos"] <- paste("v_" , as.character(data[i,"nodos"]))
 }
@@ -230,7 +224,7 @@ for (i in 1:dim(data)[1]) {
 data$betweenness <- betweenness_cent
 ```
 
-En la siguiente celda se crean tres copias de data donde las filas (OTUs) se ordenan de forma decreciente según las medidas de centralidad. Dadas la importancia que estos datos pueden tener para otros análisis, y la particular tardanza de su cómputo, estas tres copias se guardan en archivos .csv. 
+En la siguiente celda se crean tres copias de data donde las filas (OTUs) se ordenan de forma decreciente según las medidas de centralidad. Dadas la importancia que estos datos pueden tener para otros análisis y la particular tardanza de su cómputo, estas tres copias se guardan en archivos .csv. 
 
 ```{r}
 data_deg <- data[order(data$degrees, decreasing = TRUE),]
@@ -242,9 +236,24 @@ data_close
 data_between
 
 
-#write.csv(data_deg,"./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv", row.names = TRUE)
-#write.csv(data_close,"./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv", row.names = TRUE)
-#write.csv(data_between,"./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv", row.names = TRUE)
+#write.csv(data_deg,"name_bydegree.csv", row.names = TRUE)
+#write.csv(data_close,"name_bycloseness.csv", row.names = TRUE)
+#write.csv(data_between,"name_bybetweenness.csv", row.names = TRUE)
+```
+
+#Primer reporte de OTUs clave 
+
+A partir de las tablas ordenadas por medidas de centralidad es posible conseguir un primer reporte de posibles candidatos a OTU clave. Serían los de simultáneamente mayor grado, mayor centralidad de cercanía y menor centralidad de intermediación. En esta versión del script "mayor" (resp. "menor") significa significa mayor (resp. "") a la mediana.
+
+```{r}
+hdeg <- which(data$degrees >= quantile(data$degrees , probs = seq(0, 1, 0.5))[2])
+hclose <- which(data$closeness >= quantile(data$closeness , probs = seq(0, 1, 0.5))[2])
+lbetween <- which(data$betweenness <= quantile(data$betweenness , probs = seq(0, 1, 0.5))[2])
+
+results_1 <- intersect(hdeg,hclose)
+results_1 <- intersect(results_1 , lbetween)
+data_report_1 <- data[results_1,]
+print(data_report_1)
 ```
 
 #Funciones para la búsqueda de candidatos a especie clave
@@ -253,12 +262,6 @@ La función calcula el área bajo la curva de las medidas de centralidad. Sus ar
 
 ```{r}
 auc <- function(df, centrality){
-  #sm_p <- 0
-  #for (i in 1:dim(df)[1]) {
-  #f_i = df[i, centrality]
-  #if (is.nan(f_i) == FALSE)
-  #{sm_p = sm_p + f_i}
-#}
   sm_p <- sum(df[,centrality],na.rm = TRUE)
 return(sm_p)}
 ```
@@ -325,9 +328,9 @@ pseudo_F <- function(df , groups){
 ```
 
 
-#Intervalos de n*5% de área bajo la curva y varianza correspondiente
+#Intervalos de n*33.33% de área bajo la curva y varianza correspondiente
 
-En las siguientes celdas de código se calculan finalmente los intervalos de OTUs correspondientes a n*5% (con n entre 1 y 20) del área bajo la curva por medida de centralidad. En cada caso se guardan en un vector las longitudes de dichos intervalos. 
+En las siguientes celdas de código se calculan finalmente los intervalos de OTUs correspondientes a n*33.33% (con n entre 1 y 3) del área bajo la curva por medida de centralidad. En cada caso se guardan en un vector las longitudes de dichos intervalos. 
 
 ```{r}
 area_deg <- auc(data_deg , "degrees")
@@ -408,4 +411,42 @@ for (i in auc5_percent_between){
 analisis_auc_between <- data.frame(auc5_percent_between, f_stat_between , var_between)
 analisis_auc_between
 #write.csv(analisis_auc_between, "./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bybetweenness.csv")
+```
+
+Las últimas celdas nos proveen de un segundo reporte de OTUs clave consistente de los OTUs que por medida de centralidad maximicen el valor del esatdístico pseudo-F y minimicen la varianza acumulada. En esta versión del script esto se logró maximizando la resta de el valor del estadístico menos la varianza. En las siguientes tres celdas se muestra este proceso para cada medida de centralidad. En la variable n_auc_. se guarda la cantidad de OTUs de centralidad mayor que serán considerados para el segundo reporte. 
+
+```{r}
+analisis_auc_deg <- analisis_auc_deg[2:dim(analisis_auc_deg)[1],]
+n_auc_deg <- which((analisis_auc_deg[,2] - analisis_auc_deg[,3]) == max(analisis_auc_deg[,2] - analisis_auc_deg[,3]))
+n_auc_deg <- n_auc_deg + 1
+n_auc_deg <- auc5_percent_deg[n_auc_deg]
+```
+
+```{r}
+analisis_auc_close <- analisis_auc_close[2:dim(analisis_auc_close)[1],]
+n_auc_close <- which((analisis_auc_close[,2] - analisis_auc_close[,3]) == max(analisis_auc_close[,2] - analisis_auc_close[,3]))
+n_auc_close <- n_auc_close + 1
+n_auc_close <- auc5_percent_close[n_auc_close]
+```
+
+```{r}
+analisis_auc_between <- analisis_auc_between[2:dim(analisis_auc_between)[1],]
+n_auc_between <- which((analisis_auc_between[,2] - analisis_auc_between[,3]) == max(analisis_auc_between[,2] - analisis_auc_between[,3]))
+n_auc_between <- n_auc_between + 1
+n_auc_between <- auc5_percent_between[n_auc_between]
+```
+
+En esta última celda se guardan los nombres de los OTUs elegidos en las celdas elegidas, se unen y se usan para filtrar los OTUs clave en el dataframe data. 
+
+```{r}
+results_2_deg <- row.names(data_deg[1:n_auc_deg,])
+results_2_close <- row.names(data_close[1:n_auc_close,])
+results_2_between <- row.names(data_between[1:n_auc_between,])
+
+results_2 <- union(results_2_deg , results_2_close)
+results_2 <- union(results_2 , results_2_between)
+
+data_report_2 <- data[results_2,]
+print(data_report_2)
+#write.csv(data_report_2 , paste0("./results/",report_2) , row.names = TRUE)
 ```

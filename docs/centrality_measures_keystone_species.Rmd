@@ -71,7 +71,7 @@ La siguiente parte del código se limita a excluir las muestras que estén en un
 #metadata <- metadata[vector_no_na,]
 ```
 
-En la siguiente celda se crean la lista grupos cuyas entradas serán vectores que se correspondan a las muestras pertenecientes a cada grupo presente en los metadatos.
+En la siguiente celda se crea la lista "grupos" cuyas entradas serán vectores que se correspondan a las muestras pertenecientes a cada grupo presente en los metadatos.
 
 ```{r}
 #grupos <- list()
@@ -264,7 +264,7 @@ En la siguiente celda se crean tres copias de data donde las filas (OTUs) se ord
 ```
 #Primer reporte de OTUs clave 
 
-A partir de las tablas ordenadas por medidas de centralidad es posible conseguir un primer reporte de posibles candidatos a OTU clave. Serían los de simultáneamente mayor grado, mayor centralidad de cercanía y menor centralidad de intermediación. En esta versión del script "mayor" significa pertenecer al último tercil, y "menor" significa pertenecer al primer tercil, en la distribución de las medidas de centralidad. Este criterio se tomó dado que al tratarse de cuartiles se obtuvieron reportes vacíos. La interpretación y posible cambio de estos criterios que da a futura consideración. Finalmente el dataframe con estos OTUs clave se guarda en la carpeta ./results/ con un nombre por el quinto argumento de entrada. 
+A partir de las tablas ordenadas por medidas de centralidad es posible conseguir un primer reporte de posibles candidatos a OTU clave. Serían los de simultáneamente mayor grado, mayor centralidad de cercanía y menor centralidad de intermediación. En esta versión del script "mayor" significa pertenecer al último tercil, y "menor" significa pertenecer al primer tercil, en la distribución de las medidas de centralidad. Este criterio se tomó dado que al tratarse de cuartiles se obtuvieron reportes vacíos. La interpretación y posible cambio de estos criterios queda a futura consideración. Finalmente el dataframe con estos OTUs clave se guarda en la carpeta ./results/ con un nombre por el quinto argumento de entrada. 
 
 ```{r}
 #hdeg <- which(data$degrees >= quantile(data$degrees , probs = seq(0, 1, 0.33))[3])
@@ -292,9 +292,9 @@ Finalmente, si los grupos que se retuvieron en el análisis inicial de los datos
 La función auc calcula el área bajo la curva de las medidas de centralidad. Sus argumentos son un dataframe, y el nombre de alguna medida de centralidad, que debería ser el nombre de una columna del dataframe. Su valor es simplemente la suma los valores de dicha columna.
 
 ```{r}
-auc <- function(df, centrality){
-  sm_p <- sum(df[,centrality],na.rm = TRUE)
-return(sm_p)}
+#auc <- function(df, centrality){
+#  sm_p <- sum(df[,centrality],na.rm = TRUE)
+#return(sm_p)}
 ```
 
 El objetivo de la función auc_percent es encontrar el "intervalo" máximo de OTUs cuyos valores por medida de centralidad sumen menos que cierta cota. Sus argumentos son un dataframe, que en nuestro caso estará ordenado por una medida de centralidad, el nombre de dicha medida de centralidad, y la cota deseada. Su valor es la longitud del intervalo buscado. 

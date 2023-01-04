@@ -12,7 +12,7 @@
 
 <meta name="date" content="2022-10-21" />
 
-<title>Ejemplo para uso del Script</title>
+<title>Ejemplo sobre los pasos que sigue el script scripts/centrality_measures_keystone_species_tomate.R</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -362,33 +362,39 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Ejemplo para uso del Script</h1>
+<h1 class="title toc-ignore">Ejemplo sobre los pasos que sigue el script
+scripts/centrality_measures_keystone_species_tomate.R</h1>
 <h4 class="date">2022-10-21</h4>
 
 </div>
 
 
 <p>#Introducción</p>
-<p>Este documento RMarkdown presenta un ejemplo sencillo para entender
-el uso del script … y del RMarkdown … .</p>
+<p>Este documento RMarkdown representa un ejemplo sencillo para entender
+el uso del script
+../scripts/centrality_measures_keystone_species_tomate.R, así como una
+versión más breve del RMarkdown
+../docs/centrality_measures_keystone_species_tomate.R. Los datos con los
+que se corre este ejemplo son una versión de “juguete” (una pequeña
+componente conexa) de los datos presentes en el archivo
+data/table.from_maiz.txt, y de su red correspondiente
+data/networks/maiz_species_raw_network.csv.</p>
 <p>#Carga de paquetes</p>
 <p>Aquí se presentan los paquetes que serán necesarios para nuestro
 análisis. “vegan” se usará para calcular disimilaridades de Bray-Curtis
-(-diversidad) entre las muestras. “igraph” será utilizada para calcular
-la componente conexa principal de la red de correlación y las medidas de
-centralidad de los nodos. “apcluster” será usada para descartar muestras
-“ruido”. “plyr” se usará para simplificar la aplicación de funciones a
-listas. La primera celda se correrá solo si los paquetes no están
-instalados. La siguiente celda consiste en llamar estos paquetes.</p>
-<pre class="r"><code>#install.packages(&quot;vegan&quot;)
-#install.packages(&quot;igraph&quot;)
-#install.packages(&quot;apcluster&quot;)
-#install.packages(&quot;plyr&quot;)</code></pre>
-<pre class="r"><code>library(vegan)</code></pre>
+(<span class="math inline">\(\beta\)</span>s-diversidad) entre las
+muestras. “igraph” será utilizada para calcular la componente conexa
+principal de la red de correlación y las medidas de centralidad de los
+nodos. “apcluster” será usada para descartar muestras “ruido”. “plyr” se
+usará para simplificar la aplicación de funciones a listas.</p>
+<pre class="r"><code>if (!require(vegan)) install.packages(&#39;vegan&#39;)</code></pre>
+<pre><code>## Loading required package: vegan</code></pre>
 <pre><code>## Loading required package: permute</code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre><code>## This is vegan 2.6-4</code></pre>
-<pre class="r"><code>library(igraph)</code></pre>
+<pre class="r"><code>library(vegan)
+if (!require(igraph)) install.packages(&#39;igraph&#39;)</code></pre>
+<pre><code>## Loading required package: igraph</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;igraph&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:vegan&#39;:
@@ -403,7 +409,9 @@ instalados. La siguiente celda consiste en llamar estos paquetes.</p>
 <pre><code>## The following object is masked from &#39;package:base&#39;:
 ## 
 ##     union</code></pre>
-<pre class="r"><code>library(apcluster)</code></pre>
+<pre class="r"><code>library(igraph)
+if (!require(apcluster)) install.packages(&#39;apcluster&#39;)</code></pre>
+<pre><code>## Loading required package: apcluster</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;apcluster&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:igraph&#39;:
@@ -412,24 +420,29 @@ instalados. La siguiente celda consiste en llamar estos paquetes.</p>
 <pre><code>## The following object is masked from &#39;package:stats&#39;:
 ## 
 ##     heatmap</code></pre>
+<pre class="r"><code>library(apcluster)
+if (!require(plyr)) install.packages(&#39;plyr&#39;)</code></pre>
+<pre><code>## Loading required package: plyr</code></pre>
 <pre class="r"><code>library(plyr)</code></pre>
 <p>#Carga y análisis de las muestras</p>
 <p>Como primer paso se carga la tabla de muestras como un dataframe de
 R. Los “nombres” de los OTUs, presentes en la primera columna, se
 refieren al ID de NCBI a nivel especie del respectivo OTU. Esta columna
 se usa para nombrar las filas del dataframe. Las demás columnas se
-refieren a las instancias (reads asignados?) de los OTUs por
-muestra.</p>
-<pre class="r"><code>#getwd()
-#setwd(&quot;~/proyecto_redes/redes_correlacion_coocurrencia/example&quot;)
-data &lt;- read.table(&quot;./table_maiz_toy.txt&quot;, row.names = 1, header = FALSE, sep = &quot;,&quot; )
+refieren a las instancias (reads asignados) de los OTUs por muestra. Los
+datos son normalizados por columna.</p>
+<pre class="r"><code>setwd(&quot;.&quot;)
+data &lt;- read.table(&quot;./table_maiz_toy.txt&quot; , row.names = 1, header = FALSE , sep = &quot;,&quot; )
+for (i in 1:dim(data)[2]){
+  data[,i] &lt;- data[,i]/sum(data[,i])
+}
 head(data)</code></pre>
-<pre><code>##          V2   V3  V4 V5  V6  V7
-## 2487344 167 2150 108 89 105 113
-## 529     178 3237 107 76  81 128
-## 419475   98 6751  66 37 125  60
-## 571256  121 5854  71 50  71  60
-## 239106   71 3414  55 41  60  64</code></pre>
+<pre><code>##                V2        V3        V4        V5        V6        V7
+## 2487344 0.2629921 0.1004391 0.2653563 0.3037543 0.2375566 0.2658824
+## 529     0.2803150 0.1512193 0.2628993 0.2593857 0.1832579 0.3011765
+## 419475  0.1543307 0.3153789 0.1621622 0.1262799 0.2828054 0.1411765
+## 571256  0.1905512 0.2734747 0.1744472 0.1706485 0.1606335 0.1411765
+## 239106  0.1118110 0.1594880 0.1351351 0.1399317 0.1357466 0.1505882</code></pre>
 <p>##Agrupación de muestras y descarte de “outliers”</p>
 <p>A continuación se agrupan las muestras según los metadatos presentes
 en el archivo “data/fastp_metadat.csv”. En este caso, cada uno de los
@@ -453,7 +466,7 @@ s &lt;- 1 - bc_dist
 s &lt;- as.matrix(s)
 #La función apcluster hace la clusterización
 clustering &lt;- apcluster(s)
-#El objeto de clusterin que nos interesa es el llamado clusters
+#El objeto de clustering que nos interesa es el llamado clusters
 clusters &lt;- clustering@clusters
 #Aquí preguntamos qué clústeres tienen tamaño al menos uno (no outliers) y nos quedamos con el vector de dichas muestras
 filtro_0 &lt;- lapply(clusters, length)
@@ -515,8 +528,7 @@ positiva. En la red final estas aristas serán consideradas de peso
 1.</p>
 <pre class="r"><code>edges &lt;- c()
 for (i in 1:dim(red)[1]) {
-  #if (is.element(red[i,1], data$nodos) &amp;&amp; is.element(red[i,2], data$nodos) &amp;&amp; red[i,3] &gt; 0  ){
-   # edges &lt;- c(edges , i)
+  
   
   if (is.element(red[i,1], data$nodos) &amp;&amp; is.element(red[i,2], data$nodos) &amp;&amp; red[i,3] &gt; 0  ){
     edges &lt;- c(edges , i)
@@ -527,16 +539,12 @@ red &lt;- red[edges, 1:2]</code></pre>
 <p>En las siguientes dos celdas las etiquetas, hasta ahora numéricas, se
 transforman en los dataframes red y data a “strings” del tipo “v_#” para
 simplificar el trabajo con la librería igraph.</p>
-<pre class="r"><code>red &lt;- red + 1
-
-for (i in 1:dim(red)[1]){
+<pre class="r"><code>for (i in 1:dim(red)[1]){
   for (j in 1:dim(red)[2]){
     red[i,j] &lt;- paste(&quot;v_&quot;,as.character(red[i,j]))
   }
 }</code></pre>
-<pre class="r"><code>data$nodos &lt;- data$nodos + 1
-
-for (i in 1:dim(data)[1]){
+<pre class="r"><code>for (i in 1:dim(data)[1]){
   data[i,&quot;nodos&quot;] &lt;- paste(&quot;v_&quot; , as.character(data[i,&quot;nodos&quot;]))
 }</code></pre>
 <p>##Conversión de la red a objeto igraph y obtención de componente
@@ -605,7 +613,7 @@ for (i in 1:dim(data)[1]) {
 data$betweenness &lt;- betweenness_cent</code></pre>
 <p>En la siguiente celda se crean tres copias de data donde las filas
 (OTUs) se ordenan de forma decreciente según las medidas de centralidad.
-Dadas la importancia que estos datos pueden tener para otros análisis, y
+Dadas la importancia que estos datos pueden tener para otros análisis y
 la particular tardanza de su cómputo, estas tres copias se guardan en
 archivos .csv.</p>
 <pre class="r"><code>data_deg &lt;- data[order(data$degrees, decreasing = TRUE),]
@@ -613,29 +621,68 @@ data_close &lt;- data[order(data$closeness , decreasing = TRUE),]
 data_between &lt;- data[order(data$betweenness, decreasing = TRUE),]
 
 data_deg</code></pre>
-<pre><code>##          V2  V4 V5  V6  V7 nodos degrees closeness betweenness
-## 529     178 107 76  81 128  v_ 2       3 0.2000000           1
-## 571256  121  71 50  71  60  v_ 4       3 0.2000000           3
-## 239106   71  55 41  60  64  v_ 5       3 0.2000000           1
-## 2487344 167 108 89 105 113  v_ 1       2 0.1428571           0
-## 419475   98  66 37 125  60  v_ 3       1 0.1250000           0</code></pre>
+<pre><code>##                V2        V4        V5        V6        V7 nodos degrees
+## 529     0.2803150 0.2628993 0.2593857 0.1832579 0.3011765  v_ 1       3
+## 571256  0.1905512 0.1744472 0.1706485 0.1606335 0.1411765  v_ 3       3
+## 239106  0.1118110 0.1351351 0.1399317 0.1357466 0.1505882  v_ 4       3
+## 2487344 0.2629921 0.2653563 0.3037543 0.2375566 0.2658824  v_ 0       2
+## 419475  0.1543307 0.1621622 0.1262799 0.2828054 0.1411765  v_ 2       1
+##         closeness betweenness
+## 529     0.2000000           1
+## 571256  0.2000000           3
+## 239106  0.2000000           1
+## 2487344 0.1428571           0
+## 419475  0.1250000           0</code></pre>
 <pre class="r"><code>data_close</code></pre>
-<pre><code>##          V2  V4 V5  V6  V7 nodos degrees closeness betweenness
-## 529     178 107 76  81 128  v_ 2       3 0.2000000           1
-## 571256  121  71 50  71  60  v_ 4       3 0.2000000           3
-## 239106   71  55 41  60  64  v_ 5       3 0.2000000           1
-## 2487344 167 108 89 105 113  v_ 1       2 0.1428571           0
-## 419475   98  66 37 125  60  v_ 3       1 0.1250000           0</code></pre>
+<pre><code>##                V2        V4        V5        V6        V7 nodos degrees
+## 529     0.2803150 0.2628993 0.2593857 0.1832579 0.3011765  v_ 1       3
+## 571256  0.1905512 0.1744472 0.1706485 0.1606335 0.1411765  v_ 3       3
+## 239106  0.1118110 0.1351351 0.1399317 0.1357466 0.1505882  v_ 4       3
+## 2487344 0.2629921 0.2653563 0.3037543 0.2375566 0.2658824  v_ 0       2
+## 419475  0.1543307 0.1621622 0.1262799 0.2828054 0.1411765  v_ 2       1
+##         closeness betweenness
+## 529     0.2000000           1
+## 571256  0.2000000           3
+## 239106  0.2000000           1
+## 2487344 0.1428571           0
+## 419475  0.1250000           0</code></pre>
 <pre class="r"><code>data_between</code></pre>
-<pre><code>##          V2  V4 V5  V6  V7 nodos degrees closeness betweenness
-## 571256  121  71 50  71  60  v_ 4       3 0.2000000           3
-## 529     178 107 76  81 128  v_ 2       3 0.2000000           1
-## 239106   71  55 41  60  64  v_ 5       3 0.2000000           1
-## 2487344 167 108 89 105 113  v_ 1       2 0.1428571           0
-## 419475   98  66 37 125  60  v_ 3       1 0.1250000           0</code></pre>
-<pre class="r"><code>#write.csv(data_deg,&quot;./redes_correlacion_coocurrencia/results/table.from_tomate_bydegrees.csv&quot;, row.names = TRUE)
-#write.csv(data_close,&quot;./redes_correlacion_coocurrencia/results/table.from_tomate_bycloseness.csv&quot;, row.names = TRUE)
-#write.csv(data_between,&quot;./redes_correlacion_coocurrencia/results/table.from_tomate_bybetweenness.csv&quot;, row.names = TRUE)</code></pre>
+<pre><code>##                V2        V4        V5        V6        V7 nodos degrees
+## 571256  0.1905512 0.1744472 0.1706485 0.1606335 0.1411765  v_ 3       3
+## 529     0.2803150 0.2628993 0.2593857 0.1832579 0.3011765  v_ 1       3
+## 239106  0.1118110 0.1351351 0.1399317 0.1357466 0.1505882  v_ 4       3
+## 2487344 0.2629921 0.2653563 0.3037543 0.2375566 0.2658824  v_ 0       2
+## 419475  0.1543307 0.1621622 0.1262799 0.2828054 0.1411765  v_ 2       1
+##         closeness betweenness
+## 571256  0.2000000           3
+## 529     0.2000000           1
+## 239106  0.2000000           1
+## 2487344 0.1428571           0
+## 419475  0.1250000           0</code></pre>
+<pre class="r"><code>#write.csv(data_deg,&quot;name_bydegree.csv&quot;, row.names = TRUE)
+#write.csv(data_close,&quot;name_bycloseness.csv&quot;, row.names = TRUE)
+#write.csv(data_between,&quot;name_bybetweenness.csv&quot;, row.names = TRUE)</code></pre>
+<p>#Primer reporte de OTUs clave</p>
+<p>A partir de las tablas ordenadas por medidas de centralidad es
+posible conseguir un primer reporte de posibles candidatos a OTU clave.
+Serían los de simultáneamente mayor grado, mayor centralidad de cercanía
+y menor centralidad de intermediación. En esta versión del script
+“mayor” (resp. “menor”) significa significa mayor (resp. ““) a la
+mediana.</p>
+<pre class="r"><code>hdeg &lt;- which(data$degrees &gt;= quantile(data$degrees , probs = seq(0, 1, 0.5))[2])
+hclose &lt;- which(data$closeness &gt;= quantile(data$closeness , probs = seq(0, 1, 0.5))[2])
+lbetween &lt;- which(data$betweenness &lt;= quantile(data$betweenness , probs = seq(0, 1, 0.5))[2])
+
+results_1 &lt;- intersect(hdeg,hclose)
+results_1 &lt;- intersect(results_1 , lbetween)
+data_report_1 &lt;- data[results_1,]
+print(data_report_1)</code></pre>
+<pre><code>##              V2        V4        V5        V6        V7 nodos degrees closeness
+## 529    0.280315 0.2628993 0.2593857 0.1832579 0.3011765  v_ 1       3       0.2
+## 239106 0.111811 0.1351351 0.1399317 0.1357466 0.1505882  v_ 4       3       0.2
+##        betweenness
+## 529              1
+## 239106           1</code></pre>
 <p>#Funciones para la búsqueda de candidatos a especie clave</p>
 <p>La función calcula el área bajo la curva de las medidas de
 centralidad. Sus argumentos son un dataframe, y el nombre de alguna
@@ -643,12 +690,6 @@ medida de centralidad, que debería ser el nombre de una columna del
 dataframe. Su valor es simplemente la suma los valores de dicha
 columna.</p>
 <pre class="r"><code>auc &lt;- function(df, centrality){
-  #sm_p &lt;- 0
-  #for (i in 1:dim(df)[1]) {
-  #f_i = df[i, centrality]
-  #if (is.nan(f_i) == FALSE)
-  #{sm_p = sm_p + f_i}
-#}
   sm_p &lt;- sum(df[,centrality],na.rm = TRUE)
 return(sm_p)}</code></pre>
 <p>El objetivo de la siguiente función es encontrar el “intervalo”
@@ -718,12 +759,12 @@ muestras y una lista de los grupos. Su valor es el estadístico.</p>
   
   return(f_stat)
 }</code></pre>
-<p>#Intervalos de n*5% de área bajo la curva y varianza
+<p>#Intervalos de n*33.33% de área bajo la curva y varianza
 correspondiente</p>
 <p>En las siguientes celdas de código se calculan finalmente los
-intervalos de OTUs correspondientes a n*5% (con n entre 1 y 20) del área
-bajo la curva por medida de centralidad. En cada caso se guardan en un
-vector las longitudes de dichos intervalos.</p>
+intervalos de OTUs correspondientes a n*33.33% (con n entre 1 y 3) del
+área bajo la curva por medida de centralidad. En cada caso se guardan en
+un vector las longitudes de dichos intervalos.</p>
 <pre class="r"><code>area_deg &lt;- auc(data_deg , &quot;degrees&quot;)
 auc5_percent_deg &lt;- c()
 for (x in 1:3){
@@ -763,10 +804,10 @@ for (i in auc5_percent_deg){
 
 analisis_auc_deg &lt;- data.frame(auc5_percent_deg, f_stat_deg , var_deg)
 analisis_auc_deg</code></pre>
-<pre><code>##   auc5_percent_deg f_stat_deg    var_deg
-## 1                2   2.399170         NA
-## 2                3   2.009552 0.07590095
-## 3                5   1.255705 0.33793320</code></pre>
+<pre><code>##   auc5_percent_deg  f_stat_deg    var_deg
+## 1                2  0.06771791         NA
+## 2                3  0.47692407 0.08372484
+## 3                5 -0.12596812 0.09474049</code></pre>
 <pre class="r"><code>#write.csv(analisis_auc_deg, &quot;./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bydegrees.csv&quot;)</code></pre>
 <pre class="r"><code>f_stat_close &lt;- c()
 var_close &lt;- c()
@@ -783,9 +824,9 @@ for (i in auc5_percent_close){
 analisis_auc_close &lt;- data.frame(auc5_percent_close, f_stat_close , var_close)
 analisis_auc_close</code></pre>
 <pre><code>##   auc5_percent_close f_stat_close  var_close
-## 1                  2     2.399170         NA
-## 2                  3     2.009552 0.07590095
-## 3                  5     1.255705 0.33793320</code></pre>
+## 1                  2   0.06771791         NA
+## 2                  3   0.47692407 0.08372484
+## 3                  5  -0.12596812 0.09474049</code></pre>
 <pre class="r"><code>#write.csv(analisis_auc_close, &quot;./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bycloseness.csv&quot;)</code></pre>
 <pre class="r"><code>f_stat_between &lt;- c()
 var_between &lt;- c()
@@ -801,10 +842,51 @@ for (i in auc5_percent_between){
 analisis_auc_between &lt;- data.frame(auc5_percent_between, f_stat_between , var_between)
 analisis_auc_between</code></pre>
 <pre><code>##   auc5_percent_between f_stat_between var_between
-## 1                    1       3.678187          NA
-## 2                    2       2.399170   0.8179424
-## 3                    3       2.009552   0.7620048</code></pre>
+## 1                    1     2.76778926          NA
+## 2                    2     0.06771791    3.645193
+## 3                    3     0.47692407    2.117650</code></pre>
 <pre class="r"><code>#write.csv(analisis_auc_between, &quot;./redes_correlacion_coocurrencia/results/tomate_analisis_auc_bybetweenness.csv&quot;)</code></pre>
+<p>Las últimas celdas nos proveen de un segundo reporte de OTUs clave
+consistente de los OTUs que por medida de centralidad maximicen el valor
+del esatdístico pseudo-F y minimicen la varianza acumulada. En esta
+versión del script esto se logró maximizando la resta de el valor del
+estadístico menos la varianza. En las siguientes tres celdas se muestra
+este proceso para cada medida de centralidad. En la variable n_auc_. se
+guarda la cantidad de OTUs de centralidad mayor que serán considerados
+para el segundo reporte.</p>
+<pre class="r"><code>analisis_auc_deg &lt;- analisis_auc_deg[2:dim(analisis_auc_deg)[1],]
+n_auc_deg &lt;- which((analisis_auc_deg[,2] - analisis_auc_deg[,3]) == max(analisis_auc_deg[,2] - analisis_auc_deg[,3]))
+n_auc_deg &lt;- n_auc_deg + 1
+n_auc_deg &lt;- auc5_percent_deg[n_auc_deg]</code></pre>
+<pre class="r"><code>analisis_auc_close &lt;- analisis_auc_close[2:dim(analisis_auc_close)[1],]
+n_auc_close &lt;- which((analisis_auc_close[,2] - analisis_auc_close[,3]) == max(analisis_auc_close[,2] - analisis_auc_close[,3]))
+n_auc_close &lt;- n_auc_close + 1
+n_auc_close &lt;- auc5_percent_close[n_auc_close]</code></pre>
+<pre class="r"><code>analisis_auc_between &lt;- analisis_auc_between[2:dim(analisis_auc_between)[1],]
+n_auc_between &lt;- which((analisis_auc_between[,2] - analisis_auc_between[,3]) == max(analisis_auc_between[,2] - analisis_auc_between[,3]))
+n_auc_between &lt;- n_auc_between + 1
+n_auc_between &lt;- auc5_percent_between[n_auc_between]</code></pre>
+<p>En esta última celda se guardan los nombres de los OTUs elegidos en
+las celdas elegidas, se unen y se usan para filtrar los OTUs clave en el
+dataframe data.</p>
+<pre class="r"><code>results_2_deg &lt;- row.names(data_deg[1:n_auc_deg,])
+results_2_close &lt;- row.names(data_close[1:n_auc_close,])
+results_2_between &lt;- row.names(data_between[1:n_auc_between,])
+
+results_2 &lt;- union(results_2_deg , results_2_close)
+results_2 &lt;- union(results_2 , results_2_between)
+
+data_report_2 &lt;- data[results_2,]
+print(data_report_2)</code></pre>
+<pre><code>##               V2        V4        V5        V6        V7 nodos degrees
+## 529    0.2803150 0.2628993 0.2593857 0.1832579 0.3011765  v_ 1       3
+## 571256 0.1905512 0.1744472 0.1706485 0.1606335 0.1411765  v_ 3       3
+## 239106 0.1118110 0.1351351 0.1399317 0.1357466 0.1505882  v_ 4       3
+##        closeness betweenness
+## 529          0.2           1
+## 571256       0.2           3
+## 239106       0.2           1</code></pre>
+<pre class="r"><code>#write.csv(data_report_2 , paste0(&quot;./results/&quot;,report_2) , row.names = TRUE)</code></pre>
 
 
 
