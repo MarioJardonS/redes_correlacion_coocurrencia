@@ -19,15 +19,15 @@ library(plyr)
 if (!require(stringr)) install.packages('stringr')
 library(stringr)
 
-
-
+setwd("..")
+setwd("..")
+getwd()
 ```
+
 
 ```{r}
 getwd()
-```
-```{r}
-rizosfera_chile <- import_biom("./chile.txt_9.biom") #, row.names = 1, header = TRUE , sep = "" )
+rizosfera_chile <- import_biom("./data/biom/chile.txt_9.biom") #, row.names = 1, header = TRUE , sep = "" )
 otus_totales_especie <- as.vector(rizosfera_chile@tax_table@.Data[,"Rank7"])
 otus_totales <- length(otus_totales_especie)
 otus_totales_especie <- otus_totales_especie[ otus_totales_especie != "s__"]
