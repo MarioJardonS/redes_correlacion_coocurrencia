@@ -4,11 +4,6 @@ output: html_document
 date: '2023-08-21'
 ---
 
-```{r, setup, include=FALSE}
-knitr::opts_knit$set(root.dir = "/home/mario/proyecto_redes/redes_correlacion_correspondencia")
-getwd()
-```
-
 
 ```{r}
 
@@ -25,9 +20,7 @@ library(plyr)
 if (!require(stringr)) install.packages('stringr')
 library(stringr)
 
-setwd("..")
-setwd("..")
-getwd()
+
 ```
 
 
