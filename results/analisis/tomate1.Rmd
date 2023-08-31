@@ -34,7 +34,7 @@ Esta primera función normaliza las muestras, exluye otus presentes en pocas mue
 
 ```{r}
 
-otus_excluidos_y_no <- function( data , metadata , rizosfera){
+otus_excluidos_y_no <- function( data , metadata ){
   for (i in 1:dim(data)[2]){
   data[,i] <- data[,i]/sum(data[,i])
 }
@@ -115,7 +115,7 @@ otus_excluidos_y_no <- function( data , metadata , rizosfera){
       filt_0 <- c(filt_0 , i)
     }
   }
-return( list( data[ filt , ] , rizosfera@tax_table@.Data[  filt_0 ,]  ))
+return( list( data[filt ,]  ,   filt_0   ))
 }
 
 
@@ -125,9 +125,9 @@ La siguiente función encuentra la mayor componente conexa de las redes. Su valo
 
 ```{r}
 
-otus_aislados <- function( network , data ){
-  red <- read.csv(network)
-  red = red[,1:3]
+componente_y_otus_aislados <- function( red , data ){
+  
+  red <- red[,1:3]
 
   edges <- c()
   for (i in 1:dim(red)[1]) {
@@ -170,13 +170,13 @@ otus_aislados <- function( network , data ){
   filtro_componente <- c()
   filtro_no_componente <- c()
   for (i in 1:dim(data)[1]){
-    if(is.element(data[i,"nodos"],compo_princ)){
-      filtro_componente <- c(filtro_componente, i)
-    } else {filtro_no_componente <- c(filtro_no_componente , i)}
+    if(is.element(data[i,"nodos"] , compo_princ)){
+      filtro_componente <- c(filtro_componente, row.names(data)[i])
+    } else {filtro_no_componente <- c(filtro_no_componente , row.names(data)[i])}
   }
 
 
-  return(list(data[ filtro_componente , ] , data[ filtro_no_componente, ]))
+  return(list( induced_subgraph(net_work, compo_princ ,"auto"),  filtro_no_componente ))
 }
 
 ```
@@ -184,6 +184,7 @@ otus_aislados <- function( network , data ){
 
 
 #Otus asignados y no a especie, filtrados y aislados 
+
 
 ```{r}
 muestras <- c("chile", "tomate" , "maiz")
@@ -200,9 +201,9 @@ rizosferas <- list( rizosfera_chile , rizosfera_tomate , rizosfera_maiz )
 
 
 ```{r}
-otus_asignados_a_especie_percent <- function( rizosfera ) { 
-  total <- length(rizosfera@tax_table@.Data[ , "Rank7"])
-  vector_especies <- rizosfera@tax_table@.Data[ , "Rank7"]
+otus_asignados_a_especie_percent <- function( taxtable ) { 
+  total <- length( taxtable[ , "Rank7"])
+  vector_especies <- taxtable[ , "Rank7"]
   vector_especies <- vector_especies[ vector_especies != "s__" ]
   vector_especies <- vector_especies[ str_sub( vector_especies , -3 , 1) != "sp."]
   porcentaje <- (length(vector_especies) * 100)/total
@@ -216,10 +217,13 @@ En nuestras muestras alrededor del 87% de los otus fue asignado a alguna especie
 ```{r}
 for (i in 1:length(muestras)){
   
-  print(paste0( "El ", as.character(otus_asignados_a_especie_percent( rizosferas[[i]] )) , " por ciento de los otus de rizósfera de ", muestras[i] , " fue asignado a especie." ))
+  print(paste0( "El ", as.character(otus_asignados_a_especie_percent( rizosferas[[i]]@tax_table@.Data )) , " por ciento de los otus de rizósfera de ", muestras[i] , " fue asignado a especie." ))
   
   }
 ```
+
+##Filtración de Otus presentes en pocas muestras y de muestras distantes
+
 ```{r}
 data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
 data_tomate <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
@@ -242,16 +246,26 @@ Aquí se obtienen las matrices de las muestras sobre las que se construyeron las
 
 taxa_excluidos <- list()
 for (i in 1:length(data)){
-  filtros <- otus_excluidos_y_no(data[[i]] , metadata[[i]] , rizosferas[[i]])
-  data[[i]] <- filtros[[1]]
-   
-  taxa_excluidos[[i]] <- filtros[[2]]
+  filtros <- otus_excluidos_y_no(data[[i]] , metadata[[i]] )
+  data[[i]] <- filtros[[1]] 
+    
+  taxa_excluidos[[i]] <- rizosferas[[i]]@tax_table@.Data[ filtros[[2]] , ]
 }
 ``` 
 
-##Otus excluidos de las muestras de chile 
+##Otus excluidos
 
-En la siguiente celda se imprimen las familias y abundancias de los otus excluidos de las muestras de rizósfera de chile. La mayoría de las familias corresponden a virus, con una importante presencia de Sphaerobacteraceae y endosimbiontes de insectos (reflejo de la composición general ? )
+En las celdas de esta sección se imprimen las familias, y los géneros más abundantes (>20), de los otus excluidos para cada una de las especies vegetales. Como consideración general se menciona que las familias consisten principalmente de virus, endosimbiontes de insectos y Sphaerobacteraceae (estos últimos como reflejo de la composición general ? ). A nivel género se observan bacterias del complejo Citrobacter freundii y del género Vibrio diabolicus así como amebas  Dictyostelium, en las tres especies vegetales. En la siguiente celda se imprimen los porcentajes de asignación de especie a los otus excluidos que son menores a las de las muestras en general. 
+
+
+```{r}
+for (i in 1:3){
+  print(otus_asignados_a_especie_percent( taxa_excluidos[[i]] ))
+}
+```
+
+###Otus excluidos de las muestras de chile 
+
 
 ```{r}
 familias_excluidas <- c()
@@ -262,7 +276,6 @@ names(familias_excluidas) <- unique(taxa_excluidos[[1]][ , "Rank5"])
 
 familias_excluidas
 ```
-Así mismo se imprimen los géneros más abundantes de dichos otus excluidos. Se observan amebas (Dictyostelium), y virus que afectan a animales (Orbivirus)
 
 ```{r}
 generos_excluidos <- c()
@@ -273,24 +286,80 @@ names(generos_excluidos) <- unique(taxa_excluidos[[1]][ , "Rank6"])
 generos_excluidos <- generos_excluidos[ generos_excluidos > 20]
 generos_excluidos
 ```
+###Otus excluidos de las muestras de tomate 
 
-Vibrio diabolicus(mar)
+En la siguiente celda se imprimen las familias y abundancias de los otus excluidos de las muestras de rizósfera de chile. La mayoría de las familias corresponden a virus, con una importante presencia de Sphaerobacteraceae y endosimbiontes de insectos (reflejo de la composición general ? )
 
 ```{r}
+familias_excluidas <- c()
 
-otus_asignados_a_especie_percent()
+for (i in unique(taxa_excluidos[[2]][, "Rank5"])){ familias_excluidas <-c(familias_excluidas , length(taxa_excluidos[[2]][, "Rank5"][ taxa_excluidos[[2]][,"Rank5"] == i] ))}
+
+names(familias_excluidas) <- unique(taxa_excluidos[[2]][ , "Rank5"])
+
+familias_excluidas
+```
+
+```{r}
+generos_excluidos <- c()
+
+for (i in unique(taxa_excluidos[[2]][, "Rank6"])){ generos_excluidos <-c(generos_excluidos , length(taxa_excluidos[[2]][, "Rank6"][taxa_excluidos[[2]][,"Rank6"] == i] ))}
+
+names(generos_excluidos) <- unique(taxa_excluidos[[2]][ , "Rank6"])
+generos_excluidos <- generos_excluidos[ generos_excluidos > 20]
+generos_excluidos
+```
+###Otus excluidos de las muestras de tomate 
+
+```{r}
+familias_excluidas <- c()
+
+for (i in unique(taxa_excluidos[[3]][, "Rank5"])){ familias_excluidas <-c(familias_excluidas , length(taxa_excluidos[[3]][, "Rank5"][ taxa_excluidos[[3]][,"Rank5"] == i] ))}
+
+names(familias_excluidas) <- unique(taxa_excluidos[[3]][ , "Rank5"])
+
+familias_excluidas
+```
+
+```{r}
+generos_excluidos <- c()
+
+for (i in unique(taxa_excluidos[[3]][, "Rank6"])){ generos_excluidos <-c(generos_excluidos , length(taxa_excluidos[[3]][, "Rank6"][taxa_excluidos[[3]][,"Rank6"] == i] ))}
+
+names(generos_excluidos) <- unique(taxa_excluidos[[3]][ , "Rank6"])
+generos_excluidos <- generos_excluidos[ generos_excluidos > 20]
+generos_excluidos
+```
+##Otus aislados
+
+```{r}
+red_chile <- read.csv("../../data/networks/chile_species_raw_network.csv")
+red_tomate <- read.csv("../../data/networks/tomate_species_raw_network.csv")
+red_maiz <- read.csv("../../data/networks/maiz_species_raw_network.csv")
+
+redes <- list(red_chile , red_tomate , red_maiz)
 ```
 
 
 ```{r}
-total_aislados <- length(matriz_aislados[ ,"Rank7"])
-especies_aisladas_no_asignadas <- as.vector(matriz_aislados[ , "Rank7"])
-especies_aisladas_no_asignadas0 <- especies_aisladas_no_asignadas[ especies_aisladas_no_asignadas == "s__"]
-especies_aisladas_no_asignadas1 <- especies_aisladas_no_asignadas[ str_sub( especies_aisladas_no_asignadas , -3 ,-1 ) == "sp."]
-otus_aislados_no_asignados_a_especie <- (length(especies_aisladas_no_asignadas0) + length(especies_aisladas_no_asignadas1))
-print(paste0("El " , as.character((otus_aislados_no_asignados_a_especie*100)/total_aislados) , " por ciento de los otus aislados no fue asignado a especie" ) )
-
+taxa_aislados <- list()
+for (i in 1:3){
+  filtros <- componente_y_otus_aislados(redes[[i]] , data[[i]] )
+  redes[[i]] <- filtros[[1]] 
+  #print(filtros[[2]])  
+  taxa_aislados[[i]] <- rizosferas[[i]]@tax_table@.Data[ filtros[[2]] , ]
+}
 ```
+
+
+```{r}
+for (i in 1:3){
+  print(paste0("Familias aisladas de las muestras de " , muestras [i]) )
+  print((unique(taxa_aislados[[i]][,"Rank5"])))
+}
+```
+
+
 
 
 ```{r}
