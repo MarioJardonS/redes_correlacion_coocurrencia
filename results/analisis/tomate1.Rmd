@@ -34,7 +34,7 @@ Esta primera función normaliza las muestras, exluye otus presentes en pocas mue
 
 ```{r}
 
-otus_excluidos_y_no <- function( data , metadata){
+otus_excluidos_y_no <- function( data , metadata , rizosfera){
   for (i in 1:dim(data)[2]){
   data[,i] <- data[,i]/sum(data[,i])
 }
@@ -115,7 +115,7 @@ otus_excluidos_y_no <- function( data , metadata){
       filt_0 <- c(filt_0 , i)
     }
   }
-return( list(  data[ filt , ] , data[filt_0 ,] ))
+return( list( data[ filt , ] , rizosfera@tax_table@.Data[  filt_0 ,]  ))
 }
 
 
@@ -194,7 +194,7 @@ rizosfera_chile <- import_biom("../../data/biom/chile.txt_9.biom")
 rizosfera_tomate <- import_biom("../../data/biom/tomate.txt_9.biom") 
 rizosfera_maiz <- import_biom("../../data/biom/maiz.txt_9.biom") 
 
-rizosferas <- c( rizosfera_chile , rizosfera_tomate , rizosfera_maiz )
+rizosferas <- list( rizosfera_chile , rizosfera_tomate , rizosfera_maiz )
 
 ```
 
@@ -229,78 +229,56 @@ data <- list( data_chile , data_tomate , data_maiz)
 ```
 
 ```{r}
-metadata_chile <- read.csv("../../data/metadata/metadata_chile.csv")
-metadata_tomate <- read.csv("../../data/metadata/metadata_tomate.csv")
-metadata_maiz <- read.csv("../../data/metadata/metadata_maiz.csv")
+metadata_chile <- read.csv("../../data/metadata/metadata_chile.csv" , colClasses = "character")
+metadata_tomate <- read.csv("../../data/metadata/metadata_tomate.csv" , colClasses = "character")
+metadata_maiz <- read.csv("../../data/metadata/metadata_maiz.csv" , colClasses = "character")
 
 metadata <- list(metadata_chile , metadata_tomate , metadata_maiz)
 ```
 
-Aquí se obtienen 
+Aquí se obtienen las matrices de las muestras sobre las que se construyeron las redes así como las matrices de con los otus excluidos de la red. 
 
 ```{r}
-data_excluidos <- list()
+
+taxa_excluidos <- list()
 for (i in 1:length(data)){
-  filtros <- otus_excluidos_y_no(data[[i]] , metadata[[i]])
+  filtros <- otus_excluidos_y_no(data[[i]] , metadata[[i]] , rizosferas[[i]])
   data[[i]] <- filtros[[1]]
-  data_excluidos[[i]] <- filtros[[2]]
+   
+  taxa_excluidos[[i]] <- filtros[[2]]
 }
 ``` 
 
+##Otus excluidos de las muestras de chile 
+
+En la siguiente celda se imprimen las familias y abundancias de los otus excluidos de las muestras de rizósfera de chile. La mayoría de las familias corresponden a virus, con una importante presencia de Sphaerobacteraceae y endosimbiontes de insectos (reflejo de la composición general ? )
+
 ```{r}
+familias_excluidas <- c()
 
+for (i in unique(taxa_excluidos[[1]][, "Rank5"])){ familias_excluidas <-c(familias_excluidas , length(taxa_excluidos[[1]][, "Rank5"][ taxa_excluidos[[1]][,"Rank5"] == i] ))}
 
-
-
-
-
-matriz_aislados <- matriz_filtro[filtro_no_componente,]
-matriz_aislados
-```
-
-
-
-data <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
-
-
-matriz_excluidos <- rizosfera@tax_table@.Data[filt_0,]
-matriz_filtro <-rizosfera@tax_table@.Data[filt,]
-
-data <- data[filt,]
-
-
-
-
-
-for (i in unique(matriz_excluidos[, "Rank5"])){ familias_excluidas <-c(familias_excluidas , length(matriz_excluidos[, "Rank5"][matriz_excluidos[,"Rank5"] == i] ))}
-
-names(familias_excluidas) <- unique(matriz_excluidos[ , "Rank5"])
+names(familias_excluidas) <- unique(taxa_excluidos[[1]][ , "Rank5"])
 
 familias_excluidas
 ```
-
+Así mismo se imprimen los géneros más abundantes de dichos otus excluidos. Se observan amebas (Dictyostelium), y virus que afectan a animales (Orbivirus)
 
 ```{r}
 generos_excluidos <- c()
 
-for (i in unique(matriz_excluidos[, "Rank6"])){ generos_excluidos <-c(generos_excluidos , length(matriz_excluidos[, "Rank6"][matriz_excluidos[,"Rank6"] == i] ))}
+for (i in unique(taxa_excluidos[[1]][, "Rank6"])){ generos_excluidos <-c(generos_excluidos , length(taxa_excluidos[[1]][, "Rank6"][taxa_excluidos[[1]][,"Rank6"] == i] ))}
 
-names(generos_excluidos) <- unique(matriz_excluidos[ , "Rank6"])
+names(generos_excluidos) <- unique(taxa_excluidos[[1]][ , "Rank6"])
 generos_excluidos <- generos_excluidos[ generos_excluidos > 20]
 generos_excluidos
 ```
-Orbivirus(animales)
+
 Vibrio diabolicus(mar)
-Dictyostelium (amebas)
 
 ```{r}
-otus_totales_excluidos <- length(matriz_excluidos[ ,"Rank7"])
-especies_excluidas_no_asignadas <- as.vector(matriz_excluidos[ , "Rank7"])
-especies_excluidas_no_asignadas0 <- especies_excluidas_no_asignadas[ especies_excluidas_no_asignadas == "s__"]
-especies_excluidas_no_asignadas1 <- especies_excluidas_no_asignadas[ str_sub( especies_excluidas_no_asignadas , -3 ,-1 ) == "sp."]
-otus_no_asignados_a_especie <- (length(especies_excluidas_no_asignadas0) + length(especies_excluidas_no_asignadas1))
-print(paste0("El " , as.character((otus_no_asignados_a_especie*100)/otus_totales_excluidos ) , " por ciento de los otus excluidos no fue asignado a especie" ) )
 
+otus_asignados_a_especie_percent()
 ```
 
 
