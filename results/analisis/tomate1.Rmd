@@ -378,6 +378,14 @@ otus_centrales_maiz <- read.csv("../central_otus/reporte_maiz1.csv" , row.names 
 otus_centrales <- list(otus_centrales_chile , otus_centrales_tomate , otus_centrales_maiz)
 ```
 
+Los o
+
+```{r}
+for (i in 1:3){
+  print(paste0( "Para rizósfera de " , muestras[i] , " se consideraron OTUs de grado mayor o igual a " , as.character(min(otus_centrales[[i]]$degrees )) , ", cercanía mayor o igual a " , as.character(min(otus_centrales[[i]]$closeness )) , " e intermediación menor o igual a " , as.character(max(otus_centrales[[i]]$betweenness)) , "." ))
+}
+```
+
 ```{r}
 taxa_centrales <- list()
 for (i in 1:3){
@@ -416,18 +424,27 @@ for (i in 1:3){
 
 Aquí se enlistan las especies correspondientes a las muestras de chile. 
 
-Burkholderia_ (fijar nitrogeno)
+Burkholderia_ (fijar nitrogeno) Burkholderia metallica (erosion de metales)
+Advenella mimigardefordensis (able to significantly improve levels of assimilated phosphate)Plant Productivity 
+Sutterella faecalis (heces humanas)
+Eikenella corrodens (cáncer humano?)
+Serratia sp. MYb239 propuesta como especie Serratia rhizosphaerae sp. nov., a novel plant resistance inducer against soft rot disease in tobacco
 Marinobacter (metanotrófica)
-Methylovulum psychrotolerans (metanotrófico)
+Methylovulum psychrotolerans (metanotrófico, adaptado al frío?)
+Desulfomonile tiedjei (deshalogenante degradador de compuestos tóxicos)
+Paenibacillus chitinolyticus(fijar nitrogeno)
+Nitrosopumilus oxyclinae(solubilización de fosfato)
+Spodoptera exigua multiple nucleopolyhedrovirus (plaguicida)
+
 Desulfovibrio carbinolicus (reductor de sulfato)
-Desulfomonile tiedjei (deshalogenante)
-Paenibacillus (fijar nitrogeno)
+
+
 Methanococcus maripaludis (metanogeno)
 Nitrosopumilus (oxidacion de amonio)
 Spodoptera exigua multiple nucleopolyhedrovirus (plaguicida)
 
 ```{r}
-print(taxa_centrales[[1]][ , "Rank7"])
+print(taxa_centrales[[1]][ , c("Rank6" ,"Rank7" )])
 ```
 
 En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. 
@@ -473,8 +490,17 @@ plot(red_otus_no_centrales_chile)
 
 Aquí se enlistan las especies correspondientes a las muestras de tomate. 
 
+Pseudomonas( Buen colonizador de raíces que se ha psotulado para controlar Ralstonia solanacearum  )
+Paraburkholderia (fijar nitrogeno  Paraburkholderia spp., are able to improve the macro- and micro-nutrients uptakes by the plants.graminis C4D1M improved tomato seedling re-growth and reduced cell membrane injuries  PG inoculation induced
+the expression of five genes (Solyc05g007630.3.1, Solyc07g049700.1.1, Solyc05g013260.3.1,
+Solyc09g098100.4.1, Solyc05g005130.3.1) coding for putative late blight resistance protein)
+Pseudarnobacter junto con Candidatus Nitrosocosmicus también "centrales" de la canola.
+Pseudarthrobacter chlorophenolicus potencial de biofertilizante para tomate (fijar nitrógeno)
+Pirellula staleyi( which can degrade putrescine exudate from plant roots visto como importante en rizósfera de granada) 
+
 ```{r}
-print(taxa_centrales[[2]][ , "Rank7"])
+#print(taxa_centrales[[2]][ , "Rank6"])
+print(taxa_centrales[[2]][ , c( "Rank6" ,"Rank7")])
 ```
 
 En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
@@ -519,10 +545,16 @@ plot(red_otus_no_centrales_tomate)
 
 ##Primer reporte de maiz
 
-Aquí se enlistan las especies correspondientes a las muestras de tomate. 
+Aquí se enlistan las especies correspondientes a las muestras de maiz. 
+
+Phoenicibacter congonensis( microbiota intestinal humana )
+Bacillus glycinifermentans(solubilizacion de zinc, reportado como estimulante de crecimiento de raíz y tallo en trigo)
+
+Ralstonia solanacearum(patógeno conocido)
+Erwinia persicina (produces large amounts of mucilaginous exopolysaccharides on King’s B ciertas cepas mejora de alfalfa , this fungal species is mainly responsible for the accumulation of the mycotoxin disminuye virulence factor deoxynivalenol (DON).)
 
 ```{r}
-print(taxa_centrales[[3]][ , "Rank7"])
+print(taxa_centrales[[3]][ , c( "Rank6" ,"Rank7")])
 ```
 
 En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
