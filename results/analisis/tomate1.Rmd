@@ -39,10 +39,6 @@ otus_excluidos_y_no <- function( data , metadata ){
   data[,i] <- data[,i]/sum(data[,i])
 }
 
-
-
-
-  
   r_n_metadata <- metadata[,1] 
   for (i in 1:length(r_n_metadata)){
     r_n_metadata[i] <- make.names(r_n_metadata[i])
@@ -50,13 +46,10 @@ otus_excluidos_y_no <- function( data , metadata ){
   metadata[,1] <- r_n_metadata
   colnames(metadata) <- c("ID","Grupos")
 
-
-
   n_grupos <- unique(metadata[,"Grupos"])
   n_grupos <- setdiff( n_grupos , c(NA) )#parche
   vector_no_na <- which(is.na(metadata[,"Grupos"]) == FALSE)
   metadata <- metadata[vector_no_na,]
-
 
   grupos <- list()
   for (i in 1:(length(n_grupos))){
@@ -68,9 +61,6 @@ otus_excluidos_y_no <- function( data , metadata ){
     }
     grupos[[i]] <- grupos_i
   }
-
-
-
 
 
   bc_dist <- vegdist(t(data), method = "bray")
@@ -86,8 +76,6 @@ otus_excluidos_y_no <- function( data , metadata ){
   no_outliers <- names(no_outliers)
   data <- data[,no_outliers]
 
-
-
   for (i in 1:length(grupos)){
     grupos[[i]] <- intersect(grupos[[i]], no_outliers)
   }
@@ -97,11 +85,7 @@ otus_excluidos_y_no <- function( data , metadata ){
   len_list <- which(len_list > 1)
   grupos <- grupos[len_list]
 
-
-
-
   data$nodos <- 0:(dim(data)[1]-1)
-
 
   filt <- c()
   filt_0 <- c()
@@ -117,8 +101,6 @@ otus_excluidos_y_no <- function( data , metadata ){
   }
 return( list( data[filt ,]  ,   filt_0   ))
 }
-
-
 ```
 
 La siguiente función encuentra la mayor componente conexa de las redes. Su valor son una red del tipo de los archivos de la carpeta /data/networks/ y las tablas de muestras, de preferencia ya filtrados. Su valor son las tablas restringidos a las componentes y la tabla de otus "aislados". 
@@ -144,19 +126,11 @@ componente_y_otus_aislados <- function( red , data ){
     }
   }
 
-
-
-
   for (i in 1:dim(data)[1]){
     data[i,"nodos"] <- paste0("v_" , as.character(data[i,"nodos"]))
   }
 
-
-
-
   net_work <- graph_from_edgelist(as.matrix(red) , directed = FALSE )
-
-
 
   compo_conexas <- components(net_work)
   size_compo_conexas <- compo_conexas$csize
@@ -164,8 +138,6 @@ componente_y_otus_aislados <- function( red , data ){
   pertenencia <- compo_conexas$membership
   compo_princ <- which(pertenencia == princ )
   compo_princ <- names(compo_princ)
-
-
 
   filtro_componente <- c()
   filtro_no_componente <- c()
@@ -175,16 +147,11 @@ componente_y_otus_aislados <- function( red , data ){
     } else {filtro_no_componente <- c(filtro_no_componente , row.names(data)[i])}
   }
 
-
   return(list( induced_subgraph(net_work, compo_princ ,"auto"),  filtro_no_componente ))
 }
-
 ```
 
-
-
 #Otus asignados y no a especie, filtrados y aislados 
-
 
 ```{r}
 muestras <- c("chile", "tomate" , "maiz")
@@ -196,23 +163,20 @@ rizosfera_tomate <- import_biom("../../data/biom/tomate.txt_9.biom")
 rizosfera_maiz <- import_biom("../../data/biom/maiz.txt_9.biom") 
 
 rizosferas <- list( rizosfera_chile , rizosfera_tomate , rizosfera_maiz )
-
 ```
-
 
 ```{r}
 otus_asignados_a_especie_percent <- function( taxtable ) { 
   total <- length( taxtable[ , "Rank7"])
   vector_especies <- taxtable[ , "Rank7"]
   vector_especies <- vector_especies[ vector_especies != "s__" ]
-  vector_especies <- vector_especies[ str_sub( vector_especies , -3 , 1) != "sp."]
+  vector_especies <- vector_especies[ str_sub( vector_especies , -3 , 1) != "sp." ]
   porcentaje <- (length(vector_especies) * 100)/total
   return(porcentaje)
   }
 ```
 
 En nuestras muestras alrededor del 87% de los otus fue asignado a alguna especie. 
-
 
 ```{r}
 for (i in 1:length(muestras)){
@@ -222,7 +186,7 @@ for (i in 1:length(muestras)){
   }
 ```
 
-##Filtración de Otus presentes en pocas muestras y de muestras distantes
+##Filtración de OTUs presentes en pocas muestras y de muestras distantes
 
 ```{r}
 data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
@@ -243,7 +207,6 @@ metadata <- list(metadata_chile , metadata_tomate , metadata_maiz)
 Aquí se obtienen las matrices de las muestras sobre las que se construyeron las redes así como las matrices de con los otus excluidos de la red. 
 
 ```{r}
-
 taxa_excluidos <- list()
 for (i in 1:length(data)){
   filtros <- otus_excluidos_y_no(data[[i]] , metadata[[i]] )
@@ -257,7 +220,6 @@ for (i in 1:length(data)){
 
 En las celdas de esta sección se imprimen las familias, y los géneros más abundantes (>20), de los otus excluidos para cada una de las especies vegetales. Como consideración general se menciona que las familias consisten principalmente de virus, endosimbiontes de insectos y Sphaerobacteraceae (estos últimos como reflejo de la composición general ? ). A nivel género se observan bacterias del complejo Citrobacter freundii y del género Vibrio diabolicus así como amebas  Dictyostelium, en las tres especies vegetales. En la siguiente celda se imprimen los porcentajes de asignación de especie a los otus excluidos que son menores a las de las muestras en general. 
 
-
 ```{r}
 for (i in 1:3){
   print(otus_asignados_a_especie_percent( taxa_excluidos[[i]] ))
@@ -265,7 +227,6 @@ for (i in 1:3){
 ```
 
 ###Otus excluidos de las muestras de chile 
-
 
 ```{r}
 familias_excluidas <- c()
@@ -287,8 +248,6 @@ generos_excluidos <- generos_excluidos[ generos_excluidos > 20]
 generos_excluidos
 ```
 ###Otus excluidos de las muestras de tomate 
-
-En la siguiente celda se imprimen las familias y abundancias de los otus excluidos de las muestras de rizósfera de chile. La mayoría de las familias corresponden a virus, con una importante presencia de Sphaerobacteraceae y endosimbiontes de insectos (reflejo de la composición general ? )
 
 ```{r}
 familias_excluidas <- c()
@@ -344,13 +303,13 @@ redes <- list(red_chile , red_tomate , red_maiz)
 ```{r}
 taxa_aislados <- list()
 for (i in 1:3){
+
   filtros <- componente_y_otus_aislados(redes[[i]] , data[[i]] )
+  #print(V(filtros[[1]]))
   redes[[i]] <- filtros[[1]] 
-  #print(filtros[[2]])  
   taxa_aislados[[i]] <- rizosferas[[i]]@tax_table@.Data[ filtros[[2]] , ]
 }
 ```
-
 
 ```{r}
 for (i in 1:3){
@@ -359,12 +318,12 @@ for (i in 1:3){
 }
 ```
 
-#Otus centrales, primer reporte
+#Otus centrales
 
 En esta sección se cargan los primeros reportes de otus_centrales, que se obtuvieron con alto grado y alta cercanía, mezclada con baja centralidad de intermediación. Todas las tablas consisten de relativamente pocos otus (16, 37 , 8). A nivel familia los tres tipos de muestras tienen en común son bacterias de:
 
 * El grupo Chlorobium/Pelodictyon (oxidantes del azufre) y 
-*El subcluster Luna-1 (actinobacterial strains from freshwater systems tend to form mixed colonies together with strains of Spirochaeta, Hylemonella, Polynucleobacter or other taxa https://doi.org/10.1099/ijsem.0.004825). 
+* El subcluster Luna-1 (actinobacterial strains from freshwater systems tend to form mixed colonies together with strains of Spirochaeta, Hylemonella, Polynucleobacter or other taxa https://doi.org/10.1099/ijsem.0.004825). 
 
 Las principales coincidencias a nivel género se dieron entre los taxa centrales de las muestras de chile y tomate. No hay coincidencias entre especies clasificadas en las tablas de otus centrales. 
 
@@ -378,7 +337,7 @@ otus_centrales_maiz <- read.csv("../central_otus/reporte_maiz1.csv" , row.names 
 otus_centrales <- list(otus_centrales_chile , otus_centrales_tomate , otus_centrales_maiz)
 ```
 
-Los o
+##Cotas en las medidas de centralidad para la obtención de OTUs centrales
 
 ```{r}
 for (i in 1:3){
@@ -390,7 +349,7 @@ for (i in 1:3){
 taxa_centrales <- list()
 for (i in 1:3){
   taxa_centrales[[i]] <- rizosferas[[i]]@tax_table@.Data[row.names(otus_centrales[[i]]),]
-  print(length(row.names(otus_centrales[[i]])))
+  print( paste0( "Se obtuvieron "  , length(row.names(otus_centrales[[i]])) , " OTUs centrales en las muestras de " , muestras[i] ) )
   }
 ```
 En las siguientes celdas se verifican las intersecciones por pares de los otus centrales a nivel familia, género y especie. 
@@ -402,15 +361,20 @@ for (i in 1:3){
 }
 ```
 
-Las coincidencias entre los otus centrales a nivel género de las muestras de chile y tomate incluye Paenibacillus (Many Paenibacillus species can promote crop growth directly via biological nitrogen fixation, phosphate solubilization, production of the phytohormone indole-3-acetic acid (IAA), and release of siderophores that enable iron acquisition. They can also offer protection against insect herbivores and phytopathogens https://link.springer.com/article/10.1186/s12934-016-0603-7), Providencia (Another factor involved in soil aggregation is the polysaccharide content of soil. This was significantly enhanced only in B5 (Anabaena sp. + Providencia sp., CW1+PW5), https://doi.org/10.1016/j.ejsobi.2016.04.001) y Candidatus Gullanella (Second, Candidatus Gullanella endobia FVIR is for the endosymbiont from F. virgata. https://doi.org/10.1073/pnas.1603910113)
+Las coincidencias entre los otus centrales a nivel género de las muestras de chile y tomate son:
+
+* Paenibacillus (Many Paenibacillus species can promote crop growth directly via biological nitrogen fixation, phosphate solubilization, production of the phytohormone indole-3-acetic acid (IAA), and release of siderophores that enable iron acquisition. They can also offer protection against insect herbivores and phytopathogens https://link.springer.com/article/10.1186/s12934-016-0603-7), 
+* Providencia (Another factor involved in soil aggregation is the polysaccharide content of soil. This was significantly enhanced only in B5 (Anabaena sp. + Providencia sp., CW1+PW5), https://doi.org/10.1016/j.ejsobi.2016.04.001) y 
+* Candidatus Gullanella (Second, Candidatus Gullanella endobia FVIR is for the endosymbiont from F. virgata. https://doi.org/10.1073/pnas.1603910113)
 
 Entre las muestras de chile y de maíz se encuentra el género Ricketssia, relacionado a la transmisión de enfermedades  ( Rickettsiae is also an obligate intracellular symbiont causing serious diseases in humans, domestic animals, wild animals, and other vertebrates https://link.springer.com/article/10.1007/s00284-020-01948-x )
 
-
+Entre las muestras de tomate y maíz se encuentra el género Porphyrobacter
 
 ```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
 for (i in 1:3){
+  print(  paste0( "Los géneros comunes entre los OTUs centrales de las muestras de " , muestras[pares[[i]][1] ] , " y " , muestras[pares[[i]][2] ] , " son:" ))  
   print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "Rank6"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "Rank6"]) ))
 }
 ```
@@ -420,34 +384,29 @@ for (i in 1:3){
   print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "Rank7"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "Rank7"]) ))
 }
 ```
-##Primer reporte de chile 
+##OTUs centrales de la rizósfera de chile 
 
-Aquí se enlistan las especies correspondientes a las muestras de chile. 
+Los OTUs centrales de las muestras de suelo de chile incluyen reguladores de metano y descomponedores de sustancias tóxicas. También hay patógenos humanos y es el único conjunto de OTUs centrales de este reporte que incluye una especie de virus que infecta insectos y es usada como plaguicida. Más detalles se enlistan y verifican a continuación:
 
-Burkholderia_ (fijar nitrogeno) Burkholderia metallica (erosion de metales)
-Advenella mimigardefordensis (able to significantly improve levels of assimilated phosphate)Plant Productivity 
-Sutterella faecalis (heces humanas)
-Eikenella corrodens (cáncer humano?)
-Serratia sp. MYb239 propuesta como especie Serratia rhizosphaerae sp. nov., a novel plant resistance inducer against soft rot disease in tobacco
-Marinobacter (metanotrófica)
-Methylovulum psychrotolerans (metanotrófico, adaptado al frío?)
-Desulfomonile tiedjei (deshalogenante degradador de compuestos tóxicos)
-Paenibacillus chitinolyticus(fijar nitrogeno)
-Nitrosopumilus oxyclinae(solubilización de fosfato)
-Spodoptera exigua multiple nucleopolyhedrovirus (plaguicida)
+* Burkholderia metallica (erosion de metales)
+* Advenella mimigardefordensis (able to significantly improve levels of assimilated phosphate)Plant Productivity 
+* Sutterella faecalis (heces humanas)
+* Eikenella corrodens (cáncer humano?)
+* Serratia sp. MYb239 propuesta como especie Serratia rhizosphaerae sp. nov., a novel plant resistance inducer against soft rot disease in tobacco
+* Marinobacter (metanotrófica)
+* Methylovulum psychrotolerans (metanotrófico, adaptado al frío?)
+* Desulfomonile tiedjei (deshalogenante degradador de compuestos tóxicos)
+* Paenibacillus chitinolyticus(fijar nitrogeno)
+* Nitrosopumilus oxyclinae(solubilización de fosfato)
+* Spodoptera exigua multiple nucleopolyhedrovirus (plaguicida)
 
-Desulfovibrio carbinolicus (reductor de sulfato)
-
-
-Methanococcus maripaludis (metanogeno)
-Nitrosopumilus (oxidacion de amonio)
-Spodoptera exigua multiple nucleopolyhedrovirus (plaguicida)
+A continuación se enlistan todos los OTUs centrales con su clasificación a nivel género y nivel especie. 
 
 ```{r}
 print(taxa_centrales[[1]][ , c("Rank6" ,"Rank7" )])
 ```
 
-En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. 
+En la tabla conseguida en la siguiente celda se observa que  la maypría de los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. 
 
 ```{r}
 data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
@@ -473,15 +432,28 @@ V(redes[[1]])$size <- 3
 plot(redes[[1]])
 ```
 
+En la red de los OTUs centrales de rizósfera de chile el virus Spodoptera exigua multiple nucleopolyhedrovirus es el único nodo de grado 1.
+
+
 ```{r}
-red_otus_centrales_chile <- induced_subgraph(redes[[1]], otus_centrales[[1]][,"nodos"],"auto")
+nombres_otus_centrales_chiles <- as.character(otus_centrales[[1]][,"nodos"])
+red_otus_centrales_chile <- induced_subgraph(redes[[1]], nombres_otus_centrales_chiles  ,"auto")
+print( otus_centrales[[1]][,"nodos"])
+print(V(red_otus_centrales_chile))
+print(degree( red_otus_centrales_chile))
 #V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
+```
+
+
+
+```{r}
 plot(red_otus_centrales_chile)
+
 ```
 
 
 ```{r}
-otus_no_centrales_chile <- names(V(redes[[1]]))[ is.element(names(V(redes[[1]])), otus_centrales[[1]][,"nodos"]) == FALSE]
+otus_no_centrales_chile <- names(V(redes[[1]]))[ is.element(names(V(redes[[1]])), nombres_otus_centrales_chiles) == FALSE]
 red_otus_no_centrales_chile <- induced_subgraph(redes[[1]] , otus_no_centrales_chile , "auto" )
 plot(red_otus_no_centrales_chile)
 ```
@@ -530,17 +502,25 @@ plot(redes[[2]])
 ```
 
 ```{r}
-red_otus_centrales_tomate <- induced_subgraph(redes[[2]], otus_centrales[[2]][,"nodos"],"auto")
+nombres_otus_centrales_tomate <- as.character(otus_centrales[[2]][,"nodos"])
+red_otus_centrales_tomate <- induced_subgraph(redes[[2]], nombres_otus_centrales_tomate  ,"auto")
+print( otus_centrales[[2]][,"nodos"])
+print(V(red_otus_centrales_tomate))
+print(degree( red_otus_centrales_tomate))
 #V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
+```
+
+```{r}
 plot(red_otus_centrales_tomate)
 ```
 
-
 ```{r}
-otus_no_centrales_tomate <- names(V(redes[[2]]))[ is.element(names(V(redes[[2]])), otus_centrales[[2]][,"nodos"]) == FALSE]
-red_otus_no_centrales_tomate <- induced_subgraph(redes[[2]] , otus_no_centrales_tomate , "auto" )
+otus_no_centrales_tomate <- names(V(redes[[2]]))[ is.element(names(V(redes[[2]])), nombres_otus_centrales_tomate) == FALSE]
+red_otus_no_centrales_chile <- induced_subgraph(redes[[2]] , otus_no_centrales_tomate , "auto" )
 plot(red_otus_no_centrales_tomate)
 ```
+
+
 
 
 ##Primer reporte de maiz
@@ -582,142 +562,32 @@ V(redes[[3]])$label <- NA
 V(redes[[3]])$size <- 3
 plot(redes[[3]])
 ```
-
 ```{r}
-red_otus_centrales_maiz <- induced_subgraph(redes[[3]], otus_centrales[[3]][,"nodos"],"auto")
-V(red_otus_centrales_maiz)$label <- taxa_centrales[[3]][,"Rank7"]
-plot(red_otus_centrales_maiz)
-```
+nombres_otus_centrales_maiz <- as.character(otus_centrales[[3]][,"nodos"])
+red_otus_centrales_maiz <- induced_subgraph(redes[[3]], nombres_otus_centrales_maiz  ,"auto")
+print( otus_centrales[[3]][,"nodos"])
 
-
-```{r}
-otus_no_centrales_maiz <- names(V(redes[[3]]))[ is.element(names(V(redes[[3]])), otus_centrales[[3]][,"nodos"]) == FALSE]
-red_otus_no_centrales_maiz <- induced_subgraph(redes[[3]] , otus_no_centrales_maiz , "auto" )
-plot(red_otus_no_centrales_maiz)
-```
-
-#Otus centrales, segundo reporte
-
-```{r}
-rizosferas <- list(rizosferas[[2]], rizosferas[[3]])
-```
-
-```{r}
-otus_centrales_tomate <- read.csv("../central_otus/reporte_tomate2.csv" , row.names = 1)
-otus_centrales_maiz <- read.csv("../central_otus/reporte_maiz2.csv" , row.names = 1)
-
-otus_centrales <- list(otus_centrales_tomate , otus_centrales_maiz)
-```
-
-```{r}
-taxa_centrales <- list()
-for (i in 1:2){
-  taxa_centrales[[i]] <- rizosferas[[i]]@tax_table@.Data[row.names(otus_centrales[[i]]),]
-  print(length(row.names(otus_centrales[[i]])))
-  }
-```
-
-
-
-
-
-
-
-
-##Segundo reporte de tomate
-
-Aquí se enlistan las especies correspondientes a las muestras de tomate. 
-
-```{r}
-print(taxa_centrales[[2]][ , "Rank7"])
-```
-
-En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
-
-```{r}
-data_tomate <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
-
-medias <- c()
-medianas <- c()
-for (i in 1:dim(data_tomate)[2]){
-  medias <- c(medias , mean(data_tomate[ , i]))
-  medianas <- c(medianas , median(data_tomate[ , i]))
-  }
-
-data_tomate <- data_tomate[ row.names(otus_centrales[[2]]),]
-data_tomate <- rbind(medias , data_tomate)
-data_tomate <- rbind(medianas , data_tomate)
-
-row.names(data_tomate) <- c("Medianas" , "Medias" , row.names(otus_centrales[[2]]))
-data_tomate
-```
-
-```{r}
-V(redes[[2]])$label <- NA
-V(redes[[2]])$size <- 3
-plot(redes[[2]])
-```
-
-```{r}
-red_otus_centrales_tomate <- induced_subgraph(redes[[2]], otus_centrales[[2]][,"nodos"],"auto")
+print(row.names(otus_centrales[[3]]))
+print(degree( red_otus_centrales_maiz))
 #V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
-plot(red_otus_centrales_tomate)
 ```
 
 
-```{r}
-otus_no_centrales_tomate <- names(V(redes[[2]]))[ is.element(names(V(redes[[2]])), otus_centrales[[2]][,"nodos"]) == FALSE]
-red_otus_no_centrales_tomate <- induced_subgraph(redes[[2]] , otus_no_centrales_tomate , "auto" )
-plot(red_otus_no_centrales_tomate)
-```
-
-
-##Primer reporte de maiz
-
-Aquí se enlistan las especies correspondientes a las muestras de tomate. 
 
 ```{r}
-print(taxa_centrales[[3]][ , "Rank7"])
-```
-
-En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
-
-```{r}
-data_maiz <- read.table("../../data/tables/table.from_maiz.txt" , row.names = 1, header = TRUE , sep = "" )
-
-medias <- c()
-medianas <- c()
-for (i in 1:dim(data_maiz)[2]){
-  medias <- c(medias , mean(data_maiz[ , i]))
-  medianas <- c(medianas , median(data_maiz[ , i]))
-  }
-
-data_maiz <- data_maiz[ row.names(otus_centrales[[3]]),]
-data_maiz <- rbind(medias , data_maiz)
-data_maiz <- rbind(medianas , data_maiz)
-
-row.names(data_maiz) <- c("Medianas" , "Medias" , row.names(otus_centrales[[3]]))
-data_maiz
-```
-
-```{r}
-V(redes[[3]])$label <- NA
-V(redes[[3]])$size <- 3
-plot(redes[[3]])
-```
-
-```{r}
-red_otus_centrales_maiz <- induced_subgraph(redes[[3]], otus_centrales[[3]][,"nodos"],"auto")
-V(red_otus_centrales_maiz)$label <- taxa_centrales[[3]][,"Rank7"]
 plot(red_otus_centrales_maiz)
+
 ```
 
 
 ```{r}
-otus_no_centrales_maiz <- names(V(redes[[3]]))[ is.element(names(V(redes[[3]])), otus_centrales[[3]][,"nodos"]) == FALSE]
+otus_no_centrales_maiz <- names(V(redes[[3]]))[ is.element(names(V(redes[[3]])), nombres_otus_centrales_maiz) == FALSE]
 red_otus_no_centrales_maiz <- induced_subgraph(redes[[3]] , otus_no_centrales_maiz , "auto" )
 plot(red_otus_no_centrales_maiz)
 ```
+
+
+
 
 
 
