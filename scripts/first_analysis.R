@@ -13,6 +13,8 @@ if (!require(apcluster)) install.packages('apcluster')
 library(apcluster)
 if (!require(plyr)) install.packages('plyr')
 library(plyr)
+if (!require(stringr)) install.packages('stringr')
+library(stringr)
 
 
 #getwd()
