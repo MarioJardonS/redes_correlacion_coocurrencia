@@ -24,7 +24,7 @@ setwd("..")
 
 data <- paste0("./data/tables/", args[1])
 
-if (str_sub( data , -4 , 1) == ".csv" ){
+if (str_sub( data , -4 , -1) == ".csv" ){
   data <- read.csv(data , row.names = 1 , header = TRUE)
 } else {
   data <- read.table(data , row.names = 1, header = TRUE , sep = "" )  

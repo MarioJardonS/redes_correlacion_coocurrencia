@@ -170,7 +170,7 @@ otus_asignados_a_especie_percent <- function( taxtable ) {
   total <- length( taxtable[ , "Rank7"])
   vector_especies <- taxtable[ , "Rank7"]
   vector_especies <- vector_especies[ vector_especies != "s__" ]
-  vector_especies <- vector_especies[ str_sub( vector_especies , -3 , 1) != "sp." ]
+  vector_especies <- vector_especies[ str_sub( vector_especies , -3 , -1) != "sp." ]
   porcentaje <- (length(vector_especies) * 100)/total
   return(porcentaje)
   }
@@ -293,7 +293,7 @@ generos_excluidos
 
 ```{r}
 red_chile <- read.csv("../../data/networks/chile_species_raw_network.csv")
-red_tomate <- read.csv("../../data/networks/tomate_species_raw_network.csv")
+dred_tomate <- read.csv("../../data/networks/tomate_species_raw_network.csv")
 red_maiz <- read.csv("../../data/networks/maiz_species_raw_network.csv")
 
 redes <- list(red_chile , red_tomate , red_maiz)
