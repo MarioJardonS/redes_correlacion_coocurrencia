@@ -1,7 +1,13 @@
 ---
 title: "Análisis de los reportes de otus centrales"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: '2023-08-21'
+
+bibliography: investigacion_para_hackers.bib
+csl: "https://raw.githubusercontent.com/marcoyel21/citation_lenguage_styles/master/mi_chic
+ago.csl"
 ---
 
 #Introducción 
@@ -11,7 +17,7 @@ En este RMarkdown se analizan los reportes emanados del script centrality_measur
 
 ```{r}
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 if (!require(vegan)) install.packages('vegan')
 library(vegan)
@@ -23,6 +29,8 @@ if (!require(plyr)) install.packages('plyr')
 library(plyr)
 if (!require(stringr)) install.packages('stringr')
 library(stringr)
+if (!require(phyloseq)) install.packages('phyloseq')
+library(phyloseq)
 
 ```
 
@@ -293,7 +301,7 @@ generos_excluidos
 
 ```{r}
 red_chile <- read.csv("../../data/networks/chile_species_raw_network.csv")
-dred_tomate <- read.csv("../../data/networks/tomate_species_raw_network.csv")
+red_tomate <- read.csv("../../data/networks/tomate_species_raw_network.csv")
 red_maiz <- read.csv("../../data/networks/maiz_species_raw_network.csv")
 
 redes <- list(red_chile , red_tomate , red_maiz)
@@ -516,7 +524,7 @@ plot(red_otus_centrales_tomate)
 
 ```{r}
 otus_no_centrales_tomate <- names(V(redes[[2]]))[ is.element(names(V(redes[[2]])), nombres_otus_centrales_tomate) == FALSE]
-red_otus_no_centrales_chile <- induced_subgraph(redes[[2]] , otus_no_centrales_tomate , "auto" )
+red_otus_no_centrales_tomate <- induced_subgraph(redes[[2]] , otus_no_centrales_tomate , "auto" )
 plot(red_otus_no_centrales_tomate)
 ```
 
