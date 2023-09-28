@@ -431,7 +431,7 @@ data_chile <- rbind(medias , data_chile)
 data_chile <- rbind(medianas , data_chile)
 
 row.names(data_chile) <- c("Medianas" , "Medias" , row.names(otus_centrales[[1]]))
-data_chile
+head(data_chile)
 ```
 
 ```{r}
@@ -440,7 +440,6 @@ V(redes[[1]])$size <- 3
 plot(redes[[1]])
 ```
 
-En la red de los OTUs centrales de rizósfera de chile el virus Spodoptera exigua multiple nucleopolyhedrovirus es el único nodo de grado 1.
 
 
 ```{r}
@@ -500,7 +499,7 @@ data_tomate <- rbind(medias , data_tomate)
 data_tomate <- rbind(medianas , data_tomate)
 
 row.names(data_tomate) <- c("Medianas" , "Medias" , row.names(otus_centrales[[2]]))
-data_tomate
+head(data_tomate)
 ```
 
 ```{r}
@@ -562,7 +561,7 @@ data_maiz <- rbind(medias , data_maiz)
 data_maiz <- rbind(medianas , data_maiz)
 
 row.names(data_maiz) <- c("Medianas" , "Medias" , row.names(otus_centrales[[3]]))
-data_maiz
+head(data_maiz)
 ```
 
 ```{r}
@@ -663,7 +662,7 @@ data_tomate_desarrollo <- rbind(medias , data_tomate_desarrollo)
 data_tomate_desarrollo <- rbind(medianas , data_tomate_desarrollo)
 
 row.names(data_tomate_desarrollo) <- c("Medianas" , "Medias" , row.names(otus_centrales_tomate2[[1]]))
-data_tomate_desarrollo
+head(data_tomate_desarrollo)
 ```
 
 ```{r}
@@ -681,7 +680,7 @@ data_tomate_no_desarrollo <- rbind(medias , data_tomate_no_desarrollo)
 data_tomate_no_desarrollo <- rbind(medianas , data_tomate_no_desarrollo)
 
 row.names(data_tomate_no_desarrollo) <- c("Medianas" , "Medias" , row.names(otus_centrales_tomate2[[2]]))
-data_tomate_no_desarrollo
+head(data_tomate_no_desarrollo)
 ```
 
 
