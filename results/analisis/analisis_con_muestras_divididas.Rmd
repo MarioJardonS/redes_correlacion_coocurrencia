@@ -21,6 +21,8 @@ if (!require(stringr)) install.packages('stringr')
 library(stringr)
 if (!require(phyloseq)) install.packages('phyloseq')
 library(phyloseq)
+if (!require(UpSetR)) install.packages('UpSetR')
+library(UpSetR)
 
 ```
 
@@ -67,6 +69,8 @@ for (i in 1:3){
 }
 ```
 
+
+
 ```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
 for (i in 1:3){
@@ -74,7 +78,7 @@ for (i in 1:3){
 }
 ```
 
-Entre las principales coincidencias entre los diversos Otus centrales de rizósfera de tomate se encuentran la abundancia del género Pseudomonas y la presencia de especies del género Candidatus.
+Entre las principales coincidencias entre los diversos Otus centrales de rizósfera de tomate se encuentran la abundancia del género Pseudomonas.
 
 ```{r}
 print(taxa_centrales_tomate[[1]][ , c( "Rank7")])
@@ -123,110 +127,54 @@ head(data_tomate_no_desarrollo)
 
 #Otus centrales según submuestreos aleatorios 
 
+
+
 ```{r}
 otus_tomate_aleatorio1 <- list()
 
-for (i in 1:4){
+for (i in 1:6){
   otus_tomate_aleatorio1[[i]] <- read.csv( paste0("../central_otus/otus_centrales_tomate_aleatorio1_" , as.character(i) , ".csv" ) , row.names = 1)
 }
 ```
 
+La cantidad de OTUs detectados como clave en los submuestreos aleaorios se encuentra en un rango similar a la de los OTUs detectados con todas las muestras y con la primera división no aleatoria. 
+
 ```{r}
 taxa_tomate_aleatorio1 <- list()
-for (i in 1:4){
+numero_otus <- c()
+for (i in 1:6){
   taxa_tomate_aleatorio1[[i]] <- rizosfera@tax_table@.Data[row.names(otus_tomate_aleatorio1 [[i]]),]
-  print( paste0( "Se obtuvieron "  , length(row.names(otus_tomate_aleatorio1[[i]])) , " OTUs centrales en el submuestreo aleatorio " , as.character(i)  ) )
+  x_i <-  length(row.names(otus_tomate_aleatorio1[[i]]))
+  print( paste0( "Se obtuvieron "  , as.character(x_i)  , " OTUs centrales en el submuestreo aleatorio " , as.character(i)  ) )
+  numero_otus <- c(numero_otus , x_i)
 }
-
+print(paste0("Su media fue ", as.character(mean(numero_otus))))
+print(paste0("Su mediana fue ", as.character(median(numero_otus))))
 ```
 
+A nivel familia los análisis con submuestreos aleatorios 
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) ,c(1,4) , c(2,3) , c(2,4), c(3,4))
 for (i in 1:6){
-  print(intersect(as.vector(taxa_tomate_aleatorio1[[pares[[i]][1]]][ , "Rank5"]) , as.vector(taxa_tomate_aleatorio1[[pares[[i]][2]]][ , "Rank5"]) ))
+  print(intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank5"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank5"]  ) ))
 }
 ```
 
 
+
 ```{r}
-pares <- list(c(1,2) , c(1,3) ,c(1,4) , c(2,3) , c(2,4), c(3,4))
 for (i in 1:6){
-  print(intersect(as.vector(taxa_tomate_aleatorio1[[pares[[i]][1]]][ , "Rank6"]) , as.vector(taxa_tomate_aleatorio1[[pares[[i]][2]]][ , "Rank6"]) ))
+  intersecion_i <- intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank6"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank6"]  ) )
+  print(paste0( "A nivel género hubo " , as.character( length(intersecion_i)) , " coincidencias entre los otus encontrados con todas las muestras y con el submuestreo aleatorio ", as.character(i) ))
 }
 ```
 
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) ,c(1,4) , c(2,3) , c(2,4), c(3,4))
 for (i in 1:6){
-  print(intersect(as.vector(taxa_tomate_aleatorio1[[pares[[i]][1]]][ , "Rank7"]) , as.vector(taxa_tomate_aleatorio1[[pares[[i]][2]]][ , "Rank7"]) ))
+  intersecion_i <- intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank7"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank7"]  ) )
+  print(paste0( "A nivel especie´ hubo " , as.character( length(intersecion_i)) , " coincidencias entre los otus encontrados con todas las muestras y con el submuestreo aleatorio ", as.character(i) ))
 }
 ```
-
-```{r}
-for (i in 1:4){
-  print(intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank6"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank6"]  ) ))
-}
-```
-
-
-```{r}
-for (i in 1:4){
-  print(intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank7"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank7"]  ) ))
-}
-```
-
-
-
-
-
-
-
-
-
-
-```{r}
-red_tomate_desarrollo <- read.csv("../../data/networks/tomate_desarrollo_species_raw_network.csv")
-
-
-red_tomate_no_desarrollo <- read.csv("../../data/networks/tomate_no_desarrollo_species_raw_network.csv")
-
-redes <- list(red_tomate_desarrollo , red_tomate_no_desarrollo)
-```
-
-
-
-```{r}
-V(redes[[1]])$label <- NA
-V(redes[[1]])$size <- 3
-plot(redes[[1]])
-```
-
-
-
-```{r}
-nombres_otus_centrales_maiz <- as.character(otus_centrales[[3]][,"nodos"])
-red_otus_centrales_maiz <- induced_subgraph(redes[[3]], nombres_otus_centrales_maiz  ,"auto")
-print( otus_centrales[[3]][,"nodos"])
-
-print(row.names(otus_centrales[[3]]))
-print(degree( red_otus_centrales_maiz))
-#V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
-```
-
-
-
-```{r}
-plot(red_otus_centrales_maiz)
-
-```
-
-
-
-
-
-
-
 
 
