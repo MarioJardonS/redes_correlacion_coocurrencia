@@ -41,6 +41,7 @@ otus_tomate_totales <- read.csv("../central_otus/reporte_tomate1.csv" , row.name
 
 otus_centrales_tomate2 <- list(otus_tomate_desarrollo , otus_tomate_no_desarrollo , otus_tomate_totales)
 ```
+
 ```{r}
 rizosfera <- import_biom("../../data/biom/tomate.txt_9.biom")
 ```
@@ -54,12 +55,43 @@ for (i in 1:3){
 
 ```
 
+```{r}
+movies <- read.csv( system.file("extdata", "movies.csv", package = "UpSetR"), header=T, sep=";" )
+mutations <- read.csv( system.file("extdata", "mutations.csv", package = "UpSetR"), header=T, sep = ",")
+```
+
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
+nombres_familias <- c()
 for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "Rank5"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "Rank5"]) ))
+  nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales_tomate[[i]][, "Rank5"]))
+  print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
 }
+print(nombres_familias)
+```
+
+```{r}
+data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras_tomate))
+
+for (i in 1:3){
+  for (j in 1:6) {
+    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[i]][, "Rank5"] ))){
+      data_familias[j,i] <- 1
+    }else
+    {
+      data_familias[j,i] <- 0
+    }
+  }
+}
+
+data_familias <- data.frame(data_familias , row.names = nombres_familias )
+colnames(data_familias) <- muestras_tomate
+```
+
+
+
+```{r}
+upset(data= data_familias)
 ```
 
 ```{r}
