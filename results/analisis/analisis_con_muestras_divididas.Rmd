@@ -71,7 +71,9 @@ print(nombres_familias)
 ```
 
 ```{r}
-data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras_tomate))
+data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras_tomate) )
+
+
 
 for (i in 1:3){
   for (j in 1:6) {
@@ -84,23 +86,54 @@ for (i in 1:3){
   }
 }
 
+
 data_familias <- data.frame(data_familias , row.names = nombres_familias )
-colnames(data_familias) <- muestras_tomate
+colnames(data_familias) <- c(  muestras_tomate)
 ```
 
 
 
 ```{r}
-upset(data= data_familias)
+upset(data_familias    )
 ```
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
+nombres_generos <- c()
 for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "Rank6"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "Rank6"]) ))
+  nombres_generos <- union(nombres_generos ,as.vector(taxa_centrales_tomate[[i]][, "Rank6"]))
+  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
 }
+print(nombres_generos)
 ```
 
+
+```{r}
+
+data_generos <- matrix( nrow = length(nombres_generos), ncol = length(muestras_tomate) )
+
+
+
+for (i in 1:3){
+  for (j in 1:50) {
+    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[i]][, "Rank6"] ))){
+      data_generos[j,i] <- 1
+    }else
+    {
+      data_generos[j,i] <- 0
+    }
+  }
+}
+
+
+data_generos <- data.frame(data_generos , row.names = nombres_generos )
+colnames(data_generos) <- c(  muestras_tomate)
+
+
+```
+
+```{r}
+upset(data_generos)
+```
 
 
 ```{r}
@@ -164,7 +197,7 @@ head(data_tomate_no_desarrollo)
 ```{r}
 otus_tomate_aleatorio1 <- list()
 
-for (i in 1:6){
+for (i in 1:10){
   otus_tomate_aleatorio1[[i]] <- read.csv( paste0("../central_otus/otus_centrales_tomate_aleatorio1_" , as.character(i) , ".csv" ) , row.names = 1)
 }
 ```
@@ -174,7 +207,7 @@ La cantidad de OTUs detectados como clave en los submuestreos aleaorios se encue
 ```{r}
 taxa_tomate_aleatorio1 <- list()
 numero_otus <- c()
-for (i in 1:6){
+for (i in 1:10){
   taxa_tomate_aleatorio1[[i]] <- rizosfera@tax_table@.Data[row.names(otus_tomate_aleatorio1 [[i]]),]
   x_i <-  length(row.names(otus_tomate_aleatorio1[[i]]))
   print( paste0( "Se obtuvieron "  , as.character(x_i)  , " OTUs centrales en el submuestreo aleatorio " , as.character(i)  ) )
@@ -184,13 +217,100 @@ print(paste0("Su media fue ", as.character(mean(numero_otus))))
 print(paste0("Su mediana fue ", as.character(median(numero_otus))))
 ```
 
-A nivel familia los análisis con submuestreos aleatorios 
+ 
 
 ```{r}
-for (i in 1:6){
-  print(intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank5"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank5"]  ) ))
+nombres_familias <- c()
+for (i in 1:10){
+  nombres_familias <- union(nombres_familias ,as.vector(taxa_tomate_aleatorio1[[i]][, "Rank5"]))
+  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
 }
+
+nombres_familias <- union(nombres_familias , as.vector(taxa_centrales_tomate[[3]][,"Rank5"]))
+print(nombres_familias)
 ```
+
+```{r}
+data_familias <- matrix( nrow = length(nombres_familias), ncol = 11 )
+
+
+
+for (i in 2:11){
+  for (j in 1:9) {
+    if (is.element(nombres_familias[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "Rank5"] ))){
+      data_familias[j,i] <- 1
+    }else
+    {
+      data_familias[j,i] <- 0
+    }
+  }
+}
+
+for (j in 1:9) {
+    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[3]][, "Rank5"] ))){
+      data_familias[j,1] <- 1
+    }else
+    {
+      data_familias[j,1] <- 0
+    }
+}
+data_familias <- data.frame(data_familias , row.names = nombres_familias )
+colnames(data_familias) <- c("totales" , as.character(1:10) )
+```
+
+
+
+```{r}
+upset(data_familias , nsets = 11 , keep.order = TRUE   )
+```
+
+
+```{r}
+nombres_generos <- c()
+for (i in 1:10){
+  nombres_generos <- union(nombres_generos ,as.vector(taxa_tomate_aleatorio1[[i]][, "Rank6"]))
+  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
+}
+
+nombres_generos <- union(nombres_generos , as.vector(taxa_centrales_tomate[[3]][,"Rank6"]))
+print(nombres_generos)
+```
+
+```{r}
+data_generos <- matrix( nrow = length(nombres_generos), ncol = 11 )
+
+
+
+for (i in 2:11){
+  for (j in 1:94) {
+    if (is.element(nombres_generos[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "Rank6"] ))){
+      data_generos[j,i] <- 1
+    }else
+    {
+      data_generos[j,i] <- 0
+    }
+  }
+}
+
+for (j in 1:94) {
+    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[3]][, "Rank6"] ))){
+      data_generos[j,1] <- 1
+    }else
+    {
+      data_generos[j,1] <- 0
+    }
+}
+data_generos <- data.frame(data_generos , row.names = nombres_generos )
+colnames(data_generos) <- c("totales" , as.character(1:10) )
+```
+
+
+
+```{r}
+upset(data_generos , nsets = 11 , keep.order = TRUE   )
+```
+
+
 
 
 
