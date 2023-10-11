@@ -55,10 +55,6 @@ for (i in 1:3){
 
 ```
 
-```{r}
-movies <- read.csv( system.file("extdata", "movies.csv", package = "UpSetR"), header=T, sep=";" )
-mutations <- read.csv( system.file("extdata", "mutations.csv", package = "UpSetR"), header=T, sep = ",")
-```
 
 
 ```{r}
