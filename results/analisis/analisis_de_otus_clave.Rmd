@@ -166,12 +166,19 @@ muestras <- c("chile", "tomate" , "maiz")
 ```
 
 ```{r}
-rizosfera_chile <- import_biom("../../data/biom/chile.txt_9.biom")
-rizosfera_tomate <- import_biom("../../data/biom/tomate.txt_9.biom") 
-rizosfera_maiz <- import_biom("../../data/biom/maiz.txt_9.biom") 
+rizosfera_chile <- read.csv("../../data/taxonomy/linaje_completo.de_chile.csv" , header = FALSE , row.names = 1)
+rizosfera_tomate <- read.csv("../../data/taxonomy/linaje_completo.de_tomate.csv" , header = FALSE , row.names = 1) 
+rizosfera_maiz <- read.csv("../../data/taxonomy/linaje_completo.de_maiz.csv" , header = FALSE , row.names = 1) 
 
 rizosferas <- list( rizosfera_chile , rizosfera_tomate , rizosfera_maiz )
 ```
+
+```{r}
+rizosfera_chile2 <- read.csv("../../data/taxonomy/linaje2.de_maiz.csv" , header = FALSE )
+
+```
+
+
 
 ```{r}
 otus_asignados_a_especie_percent <- function( taxtable ) { 
