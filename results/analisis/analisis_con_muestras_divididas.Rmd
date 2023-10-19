@@ -43,13 +43,13 @@ otus_centrales_tomate2 <- list(otus_tomate_desarrollo , otus_tomate_no_desarroll
 ```
 
 ```{r}
-rizosfera <- import_biom("../../data/biom/tomate.txt_9.biom")
+rizosfera_bacterias <- read.csv("../../data/taxonomy/linaje_bacterias.de_tomate.csv" , header = FALSE , sep = ";" , row.names = 1)
 ```
 
 ```{r}
 taxa_centrales_tomate <- list()
 for (i in 1:3){
-  taxa_centrales_tomate[[i]] <- rizosfera@tax_table@.Data[row.names(otus_centrales_tomate2[[i]]),]
+  taxa_centrales_tomate[[i]] <- rizosfera_bacterias[intersect( row.names(rizosfera_bacterias), row.names(otus_centrales_tomate2[[i]])),]
   print( paste0( "Se obtuvieron "  , length(row.names(otus_centrales_tomate2[[i]])) , " OTUs centrales en las muestras de " , muestras_tomate[i] ) )
 }
 
@@ -60,9 +60,11 @@ for (i in 1:3){
 ```{r}
 nombres_familias <- c()
 for (i in 1:3){
-  nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales_tomate[[i]][, "Rank5"]))
-  print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
+  nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales_tomate[[i]][, "V7"]))
+  
 }
+
+
 print(nombres_familias)
 ```
 
@@ -72,14 +74,15 @@ data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras
 
 
 for (i in 1:3){
-  for (j in 1:6) {
-    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[i]][, "Rank5"] ))){
+  for (j in 1:54) {
+    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[i]][, "V7"] ))){
       data_familias[j,i] <- 1
     }else
     {
       data_familias[j,i] <- 0
     }
   }
+  
 }
 
 
@@ -96,7 +99,7 @@ upset(data_familias    )
 ```{r}
 nombres_generos <- c()
 for (i in 1:3){
-  nombres_generos <- union(nombres_generos ,as.vector(taxa_centrales_tomate[[i]][, "Rank6"]))
+  nombres_generos <- union(nombres_generos ,as.vector(taxa_centrales_tomate[[i]][, "V8"]))
   #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
 }
 print(nombres_generos)
@@ -110,8 +113,8 @@ data_generos <- matrix( nrow = length(nombres_generos), ncol = length(muestras_t
 
 
 for (i in 1:3){
-  for (j in 1:50) {
-    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[i]][, "Rank6"] ))){
+  for (j in 1:74) {
+    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[i]][, "V8"] ))){
       data_generos[j,i] <- 1
     }else
     {
@@ -135,7 +138,7 @@ upset(data_generos)
 ```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
 for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "Rank7"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "Rank7"]) ))
+  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "V9"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "V9"]) ))
 }
 ```
 

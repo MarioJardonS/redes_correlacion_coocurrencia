@@ -257,10 +257,10 @@
 1486262;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Aurantimonadaceae;Martelella;Martelella endophyti; 
 1122214;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Aurantimonadaceae;Martelella;Martelella mediterranea;Martelella mediterranea DSM 173
 2583532;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Aurantimonadaceae;Martelella;Martelella lutilitor; 
-1235591;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Hyphomicrobiales incertae sedis;Pseudorhodoplanes;Pseudorhodoplanes sinuspersi; 
-2712222;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Hyphomicrobiales incertae sedis;Nordella;Nordella sp. HKS ; 
+1235591;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales; ;Pseudorhodoplanes;Pseudorhodoplanes sinuspersi; 
+2712222;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales; ;Nordella;Nordella sp. HKS ; 
 1482074;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Pleomorphomonadaceae;Hartmannibacter;Hartmannibacter diazotrophic; 
-573658;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Hyphomicrobiales incertae sedis;Candidatus Hodgkinia;Candidatus Hodgkinia cicadico; 
+573658;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales; ;Candidatus Hodgkinia;Candidatus Hodgkinia cicadico; 
 538381;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Stappiaceae;Stappia;Stappia indi; 
 1881061;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Stappiaceae;Stappia;Stappia sp. ES.0; 
 2021862;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Stappiaceae;Labrenzia;Labrenzia sp. VG; 
@@ -732,7 +732,6 @@
 2570229;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Hyphomicrobiales;Phreatobacteraceae;Phreatobacter;Phreatobacter aquatic; 
 349215;cellular organisms;Bacteria;Bdellovibrionota;Bdellovibrionia;Bdellovibrionales;Pseudobdellovibrionaceae;Micavibrio;Micavibrio aeruginosavorus;Micavibrio aeruginosavorus E
 856793;cellular organisms;Bacteria;Bdellovibrionota;Bdellovibrionia;Bdellovibrionales;Pseudobdellovibrionaceae;Micavibrio;Micavibrio aeruginosavorus;Micavibrio aeruginosavorus ARL-
-488538;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Alphaproteobacteria incertae sedis;SAR116 cluster;Candidatus Puniceispirillum;Candidatus Puniceispirillum marinum;Candidatus Puniceispirillum marinum IMCC13
 2029849;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Maricaulales;Maricaulaceae;Marinicauda;Marinicauda algico; 
 1434191;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Maricaulales;Maricaulaceae;Glycocaulis;Glycocaulis alkaliphil; 
 394221;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Maricaulales;Maricaulaceae;Maricaulis;Maricaulis maris;Maricaulis maris MCS
@@ -785,7 +784,7 @@
 2268451;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Candidatus Pelagibacterales;Candidatus Pelagibacteraceae;Candidatus Pelagibacter;Candidatus Pelagibacter sp. FZCC00; 
 335992;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Candidatus Pelagibacterales;Candidatus Pelagibacteraceae;Candidatus Pelagibacter;Candidatus Pelagibacter ubique;Candidatus Pelagibacter ubique HTCC10
 2563896;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Candidatus Pelagibacterales;Candidatus Pelagibacteraceae;Candidatus Pelagibacter;Candidatus Pelagibacter giovannon; 
-1925548;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Candidatus Pelagibacterales;Candidatus Pelagibacterales incertae sedis;Candidatus Fonsibacter;Candidatus Fonsibacter ubiqu; 
+1925548;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Candidatus Pelagibacterales; ;Candidatus Fonsibacter;Candidatus Fonsibacter ubiqu; 
 2161677;cellular organisms;Bacteria;Pseudomonadota;Alphaproteobacteria;Kordiimonadales;Kordiimonadaceae;Kordiimonas;Kordiimonas pumi; 
 945844;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Oxalobacteraceae;Massilia;Massilia ocu; 
 1707785;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Oxalobacteraceae;Massilia;Massilia sp. W; 
@@ -939,25 +938,25 @@
 1678129;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Comamonadaceae;Limnohabitans;Limnohabitans sp. 103DP; 
 1844971;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Comamonadaceae;Curvibacter;Curvibacter sp. AEP1; 
 946483;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Comamonadaceae;Candidatus Symbiobacter;Candidatus Symbiobacter mobilis;Candidatus Symbiobacter mobilis 
-87883;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia multivora
-95486;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia cenocepac
-292;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia cepac
-101571;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia ubonens
-482957;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia la
-488447;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia contamina
-179879;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia anthi
-1503054;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia stagnal
-95485;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia stabil
-1503055;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia territor
-60550;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia pyrrocin
-152480;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia ambifar
-488731;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia seminal
-60552;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia vietnamiens
-488729;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia metalli
-488732;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia diffu
-1207504;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia pseudomultivora
-488446;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia late
-152500;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepacia complex;Burkholderia dolo
+87883;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia multivora; 
+95486;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cenocepac; 
+292;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia cepac; 
+101571;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia ubonens; 
+482957;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia la; 
+488447;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia contamina; 
+179879;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia anthi; 
+1503054;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia stagnal; 
+95485;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia stabil; 
+1503055;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia territor; 
+60550;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia pyrrocin; 
+152480;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia ambifar; 
+488731;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia seminal; 
+60552;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia vietnamiens; 
+488729;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia metalli; 
+488732;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia diffu; 
+1207504;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia pseudomultivora; 
+488446;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia late; 
+152500;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia dolo; 
 2571746;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia sp. DHOD; 
 758782;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia sp. THE; 
 1740163;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia sp. Bp76; 
@@ -1035,6 +1034,7 @@
 1761016;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Paraburkholderia;Paraburkholderia caffeinilyti; 
 169430;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Paraburkholderia;Paraburkholderia hospi; 
 2211211;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Paraburkholderia;Paraburkholderia dokdonens; 
+265293;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Burkholderia;Burkholderia ubonensis;Burkholderia ubonensis subsp. mesacidophi
 311230;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Paraburkholderia;Paraburkholderia terr; 
 859655;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Ralstonia;Ralstonia solanacearum;Ralstonia solanacearum CMR
 859657;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiaceae;Ralstonia;Ralstonia solanacearum;Ralstonia solanacearum PSI
@@ -1128,23 +1128,23 @@
 2652177;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Alcaligenaceae;Pelistega;Pelistega rat; 
 29575;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Alcaligenaceae;Taylorella;Taylorella equigenital; 
 1008459;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Alcaligenaceae;Taylorella;Taylorella asinigenitalis;Taylorella asinigenitalis MC
-946333;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Rhizobacter;Rhizobacter gummiphil; 
-2753607;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Rhizobacter;Rhizobacter sp. AJA081; 
+946333;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Rhizobacter;Rhizobacter gummiphil; 
+2753607;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Rhizobacter;Rhizobacter sp. AJA081; 
 420662;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Methylibium;Methylibium petroleiphilum;Methylibium petroleiphilum P
 2082386;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Methylibium;Methylibium sp. Pch; 
 1430884;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Methylibium;Methylibium sp. T; 
 983917;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Rubrivivax;Rubrivivax gelatinosus;Rubrivivax gelatinosus IL1
 395495;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Leptothrix;Leptothrix cholodnii;Leptothrix cholodnii SP
-1050370;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Thiomonas;Thiomonas sp. X; 
-75379;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Thiomonas;Thiomonas intermedia;Thiomonas intermedia K
-426114;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Thiomonas;Thiomonas arsenitoxyda; 
+1050370;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Thiomonas;Thiomonas sp. X; 
+75379;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Thiomonas;Thiomonas intermedia;Thiomonas intermedia K
+426114;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Thiomonas;Thiomonas arsenitoxyda; 
 1658665;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Mitsuaria;Mitsuaria sp.; 
 639200;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Sphaerotilus;Sphaerotilus sulfidivora; 
-2697032;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Xylophilus;Xylophilus rhododend; 
-1296669;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Aquabacterium;Aquabacterium ol; 
+2697032;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Xylophilus;Xylophilus rhododend; 
+1296669;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Aquabacterium;Aquabacterium ol; 
 76731;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Roseateles;Roseateles depolymera; 
 392593;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sphaerotilaceae;Inhella;Inhella inkyongens; 
-1768242;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Burkholderiales genera incertae sedis;Paucibacter;Paucibacter sp. KCTC 425; 
+1768242;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales; ;Paucibacter;Paucibacter sp. KCTC 425; 
 2494234;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sutterellaceae;Sutterella;Sutterella megalosphaeroid; 
 2584944;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sutterellaceae;Sutterella;Sutterella faecal; 
 40545;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Burkholderiales;Sutterellaceae;Sutterella;Sutterella wadsworthens; 
@@ -1282,16 +1282,16 @@
 1196094;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Neisseriales;Neisseriaceae;Snodgrassella;Snodgrassella alvi;Snodgrassella alvi wk
 194196;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Neisseriales;Neisseriaceae;Alysiella;Alysiella filiform; 
 641147;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Neisseriales;Neisseriaceae;Simonsiella;Simonsiella muelleri;Simonsiella muelleri ATCC 294
-522306;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Accumulibacter;Candidatus Accumulibacter regal; ; 
-2591109;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Casimicrobiaceae;Casimicrobium;Casimicrobium huifang; 
-233181;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium blastocrithid; ; 
-1576550;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium sorsogonicu; ; 
-33056;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium crithid; ; 
-1208919;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium desouzaii;Candidatus Kinetoplastibacterium desouzaii TCC07; 
-1208920;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium oncopeltii;Candidatus Kinetoplastibacterium oncopeltii TCC29; 
-1208921;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium galatii;Candidatus Kinetoplastibacterium galatii TCC2; 
-2661583;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Profftella;Candidatus Profftella armatura (Diaphorina cf. continu; ; 
-669502;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria;Betaproteobacteria incertae sedis;Candidatus Profftella;Candidatus Profftella armatu; ; 
+522306;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Accumulibacter;Candidatus Accumulibacter regal; 
+2591109;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Casimicrobiaceae;Casimicrobium;Casimicrobium huifang
+233181;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium blastocrithid; 
+1576550;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium sorsogonicu; 
+33056;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium crithid; 
+1208919;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium desouzaii;Candidatus Kinetoplastibacterium desouzaii TCC07
+1208920;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium oncopeltii;Candidatus Kinetoplastibacterium oncopeltii TCC29
+1208921;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Kinetoplastibacterium;Candidatus Kinetoplastibacterium galatii;Candidatus Kinetoplastibacterium galatii TCC2
+2661583;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Profftella;Candidatus Profftella armatura (Diaphorina cf. continu; 
+669502;cellular organisms;Bacteria;Pseudomonadota;Betaproteobacteria; ; ;Candidatus Profftella;Candidatus Profftella armatu; 
 40324;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Xanthomonadales;Xanthomonadaceae;Stenotrophomonas;Stenotrophomonas maltophil; 
 2072414;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Xanthomonadales;Xanthomonadaceae;Stenotrophomonas;Stenotrophomonas sp. ESTM1D_MKCIP4; 
 2072413;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Xanthomonadales;Xanthomonadaceae;Stenotrophomonas;Stenotrophomonas sp. SAU14A_NAIMI4; 
@@ -1684,12 +1684,12 @@
 2004644;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter sp. WCHA; 
 2609668;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter sp. C16; 
 2420300;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter sp. FDAARGOS_4; 
-470;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoaceticus/baumannii complex;Acinetobacter baumann
-48296;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoaceticus/baumannii complex;Acinetobacter pitt
-471;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoaceticus/baumannii complex;Acinetobacter calcoacetic
-1530123;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoaceticus/baumannii complex;Acinetobacter seifert
-1785128;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoaceticus/baumannii complex;Acinetobacter lactuc
-106654;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoaceticus/baumannii complex;Acinetobacter nosocomial
+470;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter baumann; 
+48296;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter pitt; 
+471;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter calcoacetic; 
+1530123;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter seifert; 
+1785128;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter lactuc; 
+106654;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter nosocomial; 
 108981;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter schindle; 
 756892;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter indic; 
 40216;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Moraxellales;Moraxellaceae;Acinetobacter;Acinetobacter radioresiste; 
@@ -1752,16 +1752,16 @@
 1920114;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Leclercia;Leclercia sp. LSNI; 
 2681309;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Leclercia;Leclercia sp. Colony1; 
 83655;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Leclercia;Leclercia adecarboxyla; 
-550;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter cloac
-158836;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter hormaech
-1812935;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter roggenkamp
-69218;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter cancerogen
-61645;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter asburi
-299767;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter ludwig
-2494701;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter chengduens
-208224;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter kob
-2071710;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex;Enterobacter sichuanens
-2757714;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloacae complex; 
+550;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cloac; 
+158836;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter hormaech; 
+1812935;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter roggenkamp; 
+69218;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter cancerogen; 
+61645;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter asburi; 
+299767;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter ludwig; 
+2494701;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter chengduens; 
+208224;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter kob; 
+2071710;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter sichuanens; 
+2757714;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter; ; 
 2596949;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter sp. E; 
 2742619;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter sp. RHB15-C; 
 2724468;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacter;Enterobacter sp. JUb; 
@@ -1807,12 +1807,12 @@
 2489010;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Klebsiella;Klebsiella africa; 
 2153354;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Klebsiella;Klebsiella huaxiens; 
 2058152;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Klebsiella;Klebsiella grimont; 
-546;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freundii complex;Citrobacter freund
-67827;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freundii complex;Citrobacter werkman
-1639133;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freundii complex;Citrobacter portucalens
-2816438;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freundii complex; 
-133448;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freundii complex;Citrobacter young
-57706;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freundii complex;Citrobacter braak
+546;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter freund; 
+67827;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter werkman; 
+1639133;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter portucalens; 
+2816438;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter; ; 
+133448;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter young; 
+57706;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter braak; 
 2742624;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter sp. RHB25-C; 
 1573676;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter sp. R; 
 2546350;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Citrobacter;Citrobacter arsenat; 
@@ -1912,15 +1912,15 @@
 1972431;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Phytobacter;Phytobacter ursing; 
 395631;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Phytobacter;Phytobacter diazotrophic; 
 1756993;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Phytobacter;Phytobacter sp. SCO; 
-146507;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;aphid secondary symbion
-84564;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;ant endosymbion
-1906659;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Hoaglandel
-1906657;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Doolittl
-1682492;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Tachikawa
-1906661;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Gullanel
-472825;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Purcelliel
-199891;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;mealybug secondary endosymbion
-1302410;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Annand
+146507;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;aphid secondary symbion; 
+84564;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;ant endosymbion; 
+1906659;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Hoaglandel; 
+1906657;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Doolittl; 
+1682492;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Tachikawa; 
+1906661;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Gullanel; 
+472825;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Purcelliel; 
+199891;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;mealybug secondary endosymbion; 
+1302410;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Annand; 
 2675792;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae endosymbiont of Neohaemonia nigricorn; ; 
 2675794;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae endosymbiont of Plateumaris consimil; ; 
 2675787;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae endosymbiont of Donacia tomento; ; 
@@ -1972,9 +1972,9 @@
 61651;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Serratia;Serratia ficar; 
 300181;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Serratia;Serratia ureilyti; 
 458197;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Serratia;Serratia nematodiphi; 
-367190;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia pseudotuberculosis complex;Yersinia simil
-633;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia pseudotuberculosis complex;Yersinia pseudotuberculos
-632;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia pseudotuberculosis complex;Yersinia pest
+367190;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia simil; 
+633;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia pseudotuberculos; 
+632;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia pest; 
 935293;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia entomopha; 
 34053;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia enterocolitica;Yersinia enterocolitica (type O:
 1443113;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia enterocolitica;Yersinia enterocolitica LC
@@ -2191,8 +2191,8 @@
 553981;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Chromatiaceae;Candidatus Nitrosacidococcus;Candidatus Nitrosacidococcus terge; 
 1579979;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Wenzhouxiangellaceae;Wenzhouxiangella;Wenzhouxiangella mari; 
 2771012;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Wenzhouxiangellaceae;Wenzhouxiangella;Wenzhouxiangella sp. AB-C; 
-2795687;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Chromatiales incertae sedis;Thiohalobacter;Thiohalobacter sp. CO; 
-585455;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Chromatiales incertae sedis;Thiohalobacter;Thiohalobacter thiocyanatic; 
+2795687;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales; ;Thiohalobacter;Thiohalobacter sp. CO; 
+585455;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales; ;Thiohalobacter;Thiohalobacter thiocyanatic; 
 47960;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Thioalkalibacteraceae;Guyparkeria;Guyparkeria halophi; 
 1972068;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Thioalkalispiraceae;Sulfurivermis;Sulfurivermis font; 
 1860122;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Halothiobacillaceae;Halothiobacillus;Halothiobacillus sp. L; 
@@ -2700,22 +2700,21 @@
 360196;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Thiotrichales;Francisellaceae;Francisella;Francisella noatunensis;Francisella noatunensis subsp. noatunens
 1085644;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Thiotrichales;Francisellaceae;Allofrancisella;Allofrancisella frigidaqu; 
 594679;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Thiotrichales;Francisellaceae;Allofrancisella;Allofrancisella guangzhouens; 
-1543721;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Sedimenticola;Sedimenticola thiotauri; ; 
-2738883;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Reidiella;Candidatus Reidiella endopervernico; ; 
+1543721;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Sedimenticola;Sedimenticola thiotauri; 
+2738883;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Reidiella;Candidatus Reidiella endopervernico; 
 1076588;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Chromatiales;Sedimenticolaceae;Thiolapillus;Thiolapillus brande; 
-1249552;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Pseudohongiella;Pseudohongiella spirulin; ; 
-2291597;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Gallaecimonas;Gallaecimonas mangro; ; 
-1705394;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Thioglobus;Candidatus Thioglobus autotrophic; ; 
-2508687;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Thioglobus;Candidatus Thioglobus sp. N; ; 
-1427364;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Pseudothioglobus;Candidatus Pseudothioglobus singular; ; 
-2738852;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Candidatus Ruthturnera;Candidatus Ruthia endofaus; 
-413404;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Candidatus Ruthturnera;Candidatus Ruthturnera calyptogenae;Candidatus Ruthia magnifica str. Cm (Calyptogena magnific
-2360;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Bathymodiolus thermophilus thioautotrophic gill symbio; ; 
-1303921;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Bathymodiolus septemdierum thioautotrophic gill symbiont;endosymbiont of Bathymodiolus septemdierum str. Myojin kno; 
-412965;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Candidatus Vesicomyosocius;Candidatus Vesicomyosocius okutan; 
-1971485;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Nardonella;Candidatus Nardonella dryophthoridico; ; 
-1971488;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Nardonella;endosymbiont of Pachyrhynchus infernal; ; 
-2652803;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Azoamicus;Candidatus Azoamicus ciliatico; ; 
+1249552;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Pseudohongiella;Pseudohongiella spirulin; 
+2291597;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Gallaecimonas;Gallaecimonas mangro; 
+1705394;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Thioglobus;Candidatus Thioglobus autotrophic; 
+2508687;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Thioglobus;Candidatus Thioglobus sp. N; 
+1427364;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Pseudothioglobus;Candidatus Pseudothioglobus singular; 
+2738852;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;sulfur-oxidizing symbionts;Candidatus Ruthturnera;Candidatus Ruthia endofaus
+2360;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;sulfur-oxidizing symbionts;Bathymodiolus thermophilus thioautotrophic gill symbio; 
+1303921;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;sulfur-oxidizing symbionts;Bathymodiolus septemdierum thioautotrophic gill symbiont;endosymbiont of Bathymodiolus septemdierum str. Myojin kno
+412965;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;sulfur-oxidizing symbionts;Candidatus Vesicomyosocius;Candidatus Vesicomyosocius okutan
+1971485;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Nardonella;Candidatus Nardonella dryophthoridico; 
+1971488;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Nardonella;endosymbiont of Pachyrhynchus infernal; 
+2652803;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Azoamicus;Candidatus Azoamicus ciliatico; 
 2183911;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Salinisphaerales;Salinisphaeraceae;Salinisphaera;Salinisphaera sp. L; 
 1248727;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;endosymbiont of unidentified scaly snail isolate Mon; ; ; ; 
 2774188;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Pasteurellales;Pasteurellaceae;Actinobacillus;Actinobacillus sp. GY-4; 
@@ -3164,7 +3163,7 @@
 84757;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Beutenbergiaceae;Beutenbergia;Beutenbergia cavern; 
 2626367;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Beutenbergiaceae;Miniimonas; ; 
 2648503;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Ruaniaceae;Ruania; ; 
-1133546;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Micrococcales incertae sedis;Luteimicrobium;Luteimicrobium xylanilytic; 
+1133546;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales; ;Luteimicrobium;Luteimicrobium xylanilytic; 
 2649508;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Dermatophilaceae;Mobilicoccus; ; 
 100225;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Dermatophilaceae;Austwickia;Austwickia chelon; 
 1863;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Micrococcales;Dermatophilaceae;Dermatophilus;Dermatophilus congolens; 
@@ -3520,7 +3519,7 @@
 499555;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales;Dietziaceae;Dietzia;Dietzia timorens; 
 2061;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales;Tsukamurellaceae;Tsukamurella;Tsukamurella paurometabo; 
 57704;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales;Tsukamurellaceae;Tsukamurella;Tsukamurella tyrosinosolve; 
-2645312;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales;Corynebacteriales incertae sedis;Tomitella; ; 
+2645312;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales; ;Tomitella; ; 
 286802;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales;Segniliparaceae;Segniliparus;Segniliparus rotund; 
 1528099;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Mycobacteriales;Lawsonellaceae;Lawsonella;Lawsonella clevelandens; 
 2615069;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Propionibacteriales;Nocardioidaceae;Nocardioides; ; 
@@ -3997,7 +3996,7 @@
 2026;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Thermoactinomycetaceae;Thermoactinomyces;Thermoactinomyces vulgar; 
 2490858;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Thermoactinomycetaceae;Staphylospora;Staphylospora mari; 
 37482;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Thermoactinomycetaceae;Laceyella;Laceyella saccha; 
-33986;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Bacillales incertae sedis;Bacillales Family XII. Incertae Sedis;Exiguobacteri; 
+33986;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales; ;Exiguobacteri; ; 
 1378;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Gemellaceae;Gemel; ; 
 405212;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Alicyclobacillaceae;Alicyclobacillus;Alicyclobacillus acidocaldari; 
 471514;cellular organisms;Bacteria;Bacillota;Bacilli;Bacillales;Alicyclobacillaceae;Alicyclobacillus;Alicyclobacillus ferrooxyda; 
@@ -4281,13 +4280,13 @@
 87541;cellular organisms;Bacteria;Bacillota;Bacilli;Lactobacillales;Aerococcaceae;Aerococcus;Aerococcus christensen; 
 2036206;cellular organisms;Bacteria;Bacillota;Bacilli;Lactobacillales;Aerococcaceae;Suicoccus;Suicoccus acidiforma; 
 46125;cellular organisms;Bacteria;Bacillota;Bacilli;Lactobacillales;Aerococcaceae;Abiotrophia;Abiotrophia defecti; 
-73918;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Clostridiales Family XVII. Incertae Sedis;Thermaerobact; 
-1297617;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Intestinimonas;Intestinimonas butyriciproduce; 
-2610894;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Flintibacter; ; 
-2060094;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Eubacteriales Family XIII. Incertae Sedis;Aminipi; 
-86331;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Eubacteriales Family XIII. Incertae Sedis;Mogibacteri; 
-2086584;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Massilistercora;Massilistercora timonens; 
-178898;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Clostridiales Family XVI. Incertae Sedis;Carboxydocel; 
+73918;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Thermaerobact; ; 
+1297617;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Intestinimonas;Intestinimonas butyriciproduce; 
+2610894;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Flintibacter; ; 
+2060094;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Aminipi; ; 
+86331;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Mogibacteri; ; 
+2086584;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Massilistercora;Massilistercora timonens; 
+178898;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Carboxydocel; ; 
 1981510;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Oscillospiraceae;Monoglobus;Monoglobus pectinilytic; 
 853;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Oscillospiraceae;Faecalibacterium;Faecalibacterium prausnitz; 
 292800;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Oscillospiraceae;Flavonifractor;Flavonifractor plaut; 
@@ -4468,14 +4467,14 @@
 2622527;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales;Thermoanaerobacteraceae;Thermoanaerobacterium; ; 
 29329;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales;Thermoanaerobacteraceae;Thermoanaerobacterium;Thermoanaerobacterium xylanolytic; 
 47490;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales;Thermoanaerobacteraceae;Thermoanaerobacterium;Thermoanaerobacterium aotearoen; 
-252966;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales;Thermoanaerobacterales Family IV. Incertae Sedis;Mahella;Mahella australiens; 
+252966;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales; ;Mahella;Mahella australiens; 
 184064;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales;Thermodesulfobiaceae;Thermodesulfobium;Thermodesulfobium narugen; 
 1794699;cellular organisms;Bacteria;Bacillota;Clostridia;Thermoanaerobacterales;Thermodesulfobiaceae;Thermodesulfobium;Thermodesulfobium acidiphil; 
 2640322;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halanaerobiaceae;Halocella; ; 
 656519;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halanaerobiaceae;Halanaerobium;Halanaerobium hydrogeniforma; 
 2331;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halanaerobiaceae;Halanaerobium;Halanaerobium praevale; 
 31909;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halothermotrichaceae;Halothermothrix;Halothermothrix oren; 
-1323375;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halanaerobiales incertae sedis;Anoxybacter;Anoxybacter fermenta; 
+1323375;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales; ;Anoxybacter;Anoxybacter fermenta; 
 42422;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halobacteroidaceae;Halobacteroides;Halobacteroides halobi; 
 28187;cellular organisms;Bacteria;Bacillota;Clostridia;Halanaerobiales;Halobacteroidaceae;Acetohalobium;Acetohalobium arabatic; 
 2316383;cellular organisms;Bacteria;Bacillota;Clostridia;Thermosediminibacterales;Tepidanaerobacteraceae;Biomaibacter;Biomaibacter acetigen; 
@@ -4534,9 +4533,9 @@
 1582259;cellular organisms;Bacteria;Bacillota;Tissierellia;Tissierellales;Tissierellaceae;Gudongella;Gudongella oleilyti; 
 1278232;cellular organisms;Bacteria;Bacillota;Tissierellia;Tissierellales;Tepidimicrobiaceae;Keratinibaculum;Keratinibaculum paraultunen; 
 1556;cellular organisms;Bacteria;Bacillota;Tissierellia;Tissierellales;Gottschalkiaceae;Gottschalkia;Gottschalkia aciduri; 
-2816908;cellular organisms;Bacteria;Bacillota;Tissierellia;Tissierellia incertae sedis;Sedimentibacter;Sedimentibacter sp. zt; ; 
-1852374;cellular organisms;Bacteria;Bacillota;Tissierellia;Tissierellia incertae sedis;Ezakiella;Ezakiella massiliens; ; 
-1871025;cellular organisms;Bacteria;Bacillota;Bacillota sensu stricto incertae sedis;Ndongobacter;Ndongobacter massiliens; ; ; 
+2816908;cellular organisms;Bacteria;Bacillota;Tissierellia; ; ;Sedimentibacter;Sedimentibacter sp. zt; 
+1852374;cellular organisms;Bacteria;Bacillota;Tissierellia; ; ;Ezakiella;Ezakiella massiliens; 
+1871025;cellular organisms;Bacteria;Bacillota; ; ; ;Ndongobacter;Ndongobacter massiliens; 
 243899;cellular organisms;Bacteria;Bacillota;endosymbiont 'TC1' of Trimyema compress; ; ; ; ; 
 317577;cellular organisms;Bacteria;Deinococcota;Deinococci;Deinococcales;Deinococcaceae;Deinococcus;Deinococcus fic; 
 2623546;cellular organisms;Bacteria;Deinococcota;Deinococci;Deinococcales;Deinococcaceae;Deinococcus; ; 
@@ -4626,7 +4625,7 @@
 54304;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Oscillatoriophycideae;Oscillatoriales;Microcoleaceae;Planktothr; 
 1205;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Oscillatoriophycideae;Oscillatoriales;Microcoleaceae;Trichodesmi; 
 35823;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Oscillatoriophycideae;Oscillatoriales;Microcoleaceae;Arthrospi; 
-2023214;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Oscillatoriophycideae;Oscillatoriales;Oscillatoriales incertae sedis;Koinone; 
+2023214;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Oscillatoriophycideae;Oscillatoriales;Koinone; ; 
 43988;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Gomontiellales;Cyanothecaceae;Cyanothe; ; 
 241421;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Gomontiellales;Gomontiellaceae;Crinali; ; 
 28070;cellular organisms;Bacteria;Cyanobacteriota;Cyanophyceae;Oscillatoriophycideae;Chroococcales;Aphanothecaceae;Gloeothe; 
@@ -4651,7 +4650,7 @@
 500;cellular organisms;Bacteria;Thermomicrobiota;Thermomicrobia;Thermomicrobiales;Thermomicrobiaceae;Thermomicrobium;Thermomicrobium rose; 
 120961;cellular organisms;Bacteria;Chloroflexota;Chloroflexia;Chloroflexales;Roseiflexineae;Roseiflexaceae;Roseiflex; 
 1107;cellular organisms;Bacteria;Chloroflexota;Chloroflexia;Chloroflexales;Chloroflexineae;Chloroflexaceae;Chloroflex; 
-1806508;cellular organisms;Bacteria;Chloroflexota;Ardenticatenia;Ardenticatenia incertae sedis;Candidatus Promineifilum;Candidatus Promineofilum bre; ; 
+1806508;cellular organisms;Bacteria;Chloroflexota;Ardenticatenia; ; ;Candidatus Promineifilum;Candidatus Promineofilum bre; 
 2601677;cellular organisms;Bacteria;Chloroflexota;Tepidiformia;Tepidiformales;Tepidiformaceae;Tepidiforma;Tepidiforma bonchosmolovskay; 
 167964;cellular organisms;Bacteria;Chloroflexota;Anaerolineae;Anaerolineales;Anaerolineaceae;Anaerolinea;Anaerolinea thermophi; 
 2635759;cellular organisms;Bacteria;Chloroflexota;Anaerolineae;Anaerolineales;Anaerolineaceae;Anaerolinea; ; 
@@ -4664,7 +4663,7 @@
 61435;cellular organisms;Bacteria;Chloroflexota;Dehalococcoidia;Dehalococcoidales;Dehalococcoidaceae;Dehalococcoides;Dehalococcoides mccart; 
 237581;cellular organisms;Bacteria;Chloroflexota;Dehalococcoidia;Dehalococcoidales;Dehalococcoidaceae;Dehalococcoides; ; 
 2509675;cellular organisms;Bacteria;Chloroflexota;Ktedonobacteria;Ktedonobacterales;Ktedonosporobacteraceae;Ktedonosporobacter;Ktedonosporobacter rubriso; 
-525904;cellular organisms;Bacteria;Chloroflexota;Chloroflexota incertae sedis;Thermobaculum;Thermobaculum terrenum;Thermobaculum terrenum ATCC BAA-7; ; 
+525904;cellular organisms;Bacteria;Chloroflexota; ; ; ;Thermobaculum;Thermobaculum terrenum;Thermobaculum terrenum ATCC BAA-7
 1005039;cellular organisms;Bacteria;Armatimonadota;Fimbriimonadia;Fimbriimonadales;Fimbriimonadaceae;Fimbriimonas;Fimbriimonas ginsengiso; 
 454171;cellular organisms;Bacteria;Armatimonadota;Chthonomonadetes;Chthonomonadales;Chthonomonadaceae;Chthonomonas;Chthonomonas calidiros; 
 2683645;cellular organisms;Bacteria;Mycoplasmatota;Mollicutes;Mycoplasmatales;Mycoplasmataceae;Mycoplasma; ; 
@@ -4831,8 +4830,8 @@
 2728835;cellular organisms;Bacteria;Verrucomicrobiota;Verrucomicrobiae;Verrucomicrobiales;Verrucomicrobiaceae;Luteolibacter;Luteolibacter lute; 
 239935;cellular organisms;Bacteria;Verrucomicrobiota;Verrucomicrobiae;Verrucomicrobiales;Akkermansiaceae;Akkermansia;Akkermansia muciniphi; 
 1679444;cellular organisms;Bacteria;Verrucomicrobiota;Verrucomicrobiae;Verrucomicrobiales;Akkermansiaceae;Akkermansia;Akkermansia glycaniphi; 
-2796139;cellular organisms;Bacteria;Verrucomicrobiota;Verrucomicrobiota incertae sedis;Methylacidimicrobium;Methylacidimicrobium sp. ; ; ; 
-2730359;cellular organisms;Bacteria;Verrucomicrobiota;Verrucomicrobiota incertae sedis;Methylacidimicrobium;Methylacidimicrobium sp. A; ; ; 
+2796139;cellular organisms;Bacteria;Verrucomicrobiota; ; ; ;Methylacidimicrobium;Methylacidimicrobium sp. ; 
+2730359;cellular organisms;Bacteria;Verrucomicrobiota; ; ; ;Methylacidimicrobium;Methylacidimicrobium sp. A; 
 1704307;cellular organisms;Bacteria;Verrucomicrobiota;Spartobacteria;Candidatus Xiphinematobacter;Candidatus Xiphinematobacter sp. Idaho Gra; ; ; 
 2628272;cellular organisms;Bacteria;Verrucomicrobiota;Methylacidiphilae;Methylacidiphilales;Methylacidiphilaceae;Methylacidiphilum (ex Ratnadevi et al. 2023); ; 
 431057;cellular organisms;Bacteria;Verrucomicrobiota;Methylacidiphilae;Methylacidiphilales;Methylacidiphilaceae;Methylacidiphilum (ex Ratnadevi et al. 2023);Methylacidiphilum kamchatken; 
@@ -4940,8 +4939,8 @@
 267986;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales;Schleiferiaceae;Owenweeks; ; 
 2828338;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales;Schleiferiaceae;Croceimicrobi; ; 
 332102;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales;Crocinitomicaceae;Fluviico; ; 
-1940138;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales;Flavobacteriales incertae sedis;Candidatus Walczuchel; ; 
-336809;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales;Flavobacteriales incertae sedis;Candidatus Karelsulc; ; 
+1940138;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales; ;Candidatus Walczuchel; ; 
+336809;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales; ;Candidatus Karelsulc; ; 
 1755829;cellular organisms;Bacteria;Bacteroidota;Flavobacteriia;Flavobacteriales;Ichthyobacteriaceae;Ichthyobacteri; ; 
 2812019;cellular organisms;Bacteria;Bacteroidota;Chitinophagia;Chitinophagales;Chitinophagaceae;Pseudocnuel; ; 
 79328;cellular organisms;Bacteria;Bacteroidota;Chitinophagia;Chitinophagales;Chitinophagaceae;Chitinopha; ; 
@@ -5095,10 +5094,7 @@
 891968;cellular organisms;Bacteria;Synergistota;Synergistia;Synergistales;Acetomicrobiaceae;Acetomicrobium;Acetomicrobium mobile;Acetomicrobium mobile DSM 131
 572547;cellular organisms;Bacteria;Synergistota;Synergistia;Synergistales;Aminobacteriaceae;Aminobacterium;Aminobacterium colombiense;Aminobacterium colombiense DSM 122
 580340;cellular organisms;Bacteria;Synergistota;Synergistia;Synergistales;Thermovirgaceae;Thermovirga;Thermovirga lienii;Thermovirga lienii DSM 172
-2026885;cellular organisms;Bacteria;Bacteria incertae sedis;Bacteria candidate phyla;Candidatus Bipolaricaulota;Candidatus Bipolaricaulis;Candidatus Bipolaricaulis anaerobi; ; 
-2093823;cellular organisms;Bacteria;Bacteria incertae sedis;Bacteria candidate phyla;Candidatus Saccharibacteria;Candidatus Saccharimonadia;Candidatus Nanosynbacterales;Candidatus Nanosynbacteraceae;Candidatus Nanosynbact
-1551504;cellular organisms;Bacteria;Bacteria incertae sedis;Bacteria candidate phyla;Candidatus Dependentiae;Candidatus Babeliae;Candidatus Babeliales;Candidatus Babeliaceae;Candidatus Babe
-2715734;cellular organisms;Bacteria;Bacteria incertae sedis;Bacteria candidate phyla;Microgenomates group incertae sedis;Candidatus Chazhemtobacteraceae;Candidatus Chazhemtobacteri; ; 
+2715734;cellular organisms;Bacteria; ; ; ; ;Bacteria candidate phyla;Candidatus Chazhemtobacteraceae;Candidatus Chazhemtobacteri
 1408159;cellular organisms;Bacteria;Thermotogota;Thermotogae;Thermotogales;Thermotogaceae;Thermotoga;Thermotoga caldifontis;Thermotoga caldifontis AZM44c
 1157948;cellular organisms;Bacteria;Thermotogota;Thermotogae;Thermotogales;Thermotogaceae;Thermotoga;Thermotoga sp. 281; 
 126738;cellular organisms;Bacteria;Thermotogota;Thermotogae;Thermotogales;Thermotogaceae;Thermotoga;Thermotoga sp. R; 
@@ -5136,7 +5132,7 @@
 436114;cellular organisms;Bacteria;Aquificota;Aquificae;Aquificales;Hydrogenothermaceae;Sulfurihydrogenibium;Sulfurihydrogenibium sp. YO3AO; 
 204536;cellular organisms;Bacteria;Aquificota;Aquificae;Aquificales;Hydrogenothermaceae;Sulfurihydrogenibium;Sulfurihydrogenibium azorense;Sulfurihydrogenibium azorense Az-F
 123214;cellular organisms;Bacteria;Aquificota;Aquificae;Aquificales;Hydrogenothermaceae;Persephonella;Persephonella marina;Persephonella marina EX-
-1298851;cellular organisms;Bacteria;Aquificota;Aquificae;Aquificales;Aquificales genera incertae sedis;Thermosulfidibacter;Thermosulfidibacter takaii;Thermosulfidibacter takaii ABI70
+1298851;cellular organisms;Bacteria;Aquificota;Aquificae;Aquificales; ;Thermosulfidibacter;Thermosulfidibacter takaii;Thermosulfidibacter takaii ABI70
 648996;cellular organisms;Bacteria;Aquificota;Aquificae;Desulfurobacteriales;Desulfurobacteriaceae;Thermovibrio;Thermovibrio ammonificans;Thermovibrio ammonificans HB
 868864;cellular organisms;Bacteria;Aquificota;Aquificae;Desulfurobacteriales;Desulfurobacteriaceae;Desulfurobacterium;Desulfurobacterium thermolithotrophum;Desulfurobacterium thermolithotrophum DSM 116
 2047767;cellular organisms;Bacteria;Thermodesulfobacteriota;Thermodesulfobacteria;Thermodesulfobacteriales;Thermodesulfobacteriaceae;Thermosulfurimonas;Thermosulfurimonas mari; 
@@ -5195,7 +5191,6 @@
 5267;cellular organisms;Eukaryota;Opisthokonta;Fungi;Dikarya;Basidiomycota;Ustilaginomycotina;Ustilaginomycetes;Ustilaginal
 162474;cellular organisms;Eukaryota;Opisthokonta;Fungi;Dikarya;Basidiomycota;Ustilaginomycotina;Malasseziomycetes;Malassezial
 5234;cellular organisms;Eukaryota;Opisthokonta;Fungi;Dikarya;Basidiomycota;Agaricomycotina;Tremellomycetes;Tremellal
-6033;cellular organisms;Eukaryota;Opisthokonta;Fungi;Fungi incertae sedis;Microsporidia;Apansporoblastina;Unikaryonidae;Encephalitozo
 89593;cellular organisms;Eukaryota;Opisthokonta;Metazoa;Eumetazoa;Bilateria;Deuterostomia;Chordata;Crania
 423054;cellular organisms;Eukaryota;Sar;Alveolata;Apicomplexa;Conoidasida;Coccidia;Eucoccidiorida;Eimeriori
 5820;cellular organisms;Eukaryota;Sar;Alveolata;Apicomplexa;Aconoidasida;Haemosporida;Plasmodiidae;Plasmodi
@@ -5382,7 +5377,7 @@
 2187;cellular organisms;Archaea;Euryarchaeota;Methanococci;Methanococcales;Methanococcaceae;Methanococcus;Methanococcus vanniel; 
 2188;cellular organisms;Archaea;Euryarchaeota;Methanococci;Methanococcales;Methanococcaceae;Methanococcus;Methanococcus volt; 
 155863;cellular organisms;Archaea;Euryarchaeota;Methanococci;Methanococcales;Methanococcaceae;Methanothermococcus;Methanothermococcus okinawens; 
-2624956;cellular organisms;Archaea;Euryarchaeota;Methanococci;Methanococcales;Methanococcales incertae sedis;Methanofervidicoccus; ; 
+2624956;cellular organisms;Archaea;Euryarchaeota;Methanococci;Methanococcales; ;Methanofervidicoccus; ; 
 387631;cellular organisms;Archaea;Euryarchaeota;Archaeoglobi;Archaeoglobales;Archaeoglobaceae;Archaeoglobus;Archaeoglobus sulfaticallidus;Archaeoglobus sulfaticallidus PM70
 1344584;cellular organisms;Archaea;Euryarchaeota;Archaeoglobi;Archaeoglobales;Archaeoglobaceae;Archaeoglobus;Archaeoglobus fulgidus;Archaeoglobus fulgidus DSM 87
 693661;cellular organisms;Archaea;Euryarchaeota;Archaeoglobi;Archaeoglobales;Archaeoglobaceae;Archaeoglobus;Archaeoglobus veneficus;Archaeoglobus veneficus SN
@@ -5410,11 +5405,11 @@
 1582439;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaeria;Nitrosopumilales;Nitrosopumilaceae;Nitrosopumilus;Nitrosopumilus piranens; 
 2259673;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaeria;Nitrosopumilales;Nitrosopumilaceae;Nitrosarchaeum;Nitrosarchaeum sp. A; 
 1898749;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaeria;Nitrosopumilales;Nitrosopumilaceae;Candidatus Nitrosomarinus;Candidatus Nitrosomarinus catali; 
-1603555;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaerota incertae sedis;Candidatus Nitrosotenuis;Candidatus Nitrosotenuis cloac; ; ; 
-2259672;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaerota incertae sedis;Candidatus Nitrosotenuis;Candidatus Nitrosotenuis sp. D; ; ; 
-1846278;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaerota incertae sedis;Candidatus Nitrosotenuis;Candidatus Nitrosotenuis aquari; ; ; 
-1903276;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaerota incertae sedis;Candidatus Nitrosotalea;Candidatus Nitrosotalea okcheonens; ; ; 
-1410606;cellular organisms;Archaea;Nitrososphaerota;Nitrososphaerota incertae sedis;Candidatus Nitrosopelagicus;Candidatus Nitrosopelagicus brev; ; ; 
+1603555;cellular organisms;Archaea;Nitrososphaerota; ; ; ;Candidatus Nitrosotenuis;Candidatus Nitrosotenuis cloac; 
+2259672;cellular organisms;Archaea;Nitrososphaerota; ; ; ;Candidatus Nitrosotenuis;Candidatus Nitrosotenuis sp. D; 
+1846278;cellular organisms;Archaea;Nitrososphaerota; ; ; ;Candidatus Nitrosotenuis;Candidatus Nitrosotenuis aquari; 
+1903276;cellular organisms;Archaea;Nitrososphaerota; ; ; ;Candidatus Nitrosotalea;Candidatus Nitrosotalea okcheonens; 
+1410606;cellular organisms;Archaea;Nitrososphaerota; ; ; ;Candidatus Nitrosopelagicus;Candidatus Nitrosopelagicus brev; 
 1874277;cellular organisms;Archaea;Nitrososphaerota;Conexivisphaeria;Conexivisphaerales;Conexivisphaeraceae;Conexivisphaera;Conexivisphaera cali; 
 1104324;cellular organisms;Archaea;Thermoproteota;Thermoprotei;Thermoproteales;Thermoproteaceae;Pyrobaculum;Pyrobaculum ferrireduce; 
 121277;cellular organisms;Archaea;Thermoproteota;Thermoprotei;Thermoproteales;Thermoproteaceae;Pyrobaculum;Pyrobaculum arsenatic; 
@@ -5564,9 +5559,9 @@
 450;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Legionellales;Legionellaceae;Legionella;Legionella longbeach; 
 1401251;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Legionellales;Coxiellaceae;Coxiella;Coxiella burnetii;Coxiella burnetii str. Schperli
 539329;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Thiotrichales;Francisellaceae;Francisella;Francisella philomiragia;Francisella philomiragia subsp. philomiragia ATCC 250
-2732590;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Candidatus Vesicomyosocius;Candidatus Vesicomyosocius sp. SY067_SCS0; 
-1125411;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Pseudothioglobus;Candidatus Pseudothioglobus singularis;Candidatus Pseudothioglobus singularis P; 
-1972134;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;Candidatus Nardonella;endosymbiont of Sipalinus gig; ; 
+2732590;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;sulfur-oxidizing symbionts;Candidatus Vesicomyosocius;Candidatus Vesicomyosocius sp. SY067_SCS0
+1125411;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Pseudothioglobus;Candidatus Pseudothioglobus singularis;Candidatus Pseudothioglobus singularis P
+1972134;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;Candidatus Nardonella;endosymbiont of Sipalinus gig; 
 650377;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;endosymbiont of Euscepes postfasciat; ; ; ; 
 725;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Pasteurellales;Pasteurellaceae;Haemophilus;Haemophilus influenzae;Haemophilus influenzae biotype aegypti
 262727;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Pasteurellales;Pasteurellaceae;Haemophilus;Haemophilus influenzae;Haemophilus influenzae R28
@@ -5665,7 +5660,7 @@
 543886;cellular organisms;Bacteria;Actinomycetota;Actinomycetes;Pseudonocardiales;Pseudonocardiaceae;Saccharopolyspora;Saccharopolyspora endophyti; 
 2767881;cellular organisms;Bacteria;Bacillota;Bacilli;Lactobacillales;Lactobacillaceae;Fructilactobacill; ; 
 2490633;cellular organisms;Bacteria;Bacillota;Bacilli;Lactobacillales;Streptococcaceae;Streptococcus;Streptococcus periodontic; 
-28033;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales;Eubacteriales incertae sedis;Clostridiales Family XVII. Incertae Sedis;Sulfobacill; 
+28033;cellular organisms;Bacteria;Bacillota;Clostridia;Eubacteriales; ;Sulfobacill; ; 
 31899;cellular organisms;Bacteria;Bacillota;Clostridia;Caldicellulosiruptorales;Caldicellulosiruptoraceae;Caldicellulosiruptor;Caldicellulosiruptor besc; 
 33037;cellular organisms;Bacteria;Bacillota;Tissierellia;Tissierellales;Peptoniphilaceae;Anaerococcus;Anaerococcus vaginal; 
 29559;cellular organisms;Bacteria;Mycoplasmatota;Mycoplasmoidales;Metamycoplasmataceae;Metamycoplasma;Metamycoplasma hyosynovi; ; 
@@ -5821,7 +5816,7 @@
 1434214;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Pasteurellales;Pasteurellaceae;Mannheimia;Mannheimia varigena;Mannheimia varigena USDA-ARS-USMARC-13
 732;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Pasteurellales;Pasteurellaceae;Aggregatibacter;Aggregatibacter aphrophil; 
 697331;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Pasteurellales;Pasteurellaceae;Basf; ; 
-2732587;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Gammaproteobacteria incertae sedis;sulfur-oxidizing symbionts;Candidatus Vesicomyosoci; ; 
+2732587;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria; ; ;sulfur-oxidizing symbionts;Candidatus Vesicomyosoci; 
 34067;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Thiotrichales;Piscirickettsiaceae;Cycloclastic; ; 
 191291;cellular organisms;Bacteria;Campylobacterota;Epsilonproteobacteria;Nautiliales;Nautiliaceae;Nautil; ; 
 920;cellular organisms;Bacteria;Pseudomonadota;Acidithiobacillia;Acidithiobacillales;Acidithiobacillaceae;Acidithiobacillus;Acidithiobacillus ferrooxida; 
@@ -5852,7 +5847,7 @@
 2773707;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Escherichia;Escherichia coli;Escherichia coli O19:
 2778657;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Escherichia;Escherichia coli;Escherichia coli O9:H
 1045010;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Escherichia;Escherichia coli;Escherichia coli O1
-1906660;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae incertae sedis;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Mikel
+1906660;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;ant, tsetse, mealybug, aphid, etc. endosymbionts;Candidatus Mikel; 
 2675786;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Enterobacteriaceae;Enterobacteriaceae endosymbiont of Donacia thalassi; ; 
 150052;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Yersiniaceae;Yersinia;Yersinia enterocolitica;Yersinia enterocolitica subsp. enterocoliti
 1660040;cellular organisms;Bacteria;Pseudomonadota;Gammaproteobacteria;Enterobacterales;Erwiniaceae;Buchnera;Buchnera aphidicola;Buchnera aphidicola (Cinara cuneomaculat
