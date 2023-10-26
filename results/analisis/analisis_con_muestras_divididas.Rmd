@@ -43,7 +43,7 @@ otus_centrales_tomate2 <- list(otus_tomate_desarrollo , otus_tomate_no_desarroll
 ```
 
 ```{r}
-rizosfera_bacterias <- read.csv("../../data/taxonomy/linaje_bacterias.de_tomate.csv" , header = FALSE , sep = ";" , row.names = 1)
+rizosfera_bacterias <- read.csv("../../data/taxonomy/linaje_bacterias_standarizado.de_tomate.csv" , header = FALSE , sep = ";" , row.names = 1)
 ```
 
 ```{r}
@@ -63,8 +63,6 @@ for (i in 1:3){
   nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales_tomate[[i]][, "V7"]))
   
 }
-
-
 print(nombres_familias)
 ```
 
@@ -74,7 +72,7 @@ data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras
 
 
 for (i in 1:3){
-  for (j in 1:54) {
+  for (j in 1:53) {
     if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[i]][, "V7"] ))){
       data_familias[j,i] <- 1
     }else
@@ -83,14 +81,14 @@ for (i in 1:3){
     }
   }
   
-}
+  }
 
 
 data_familias <- data.frame(data_familias , row.names = nombres_familias )
 colnames(data_familias) <- c(  muestras_tomate)
 ```
 
-
+Pseudomonadaceae, Micrococcaceae y Mycobacteriaceae son las tres familias que se encontraron en los tres analisis.
 
 ```{r}
 upset(data_familias    )
@@ -113,7 +111,7 @@ data_generos <- matrix( nrow = length(nombres_generos), ncol = length(muestras_t
 
 
 for (i in 1:3){
-  for (j in 1:74) {
+  for (j in 1:73) {
     if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[i]][, "V8"] ))){
       data_generos[j,i] <- 1
     }else
@@ -130,6 +128,8 @@ colnames(data_generos) <- c(  muestras_tomate)
 
 ```
 
+Pseudomonas y Halopseudomonas fueron los géneros presentes en los tres análisis. 
+
 ```{r}
 upset(data_generos)
 ```
@@ -145,12 +145,14 @@ for (i in 1:3){
 Entre las principales coincidencias entre los diversos Otus centrales de rizósfera de tomate se encuentran la abundancia del género Pseudomonas.
 
 ```{r}
-print(taxa_centrales_tomate[[1]][ , c( "Rank7")])
+print(taxa_centrales_tomate[[1]][ , c( "V9")])
 ```
 ```{r}
-print(taxa_centrales_tomate[[2]][ , c( "Rank7")])
+print(taxa_centrales_tomate[[2]][ , c( "V9")])
 ```
-
+```{r}
+print(taxa_centrales_tomate[[3]][ , c( "V9")])
+```
 
 ```{r}
 data_tomate_desarrollo <- read.csv("../../data/tables/tomate_desarrollo.csv" , row.names = 1, header = TRUE )
@@ -207,7 +209,7 @@ La cantidad de OTUs detectados como clave en los submuestreos aleaorios se encue
 taxa_tomate_aleatorio1 <- list()
 numero_otus <- c()
 for (i in 1:10){
-  taxa_tomate_aleatorio1[[i]] <- rizosfera@tax_table@.Data[row.names(otus_tomate_aleatorio1 [[i]]),]
+  taxa_tomate_aleatorio1[[i]] <- rizosfera_bacterias[ intersect(row.names(rizosfera_bacterias), row.names(otus_tomate_aleatorio1[[i]])),]
   x_i <-  length(row.names(otus_tomate_aleatorio1[[i]]))
   print( paste0( "Se obtuvieron "  , as.character(x_i)  , " OTUs centrales en el submuestreo aleatorio " , as.character(i)  ) )
   numero_otus <- c(numero_otus , x_i)
@@ -221,11 +223,11 @@ print(paste0("Su mediana fue ", as.character(median(numero_otus))))
 ```{r}
 nombres_familias <- c()
 for (i in 1:10){
-  nombres_familias <- union(nombres_familias ,as.vector(taxa_tomate_aleatorio1[[i]][, "Rank5"]))
+  nombres_familias <- union(nombres_familias ,as.vector(taxa_tomate_aleatorio1[[i]][, "V7"]))
   #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
 }
 
-nombres_familias <- union(nombres_familias , as.vector(taxa_centrales_tomate[[3]][,"Rank5"]))
+nombres_familias <- union(nombres_familias , as.vector(taxa_centrales_tomate[[3]][,"V7"]))
 print(nombres_familias)
 ```
 
@@ -233,10 +235,9 @@ print(nombres_familias)
 data_familias <- matrix( nrow = length(nombres_familias), ncol = 11 )
 
 
-
 for (i in 2:11){
-  for (j in 1:9) {
-    if (is.element(nombres_familias[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "Rank5"] ))){
+  for (j in 1:106) {
+    if (is.element(nombres_familias[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "V7"] ))){
       data_familias[j,i] <- 1
     }else
     {
@@ -245,8 +246,8 @@ for (i in 2:11){
   }
 }
 
-for (j in 1:9) {
-    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[3]][, "Rank5"] ))){
+for (j in 1:106) {
+    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[3]][, "V7"] ))){
       data_familias[j,1] <- 1
     }else
     {
@@ -257,21 +258,22 @@ data_familias <- data.frame(data_familias , row.names = nombres_familias )
 colnames(data_familias) <- c("totales" , as.character(1:10) )
 ```
 
-
+Acetobacteraceae y Pseudomonadaceae son las familias rescatadas en los 10 submuestreos aleatorios así como en el original. Burkholderiaceae solo no fue encontrado en uno de los analisis aleatorios. Enterobacteriaceae fue encontrado en 8 de los submuestreos aleatorios, pero no en el análisis original, aunque estaba presente en el de muestras de "desarrollo".
+ 
 
 ```{r}
-upset(data_familias , nsets = 11 , keep.order = TRUE   )
+upset(data_familias , nsets = 11 , keep.order = FALSE   )
 ```
 
 
 ```{r}
 nombres_generos <- c()
 for (i in 1:10){
-  nombres_generos <- union(nombres_generos ,as.vector(taxa_tomate_aleatorio1[[i]][, "Rank6"]))
+  nombres_generos <- union(nombres_generos ,as.vector(taxa_tomate_aleatorio1[[i]][, "V8"]))
   #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
 }
 
-nombres_generos <- union(nombres_generos , as.vector(taxa_centrales_tomate[[3]][,"Rank6"]))
+nombres_generos <- union(nombres_generos , as.vector(taxa_centrales_tomate[[3]][,"V8"]))
 print(nombres_generos)
 ```
 
@@ -281,8 +283,8 @@ data_generos <- matrix( nrow = length(nombres_generos), ncol = 11 )
 
 
 for (i in 2:11){
-  for (j in 1:94) {
-    if (is.element(nombres_generos[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "Rank6"] ))){
+  for (j in 1:188) {
+    if (is.element(nombres_generos[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "V8"] ))){
       data_generos[j,i] <- 1
     }else
     {
@@ -291,39 +293,85 @@ for (i in 2:11){
   }
 }
 
-for (j in 1:94) {
-    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[3]][, "Rank6"] ))){
+for (j in 1:188) {
+    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[3]][, "V8"] ))){
       data_generos[j,1] <- 1
     }else
     {
       data_generos[j,1] <- 0
     }
-}
+}9
 data_generos <- data.frame(data_generos , row.names = nombres_generos )
 colnames(data_generos) <- c("totales" , as.character(1:10) )
 ```
 
-
+El género Pseudomonas fue considerado clave en cada uno de los submuestreos aleatorios. El genero Burkholderia aparecio en todos salvo uno de los analisis aleatorios. El género Komagataeibacter reapareció en 8 de los muestreos aleatorios y el original. Corynebacterium apareció en 9 de los análisis aleatorios sin aparecer en el original, aunque sí aparece en el análisis de muestras de desarrollo. 
 
 ```{r}
 upset(data_generos , nsets = 11 , keep.order = TRUE   )
 ```
 
 
+```{r}
+nombres_especies <- c()
+for (i in 1:10){
+  nombres_especies <- union(nombres_especies ,as.vector(taxa_tomate_aleatorio1[[i]][, "V9"]))
+  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
+}
+
+nombres_especies <- union(nombres_especies , as.vector(taxa_centrales_tomate[[3]][,"V9"]))
+print(nombres_especies)
+```
+
+```{r}
+data_especies <- matrix( nrow = length(nombres_especies), ncol = 11 )
+
+
+
+for (i in 2:11){
+  for (j in 1:335) {
+    if (is.element(nombres_especies[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "V9"] ))){
+      data_especies[j,i] <- 1
+    }else
+    {
+      data_especies[j,i] <- 0
+    }
+  }
+}
+
+for (j in 1:335) {
+    if (is.element(nombres_especies[j], as.vector(taxa_centrales_tomate[[3]][, "V9"] ))){
+      data_especies[j,1] <- 1
+    }else
+    {
+      data_especies[j,1] <- 0
+    }
+}
+data_especies <- data.frame(data_especies , row.names = nombres_especies )
+colnames(data_especies) <- c("totales" , as.character(1:10) )
+```
+
+Del género Pseudomonas, la especie agaric fue encontrada como especie clave en todas las muestras, y fue encontrada en 4 de los submuetreos aleatorios. Del género Komagataeibacter, las dos especies clave más comunes entre los submuestreos aleatorios, Medellinensis y Europaeu, no aparecen en el análisis original. La especie clave del género Corynebacterium más común entre los submuestreos aleatorios fue glucoronolyticu, apareciendo en la mitad de ellos, aunque no en el análisis de las muestras de "desarrollo". 
+
+```{r}
+upset(data_especies , nsets = 11 , keep.order = TRUE   )
+```
+
+
 
 
 
 ```{r}
-for (i in 1:6){
-  intersecion_i <- intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank6"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank6"]  ) )
+for (i in 1:10){
+  intersecion_i <- intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "V8"]) , as.vector(taxa_centrales_tomate[[3]][ , "V8"]  ) )
   print(paste0( "A nivel género hubo " , as.character( length(intersecion_i)) , " coincidencias entre los otus encontrados con todas las muestras y con el submuestreo aleatorio ", as.character(i) ))
 }
 ```
 
 
 ```{r}
-for (i in 1:6){
-  intersecion_i <- intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "Rank7"]) , as.vector(taxa_centrales_tomate[[3]][ , "Rank7"]  ) )
+for (i in 1:10){
+  intersecion_i <- intersect(as.vector(taxa_tomate_aleatorio1[[i]][ , "V9"]) , as.vector(taxa_centrales_tomate[[3]][ , "V9"]  ) )
   print(paste0( "A nivel especie´ hubo " , as.character( length(intersecion_i)) , " coincidencias entre los otus encontrados con todas las muestras y con el submuestreo aleatorio ", as.character(i) ))
 }
 ```
