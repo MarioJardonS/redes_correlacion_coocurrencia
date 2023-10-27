@@ -31,8 +31,6 @@ if (!require(stringr)) install.packages('stringr')
 library(stringr)
 if (!require(phyloseq)) install.packages('phyloseq')
 library(phyloseq)
-if (!require(UpSetR)) install.packages('UpSetR')
-library(UpSetR)
 
 ```
 
@@ -333,7 +331,10 @@ for (i in 1:3){
 
 #Otus centrales
 
-En esta sección se cargan los primeros reportes de otus_centrales, que se obtuvieron con alto grado y alta cercanía, mezclada con baja centralidad de intermediación. Todas las tablas consisten de relativamente pocos otus (16, 37 , 8). A nivel familia los tres tipos de muestras tienen en común son bacterias de la familia Burkholderiaceae (Involvement of Burkholderiaceae and sulfurous volatiles in disease-suppressive soils). 
+En esta sección se cargan los primeros reportes de otus_centrales, que se obtuvieron con alto grado y alta cercanía, mezclada con baja centralidad de intermediación. Todas las tablas consisten de relativamente pocos otus (16, 37 , 8). A nivel familia los tres tipos de muestras tienen en común son bacterias de:
+
+* El grupo Chlorobium/Pelodictyon (oxidantes del azufre) y 
+* El subcluster Luna-1 (actinobacterial strains from freshwater systems tend to form mixed colonies together with strains of Spirochaeta, Hylemonella, Polynucleobacter or other taxa https://doi.org/10.1099/ijsem.0.004825). 
 
 Las principales coincidencias a nivel género se dieron entre los taxa centrales de las muestras de chile y tomate. No hay coincidencias entre especies clasificadas en las tablas de otus centrales. 
 
@@ -365,110 +366,38 @@ for (i in 1:3){
 En las siguientes celdas se verifican las intersecciones por pares de los otus centrales a nivel familia, género y especie. 
 
 ```{r}
-nombres_familias <- c()
-for (i in 1:3){
-  nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales[[i]][, "V7"]))
-  
-}
-print(nombres_familias)
-```
-
-```{r}
-data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras) )
-
-
-
-for (i in 1:3){
-  for (j in 1:38) {
-    if (is.element(nombres_familias[j], as.vector(taxa_centrales[[i]][, "V7"] ))){
-      data_familias[j,i] <- 1
-    }else
-    {
-      data_familias[j,i] <- 0
-    }
-  }
-  
-  }
-
-
-data_familias <- data.frame(data_familias , row.names = nombres_familias )
-colnames(data_familias) <- c(  muestras)
-```
-
-
-```{r}
-upset(data_familias    )
-```
-
-
-```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
 for (i in 1:3){
   print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "V7"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "V7"]) ))
 }
 ```
 
-
-```{r}
-nombres_generos <- c()
-for (i in 1:3){
-  nombres_generos <- union(nombres_generos ,as.vector(taxa_centrales[[i]][, "V8"]))
-  
-}
-print(nombres_generos)
-```
-
-```{r}
-data_generos <- matrix( nrow = length(nombres_generos), ncol = length(muestras) )
-
-
-
-for (i in 1:3){
-  for (j in 1:47) {
-    if (is.element(nombres_generos[j], as.vector(taxa_centrales[[i]][, "V8"] ))){
-      data_generos[j,i] <- 1
-    }else
-    {
-      data_generos[j,i] <- 0
-    }
-  }
-  
-  }
-
-
-data_generos <- data.frame(data_generos , row.names = nombres_generos )
-colnames(data_generos) <- c(  muestras)
-```
-
-
-```{r}
-upset(data_generos    )
-```
-
-
 Las coincidencias entre los otus centrales a nivel género de las muestras de chile y tomate son:
 
-* Burkholderia (Members of the genus Burkholderia are versatile organisms that occupy a surprisingly wide range of ecological niches. These bacteria are exploited for biocontrol, bioremediation and plant growth promotion purposes,)
 * Paenibacillus (Many Paenibacillus species can promote crop growth directly via biological nitrogen fixation, phosphate solubilization, production of the phytohormone indole-3-acetic acid (IAA), and release of siderophores that enable iron acquisition. They can also offer protection against insect herbivores and phytopathogens https://link.springer.com/article/10.1186/s12934-016-0603-7), 
-113)
+* Providencia (Another factor involved in soil aggregation is the polysaccharide content of soil. This was significantly enhanced only in B5 (Anabaena sp. + Providencia sp., CW1+PW5), https://doi.org/10.1016/j.ejsobi.2016.04.001) y 
+* Candidatus Gullanella (Second, Candidatus Gullanella endobia FVIR is for the endosymbiont from F. virgata. https://doi.org/10.1073/pnas.1603910113)
 
+Entre las muestras de chile y de maíz se encuentra el género Ricketssia, relacionado a la transmisión de enfermedades  ( Rickettsiae is also an obligate intracellular symbiont causing serious diseases in humans, domestic animals, wild animals, and other vertebrates https://link.springer.com/article/10.1007/s00284-020-01948-x )
+
+Entre las muestras de tomate y maíz se encuentra el género Porphyrobacter
 
 ```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
 for (i in 1:3){
   print(  paste0( "Los géneros comunes entre los OTUs centrales de las muestras de " , muestras[pares[[i]][1] ] , " y " , muestras[pares[[i]][2] ] , " son:" ))  
-  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "V8"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "V8"]) ))
+  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "Rank6"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "Rank6"]) ))
 }
 ```
 ```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
 for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "V9"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "V9"]) ))
+  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "Rank7"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "Rank7"]) ))
 }
 ```
 ##OTUs centrales de la rizósfera de chile 
 
-Los OTUs (bacterias) centrales de las muestras de suelo de chile incluyen reguladores de metano y descomponedores de sustancias tóxicas. También hay patógenos humanos. Más detalles se enlistan y verifican a continuación:
+Los OTUs centrales de las muestras de suelo de chile incluyen reguladores de metano y descomponedores de sustancias tóxicas. También hay patógenos humanos y es el único conjunto de OTUs centrales de este reporte que incluye una especie de virus que infecta insectos y es usada como plaguicida. Más detalles se enlistan y verifican a continuación:
 
 * Burkholderia metallica (erosion de metales)
 * Advenella mimigardefordensis (able to significantly improve levels of assimilated phosphate)Plant Productivity 
@@ -480,24 +409,15 @@ Los OTUs (bacterias) centrales de las muestras de suelo de chile incluyen regula
 * Desulfomonile tiedjei (deshalogenante degradador de compuestos tóxicos)
 * Paenibacillus chitinolyticus(fijar nitrogeno)
 * Nitrosopumilus oxyclinae(solubilización de fosfato)
-
+* Spodoptera exigua multiple nucleopolyhedrovirus (plaguicida)
 
 A continuación se enlistan todos los OTUs centrales con su clasificación a nivel género y nivel especie. 
 
 ```{r}
-print(taxa_centrales[[1]][ , c("V8" , "V9" )])
+print(taxa_centrales[[1]][ , c("Rank6" ,"Rank7" )])
 ```
 
-Solamente entre los OTUs clave de suelo de tomate se recuperó un virus, Spodoptera exigua multiple nucleopolyhedrovirus, que es usado como plaguicida.
-
-```{r}
-taxa_virus_chile <- read.csv("../../data/taxonomy/linaje_virus.de_chile.csv" , header = FALSE , sep = ";" )
-taxa_virus_chile_centrales <- taxa_virus_chile[ is.element(taxa_virus_chile[,"V1"]  , intersect(as.character(taxa_virus_chile[,"V1"]) , row.names(otus_centrales[[1]]))),]
-print(taxa_virus_chile_centrales)
-```
-
-
-En la tabla conseguida en la siguiente celda se observa que  la mayoría de los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. 
+En la tabla conseguida en la siguiente celda se observa que  la maypría de los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. 
 
 ```{r}
 data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
