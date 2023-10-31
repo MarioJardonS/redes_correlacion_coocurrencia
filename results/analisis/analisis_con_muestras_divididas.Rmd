@@ -48,7 +48,7 @@ lista_nombres <- function(lista_taxa , rango){
 matriz_incidencia <- function(lista_nombres , lista_taxa , rango){
   matriz <- matrix( nrow = length(lista_nombres), ncol = length(lista_taxa) )
   
-  for (i in 1:length(muestras)){
+  for (i in 1:length(lista_taxa)){
   for (j in 1:length(lista_nombres)) {
     if (is.element(lista_nombres[j], as.vector(lista_taxa[[i]][, rango] ))){
       matriz[j,i] <- 1
@@ -201,126 +201,95 @@ print(paste0("Su mediana fue ", as.character(median(numero_otus))))
 taxa_tomate_aleatorio1[[11]] <- taxa_centrales_tomate[[3]]
 nombres_familias <- lista_nombres(taxa_tomate_aleatorio1 , "V7")
 data_familias <- matriz_incidencia(nombres_familias , taxa_tomate_aleatorio1 , "V7")
-colnames(data_familias) <- 1:10
+colnames(data_familias) <- c(1:10 , "totales")
 
-muestras_totales <- list()
-muestras_totales[[1]] <- taxa_centrales_tomate[[3]]
-data_totales <- matriz_incidencia(nombres_familias , muestras_totales , "V7" )
-colnames(data_totales) <- c("totales")
-
-data_familias <- cbind(data_totales , data_familias)
-
-upset(data_familias    )
 ```
-
 
 ```{r}
-interseccion_familias <- intersect(as.vector(taxa_centrales_tomate[[1]][,"V7"]) , as.vector(taxa_centrales_tomate[[2]][,"V7"]))
-interseccion_familias <- intersect(interseccion_familias , as.vector(taxa_centrales_tomate[[3]][,"V7"]))
-print(interseccion_familias)
+upset(data_familias  , nsets = 11  )
 ```
 
+```{r}
+familias_comunes <- c()
+for (i in 1:106){ 
+  if (sum(data_familias[i,])>3) {
+    familias_comunes <- c(familias_comunes , i)} }
 
-Acetobacteraceae y Pseudomonadaceae son las familias rescatadas en los 10 submuestreos aleatorios así como en el original. Burkholderiaceae solo no fue encontrado en uno de los analisis aleatorios. Enterobacteriaceae fue encontrado en 8 de los submuestreos aleatorios, pero no en el análisis original, aunque estaba presente en el de muestras de "desarrollo".
+data_familias_comunes <- data_familias[ familias_comunes , ]
+upset(data_familias_comunes , nsets = 11)
+```
+
+Acetobacteraceae y Pseudomonadaceae son las familias rescatadas en los 10 submuestreos aleatorios así como en el original. Burkholderiaceae solo no fue encontrado en uno de los analisis aleatorios. Corynebacteriaceae fue encnontrada en 9 de los análisis aleatorios, pero no el original. Enterobacteriaceae fue encontrado en 8 de los submuestreos aleatorios, pero no en el análisis original, aunque estaba presente en el de muestras de "desarrollo".
  
-
 ```{r}
-upset(data_familias , nsets = 11 , keep.order = FALSE   )
-```
-
-
-```{r}
-nombres_generos <- c()
-for (i in 1:10){
-  nombres_generos <- union(nombres_generos ,as.vector(taxa_tomate_aleatorio1[[i]][, "V8"]))
-  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
-}
-
-nombres_generos <- union(nombres_generos , as.vector(taxa_centrales_tomate[[3]][,"V8"]))
-print(nombres_generos)
+data_familias_comunes[ c("Acetobacteraceae","Pseudomonadaceae", "Burkholderiaceae" , "Corynebacteriaceae" , "Enterobacteriaceae") ,]
 ```
 
 ```{r}
-data_generos <- matrix( nrow = length(nombres_generos), ncol = 11 )
+nombres_generos <- lista_nombres(taxa_tomate_aleatorio1 , "V8")
+data_generos <- matriz_incidencia(nombres_generos , taxa_tomate_aleatorio1 , "V8")
+colnames(data_generos) <- c(1:10 , "totales")
 
+```
 
+```{r}
+upset(data_generos  , nsets = 11  )
+```
 
-for (i in 2:11){
-  for (j in 1:188) {
-    if (is.element(nombres_generos[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "V8"] ))){
-      data_generos[j,i] <- 1
-    }else
-    {
-      data_generos[j,i] <- 0
+```{r}
+generos_comunes <- c()
+for (i in 1:188){ 
+  if (sum(data_generos[i,])>3) {
+    generos_comunes <- c(generos_comunes , i)} }
+
+data_generos_comunes <- data_generos[ generos_comunes , ]
+upset(data_generos_comunes , nsets = 11)
+```
+
+El género Pseudomonas fue considerado clave en cada uno de los submuestreos aleatorios. El genero Burkholderia apareció en todos salvo uno de los analisis aleatorios. El género Komagataeibacter reapareció en 8 de los muestreos aleatorios y el original. Corynebacterium apareció en 9 de los análisis aleatorios sin aparecer en el original, aunque sí aparece en el análisis de muestras de desarrollo. 
+
+```{r}
+data_generos_comunes[ c("Pseudomonas", "Burkholderia" , "Corynebacterium" , "Komagataeibacter") ,]
+```
+```{r}
+taxa_gen_comunes <- list()
+for (i in 1:length(taxa_tomate_aleatorio1)){
+  index_gen_comunes <- c()
+  for (j in 1:(dim(taxa_tomate_aleatorio1[[i]])[1])) {
+    if (is.element(taxa_tomate_aleatorio1[[i]][j,"V8"], c("Pseudomonas", "Burkholderia" , "Corynebacterium" , "Komagataeibacter")  )){
+      index_gen_comunes <- c(index_gen_comunes , j)
     }
   }
+  taxa_gen_comunes[[i]] <- taxa_tomate_aleatorio1[[i]][ index_gen_comunes , ]
 }
-
-for (j in 1:188) {
-    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[3]][, "V8"] ))){
-      data_generos[j,1] <- 1
-    }else
-    {
-      data_generos[j,1] <- 0
-    }
-}9
-data_generos <- data.frame(data_generos , row.names = nombres_generos )
-colnames(data_generos) <- c("totales" , as.character(1:10) )
-```
-
-El género Pseudomonas fue considerado clave en cada uno de los submuestreos aleatorios. El genero Burkholderia aparecio en todos salvo uno de los analisis aleatorios. El género Komagataeibacter reapareció en 8 de los muestreos aleatorios y el original. Corynebacterium apareció en 9 de los análisis aleatorios sin aparecer en el original, aunque sí aparece en el análisis de muestras de desarrollo. 
-
-```{r}
-upset(data_generos , nsets = 11 , keep.order = TRUE   )
-```
-
-
-```{r}
-nombres_especies <- c()
-for (i in 1:10){
-  nombres_especies <- union(nombres_especies ,as.vector(taxa_tomate_aleatorio1[[i]][, "V9"]))
-  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
-}
-
-nombres_especies <- union(nombres_especies , as.vector(taxa_centrales_tomate[[3]][,"V9"]))
-print(nombres_especies)
 ```
 
 ```{r}
-data_especies <- matrix( nrow = length(nombres_especies), ncol = 11 )
+nombres_especies <- lista_nombres(taxa_gen_comunes , "V9")
+data_especies <- matriz_incidencia(nombres_especies , taxa_gen_comunes , "V9")
+colnames(data_especies) <- c(1:10 , "totales")
 
+```
 
+```{r}
+upset(data_especies  , nsets = 11  )
+```
 
-for (i in 2:11){
-  for (j in 1:335) {
-    if (is.element(nombres_especies[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "V9"] ))){
-      data_especies[j,i] <- 1
-    }else
-    {
-      data_especies[j,i] <- 0
-    }
-  }
-}
+```{r}
+especies_comunes <- c()
+for (i in 1:94){ 
+  if (sum(data_especies[i,])>3) {
+    especies_comunes <- c(especies_comunes , i)} }
 
-for (j in 1:335) {
-    if (is.element(nombres_especies[j], as.vector(taxa_centrales_tomate[[3]][, "V9"] ))){
-      data_especies[j,1] <- 1
-    }else
-    {
-      data_especies[j,1] <- 0
-    }
-}
-data_especies <- data.frame(data_especies , row.names = nombres_especies )
-colnames(data_especies) <- c("totales" , as.character(1:10) )
+data_especies_comunes <- data_especies[ especies_comunes , ]
+upset(data_especies_comunes , nsets = 11)
 ```
 
 Del género Pseudomonas, la especie agaric fue encontrada como especie clave en todas las muestras, y fue encontrada en 4 de los submuetreos aleatorios. Del género Komagataeibacter, las dos especies clave más comunes entre los submuestreos aleatorios, Medellinensis y Europaeu, no aparecen en el análisis original. La especie clave del género Corynebacterium más común entre los submuestreos aleatorios fue glucoronolyticu, apareciendo en la mitad de ellos, aunque no en el análisis de las muestras de "desarrollo". 
 
 ```{r}
-upset(data_especies , nsets = 11 , keep.order = TRUE   )
+data_especies_comunes
 ```
-
-
 
 
 
