@@ -333,8 +333,7 @@ for (i in 1:3){
 
 #Otus centrales
 
-En esta sección se cargan los primeros reportes de otus_centrales, que se obtuvieron con alto grado y alta cercanía, mezclada con baja centralidad de intermediación. Todas las tablas consisten de relativamente pocos otus (16, 37 , 8). A nivel familia los tres tipos de muestras tienen en común son bacterias de la familia Burkholderiaceae (Involvement of Burkholderiaceae and sulfurous volatiles in disease-suppressive soils). 
-
+En esta sección se cargan los primeros reportes de otus_centrales, que se obtuvieron con alto grado y alta cercanía, mezclada con baja centralidad de intermediación. Todas las tablas consisten de relativamente pocos otus (16, 37 , 8). 
 Las principales coincidencias a nivel género se dieron entre los taxa centrales de las muestras de chile y tomate. No hay coincidencias entre especies clasificadas en las tablas de otus centrales. 
 
 En este par de celdas se cargan las tablas de otus centrales y se obtienen sus clasificaciones taxonómicas. 
@@ -373,6 +372,8 @@ for (i in 1:3){
 print(nombres_familias)
 ```
 
+
+
 ```{r}
 data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras) )
 
@@ -400,12 +401,13 @@ colnames(data_familias) <- c(  muestras)
 upset(data_familias    )
 ```
 
+A nivel familia los tres tipos de muestras tienen en común son bacterias de la familia Burkholderiaceae (Involvement of Burkholderiaceae and sulfurous volatiles in disease-suppressive soils). 
+
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
-for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "V7"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "V7"]) ))
-}
+interseccion <- intersect(as.vector(taxa_centrales[[1]][ , "V7"]) , as.vector(taxa_centrales[[2]][ , "V7"]) )
+interseccion <- intersect(interseccion , as.vector(taxa_centrales[[3]][ , "V7"]))
+print(interseccion)
 ```
 
 
@@ -454,11 +456,7 @@ Las coincidencias entre los otus centrales a nivel género de las muestras de ch
 
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
-for (i in 1:3){
-  print(  paste0( "Los géneros comunes entre los OTUs centrales de las muestras de " , muestras[pares[[i]][1] ] , " y " , muestras[pares[[i]][2] ] , " son:" ))  
-  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "V8"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "V8"]) ))
-}
+print(intersect(as.vector(taxa_centrales[[1]][ , "V8"]) , as.vector(taxa_centrales[[2]][ , "V8"]) ))
 ```
 ```{r}
 pares <- list(c(1,2) , c(1,3) , c(2,3))
@@ -556,13 +554,12 @@ Pseudomonas( Buen colonizador de raíces que se ha postulado para controlar Rals
 Paraburkholderia (fijar nitrogeno  Paraburkholderia spp., are able to improve the macro- and micro-nutrients uptakes by the plants.graminis C4D1M improved tomato seedling re-growth and reduced cell membrane injuries  PG inoculation induced
 the expression of five genes (Solyc05g007630.3.1, Solyc07g049700.1.1, Solyc05g013260.3.1,
 Solyc09g098100.4.1, Solyc05g005130.3.1) coding for putative late blight resistance protein)
-Pseudarnobacter junto con Candidatus Nitrosocosmicus también "centrales" de la canola.
+Candidatus Nitrosocosmicus también "centrales" de la canola.
 Pseudarthrobacter chlorophenolicus potencial de biofertilizante para tomate (fijar nitrógeno)
 Pirellula staleyi( which can degrade putrescine exudate from plant roots visto como importante en rizósfera de granada) 
 
 ```{r}
-#print(taxa_centrales[[2]][ , "Rank6"])
-print(taxa_centrales[[2]][ , c( "Rank6" ,"Rank7")])
+print(taxa_centrales[[2]][ , c( "V8" ,"V9")])
 ```
 
 En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
@@ -624,7 +621,7 @@ Ralstonia solanacearum(patógeno conocido)
 Erwinia persicina (produces large amounts of mucilaginous exopolysaccharides on King’s B ciertas cepas mejora de alfalfa , this fungal species is mainly responsible for the accumulation of the mycotoxin disminuye virulence factor deoxynivalenol (DON).)
 
 ```{r}
-print(taxa_centrales[[3]][ , c( "Rank6" ,"Rank7")])
+print(taxa_centrales[[3]][ , c( "V8" ,"V9")])
 ```
 
 En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
@@ -675,136 +672,4 @@ otus_no_centrales_maiz <- names(V(redes[[3]]))[ is.element(names(V(redes[[3]])),
 red_otus_no_centrales_maiz <- induced_subgraph(redes[[3]] , otus_no_centrales_maiz , "auto" )
 plot(red_otus_no_centrales_maiz)
 ```
-
-#Otus centrales de tomate según muestras divididas
-
-```{r}
-muestras_tomate <- c("desarrollo" , "no_desarrollo" , "totales")
-```
-
-```{r}
-otus_tomate_desarrollo <- read.csv("../central_otus/otus_centrales_tomate_desarrollo" , row.names = 1)
-otus_tomate_no_desarrollo <- read.csv("../central_otus/otus_centrales_tomate_no_desarrollo.csv" , row.names = 1)
-
-otus_centrales_tomate2 <- list(otus_tomate_desarrollo , otus_tomate_no_desarrollo , otus_centrales_tomate)
-```
-
-```{r}
-taxa_centrales_tomate <- list()
-for (i in 1:2){
-  taxa_centrales_tomate[[i]] <- rizosferas[[2]]@tax_table@.Data[row.names(otus_centrales_tomate2[[i]]),]
-  print( paste0( "Se obtuvieron "  , length(row.names(otus_centrales_tomate2[[i]])) , " OTUs centrales en las muestras de " , muestras_tomate[i] ) )
-}
-
-taxa_centrales_tomate[[3]] <- taxa_centrales[[2]]
-```
-
-
-```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
-for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "Rank5"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "Rank5"]) ))
-}
-```
-
-```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
-for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "Rank6"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "Rank6"]) ))
-}
-```
-
-```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
-for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "Rank7"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "Rank7"]) ))
-}
-```
-
-Entre las principales coincidencias entre los diversos Otus centrales de rizósfera de tomate se encuentran la abundancia del género Pseudomonas y la presencia de especies del género Candidatus.
-```{r}
-print(taxa_centrales_tomate[[1]][ , c( "Rank7")])
-```
-```{r}
-print(taxa_centrales_tomate[[2]][ , c( "Rank7")])
-```
-
-
-```{r}
-data_tomate_desarrollo <- read.csv("../../data/tables/tomate_desarrollo.csv" , row.names = 1, header = TRUE )
-
-medias <- c()
-medianas <- c()
-for (i in 1:dim(data_tomate_desarrollo)[2]){
-  medias <- c(medias , mean(data_tomate_desarrollo[ , i]))
-  medianas <- c(medianas , median(data_tomate_desarrollo[ , i]))
-  }
-
-data_tomate_desarrollo <- data_tomate_desarrollo[ row.names(otus_centrales_tomate2[[1]]),]
-data_tomate_desarrollo <- rbind(medias , data_tomate_desarrollo)
-data_tomate_desarrollo <- rbind(medianas , data_tomate_desarrollo)
-
-row.names(data_tomate_desarrollo) <- c("Medianas" , "Medias" , row.names(otus_centrales_tomate2[[1]]))
-head(data_tomate_desarrollo)
-```
-
-```{r}
-data_tomate_no_desarrollo <- read.csv("../../data/tables/tomate_no_desarrollo.csv" , row.names = 1, header = TRUE )
-
-medias <- c()
-medianas <- c()
-for (i in 1:dim(data_tomate_no_desarrollo)[2]){
-  medias <- c(medias , mean(data_tomate_no_desarrollo[ , i]))
-  medianas <- c(medianas , median(data_tomate_no_desarrollo[ , i]))
-  }
-
-data_tomate_no_desarrollo <- data_tomate_no_desarrollo[ row.names(otus_centrales_tomate2[[2]]),]
-data_tomate_no_desarrollo <- rbind(medias , data_tomate_no_desarrollo)
-data_tomate_no_desarrollo <- rbind(medianas , data_tomate_no_desarrollo)
-
-row.names(data_tomate_no_desarrollo) <- c("Medianas" , "Medias" , row.names(otus_centrales_tomate2[[2]]))
-head(data_tomate_no_desarrollo)
-```
-
-
-
-
-```{r}
-V(redes[[3]])$label <- NA
-V(redes[[3]])$size <- 3
-plot(redes[[3]])
-```
-```{r}
-nombres_otus_centrales_maiz <- as.character(otus_centrales[[3]][,"nodos"])
-red_otus_centrales_maiz <- induced_subgraph(redes[[3]], nombres_otus_centrales_maiz  ,"auto")
-print( otus_centrales[[3]][,"nodos"])
-
-print(row.names(otus_centrales[[3]]))
-print(degree( red_otus_centrales_maiz))
-#V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
-```
-
-
-
-```{r}
-plot(red_otus_centrales_maiz)
-
-```
-
-
-```{r}
-otus_no_centrales_maiz <- names(V(redes[[3]]))[ is.element(names(V(redes[[3]])), nombres_otus_centrales_maiz) == FALSE]
-red_otus_no_centrales_maiz <- induced_subgraph(redes[[3]] , otus_no_centrales_maiz , "auto" )
-plot(red_otus_no_centrales_maiz)
-```
-
-
-
-
-
-
-
-
-
-
 

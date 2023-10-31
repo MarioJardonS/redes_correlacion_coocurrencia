@@ -4,6 +4,12 @@ output: html_document
 date: '2023-09-27'
 ---
 
+Para determinar la validez de los resultados sobre OTUs clave analizados en "./analisis_de_otus_clave.Rmd" se reprodujo el algoritmo del script "first_analysis.R" sobre submuestreos de las muestras de rizósfera de tomate. Se tomaron esas muestras por ser las más abundantes (22). Los primeros submuestreos fueron por metadatos y los siguientes fueron aleatorios. En cada uno de los casos se construyó una red de correlación de Spearman, y a cada una de las redes se le aplicó el script "first_analysis.R".
+
+
+En este archivo se analizan los reportes de OTUs clave de cada una de los submuestreos y se contrastan con los originales. 
+
+#Paquetes y funciones auxiliares
 
 ```{r}
 
@@ -27,8 +33,44 @@ library(UpSetR)
 ```
 
 
-#Muestras divididas según desarrollo o no
 
+```{r}
+lista_nombres <- function(lista_taxa , rango){
+  nombres_rango <- c()
+  for (i in 1:length(lista_taxa)) {
+    nombres_rango <- union(nombres_rango , as.vector(lista_taxa[[i]][ , rango]))
+  }
+  return(nombres_rango)
+}
+```
+
+```{r}
+matriz_incidencia <- function(lista_nombres , lista_taxa , rango){
+  matriz <- matrix( nrow = length(lista_nombres), ncol = length(lista_taxa) )
+  
+  for (i in 1:length(muestras)){
+  for (j in 1:length(lista_nombres)) {
+    if (is.element(lista_nombres[j], as.vector(lista_taxa[[i]][, rango] ))){
+      matriz[j,i] <- 1
+    }else
+    {
+      matriz[j,i] <- 0
+    }
+  }
+  
+  }
+
+
+df <- data.frame(matriz , row.names = lista_nombres )
+return(df)
+}
+```
+
+#Muestras divididas según "Desarrollo" o "No desarrollo"
+
+Los metadatos proporcionados que etiquetaban a las muestras en "Desarrollo", "Por transplantar", "Llenado de Fruto", "Produccion". Del total, 14 tienen la etiqueta de "Desarrollo". Siendo estas mu,estras más de la mitad de las totales las muestras se dividieron en "Desarrollo" y "No desarrollo" (8 muestras). 
+
+En esta sección se hace el contraste entre los resultados provenientes de todas las muestras de rizósfera de tomate con los provenientes de las muestras de "Desarrollo" y las de "No desarrollo". En las siguientes tres celdas se toman los tres reportes de OTUs centrales y los datos taxonómicos de las bacterias presentes en todas las muestras de rizósfera de tomate. 
 
 ```{r}
 muestras_tomate <- c("desarrollo" , "no_desarrollo" , "totales")
@@ -46,112 +88,50 @@ otus_centrales_tomate2 <- list(otus_tomate_desarrollo , otus_tomate_no_desarroll
 rizosfera_bacterias <- read.csv("../../data/taxonomy/linaje_bacterias_standarizado.de_tomate.csv" , header = FALSE , sep = ";" , row.names = 1)
 ```
 
+La cantidad de OTUs clave en cada uno de los casos fue de 2 a 4 veces la cantidad de muestras correspondientes. 
+
 ```{r}
 taxa_centrales_tomate <- list()
 for (i in 1:3){
   taxa_centrales_tomate[[i]] <- rizosfera_bacterias[intersect( row.names(rizosfera_bacterias), row.names(otus_centrales_tomate2[[i]])),]
-  print( paste0( "Se obtuvieron "  , length(row.names(otus_centrales_tomate2[[i]])) , " OTUs centrales en las muestras de " , muestras_tomate[i] ) )
+  print( paste0( "Se obtuvieron "  , length(row.names(otus_centrales_tomate2[[i]])) , " OTUs clave en las " , length(colnames(otus_centrales_tomate2[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
 }
 
 ```
 
-
-
-```{r}
-nombres_familias <- c()
-for (i in 1:3){
-  nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales_tomate[[i]][, "V7"]))
-  
-}
-print(nombres_familias)
-```
+##Coincidencias por familia y género
 
 ```{r}
-data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras_tomate) )
+nombres_familias <- lista_nombres(taxa_centrales_tomate, "V7")
+data_familias <- matriz_incidencia(nombres_familias , taxa_centrales_tomate , "V7")
 
-
-
-for (i in 1:3){
-  for (j in 1:53) {
-    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[i]][, "V7"] ))){
-      data_familias[j,i] <- 1
-    }else
-    {
-      data_familias[j,i] <- 0
-    }
-  }
-  
-  }
-
-
-data_familias <- data.frame(data_familias , row.names = nombres_familias )
-colnames(data_familias) <- c(  muestras_tomate)
+colnames(data_familias) <- muestras_tomate
+upset(data_familias    )
 ```
 
 Pseudomonadaceae, Micrococcaceae y Mycobacteriaceae son las tres familias que se encontraron en los tres analisis.
 
 ```{r}
-upset(data_familias    )
-```
-
-```{r}
-nombres_generos <- c()
-for (i in 1:3){
-  nombres_generos <- union(nombres_generos ,as.vector(taxa_centrales_tomate[[i]][, "V8"]))
-  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
-}
-print(nombres_generos)
+interseccion_familias <- intersect(as.vector(taxa_centrales_tomate[[1]][,"V7"]) , as.vector(taxa_centrales_tomate[[2]][,"V7"]))
+interseccion_familias <- intersect(interseccion_familias , as.vector(taxa_centrales_tomate[[3]][,"V7"]))
+print(interseccion_familias)
 ```
 
 
 ```{r}
+nombres_generos <- lista_nombres(taxa_centrales_tomate, "V8")
+data_generos <- matriz_incidencia(nombres_generos , taxa_centrales_tomate , "V8")
 
-data_generos <- matrix( nrow = length(nombres_generos), ncol = length(muestras_tomate) )
-
-
-
-for (i in 1:3){
-  for (j in 1:73) {
-    if (is.element(nombres_generos[j], as.vector(taxa_centrales_tomate[[i]][, "V8"] ))){
-      data_generos[j,i] <- 1
-    }else
-    {
-      data_generos[j,i] <- 0
-    }
-  }
-}
-
-
-data_generos <- data.frame(data_generos , row.names = nombres_generos )
-colnames(data_generos) <- c(  muestras_tomate)
-
-
-```
-
-Pseudomonas y Halopseudomonas fueron los géneros presentes en los tres análisis. 
-
-```{r}
+colnames(data_generos) <- muestras_tomate
 upset(data_generos)
 ```
 
+Los géneros presentes entre los OTUs clave de los tres análisis son Pseudomonas y Halopseudomonas. 
 
 ```{r}
-pares <- list(c(1,2) , c(1,3) , c(2,3))
-for (i in 1:3){
-  print(intersect(as.vector(taxa_centrales_tomate[[pares[[i]][1]]][ , "V9"]) , as.vector(taxa_centrales_tomate[[pares[[i]][2]]][ , "V9"]) ))
-}
-```
-
-Entre las principales coincidencias entre los diversos Otus centrales de rizósfera de tomate se encuentran la abundancia del género Pseudomonas.
-
-```{r}
-print(taxa_centrales_tomate[[1]][ , c( "V9")])
-```
-```{r}
-print(taxa_centrales_tomate[[2]][ , c( "V9")])
-```
-```{r}
-print(taxa_centrales_tomate[[3]][ , c( "V9")])
+interseccion_generos <- intersect(as.vector(taxa_centrales_tomate[[1]][,"V8"]) , as.vector(taxa_centrales_tomate[[2]][,"V8"]))
+interseccion_generos <- intersect(interseccion_generos, as.vector(taxa_centrales_tomate[[3]][,"V8"]))
+print(interseccion_generos)
 ```
 
 ```{r}
@@ -193,7 +173,7 @@ head(data_tomate_no_desarrollo)
 
 #Otus centrales según submuestreos aleatorios 
 
-
+Los siguientes 10 submuestreos fueron aleatorios de 11 muestras cada uno (la mitad). 
 
 ```{r}
 otus_tomate_aleatorio1 <- list()
@@ -203,7 +183,7 @@ for (i in 1:10){
 }
 ```
 
-La cantidad de OTUs detectados como clave en los submuestreos aleaorios se encuentra en un rango similar a la de los OTUs detectados con todas las muestras y con la primera división no aleatoria. 
+La cantidad de OTUs detectados como clave en los submuestreos aleaorios se encuentra en un rango similar a la de los OTUs detectados con todas las muestras y con la primera división no aleatoria (37, 54, 24). 
 
 ```{r}
 taxa_tomate_aleatorio1 <- list()
@@ -217,46 +197,29 @@ for (i in 1:10){
 print(paste0("Su media fue ", as.character(mean(numero_otus))))
 print(paste0("Su mediana fue ", as.character(median(numero_otus))))
 ```
-
- 
-
 ```{r}
-nombres_familias <- c()
-for (i in 1:10){
-  nombres_familias <- union(nombres_familias ,as.vector(taxa_tomate_aleatorio1[[i]][, "V7"]))
-  #print(unique(as.vector(taxa_centrales_tomate[[i]][, "Rank5"])))
-}
+taxa_tomate_aleatorio1[[11]] <- taxa_centrales_tomate[[3]]
+nombres_familias <- lista_nombres(taxa_tomate_aleatorio1 , "V7")
+data_familias <- matriz_incidencia(nombres_familias , taxa_tomate_aleatorio1 , "V7")
+colnames(data_familias) <- 1:10
 
-nombres_familias <- union(nombres_familias , as.vector(taxa_centrales_tomate[[3]][,"V7"]))
-print(nombres_familias)
+muestras_totales <- list()
+muestras_totales[[1]] <- taxa_centrales_tomate[[3]]
+data_totales <- matriz_incidencia(nombres_familias , muestras_totales , "V7" )
+colnames(data_totales) <- c("totales")
+
+data_familias <- cbind(data_totales , data_familias)
+
+upset(data_familias    )
 ```
 
+
 ```{r}
-data_familias <- matrix( nrow = length(nombres_familias), ncol = 11 )
-
-
-for (i in 2:11){
-  for (j in 1:106) {
-    if (is.element(nombres_familias[j], as.vector(taxa_tomate_aleatorio1[[i-1]][, "V7"] ))){
-      data_familias[j,i] <- 1
-    }else
-    {
-      data_familias[j,i] <- 0
-    }
-  }
-}
-
-for (j in 1:106) {
-    if (is.element(nombres_familias[j], as.vector(taxa_centrales_tomate[[3]][, "V7"] ))){
-      data_familias[j,1] <- 1
-    }else
-    {
-      data_familias[j,1] <- 0
-    }
-}
-data_familias <- data.frame(data_familias , row.names = nombres_familias )
-colnames(data_familias) <- c("totales" , as.character(1:10) )
+interseccion_familias <- intersect(as.vector(taxa_centrales_tomate[[1]][,"V7"]) , as.vector(taxa_centrales_tomate[[2]][,"V7"]))
+interseccion_familias <- intersect(interseccion_familias , as.vector(taxa_centrales_tomate[[3]][,"V7"]))
+print(interseccion_familias)
 ```
+
 
 Acetobacteraceae y Pseudomonadaceae son las familias rescatadas en los 10 submuestreos aleatorios así como en el original. Burkholderiaceae solo no fue encontrado en uno de los analisis aleatorios. Enterobacteriaceae fue encontrado en 8 de los submuestreos aleatorios, pero no en el análisis original, aunque estaba presente en el de muestras de "desarrollo".
  
