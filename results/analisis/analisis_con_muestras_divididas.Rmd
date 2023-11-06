@@ -95,6 +95,7 @@ taxa_centrales_tomate <- list()
 for (i in 1:3){
   taxa_centrales_tomate[[i]] <- rizosfera_bacterias[intersect( row.names(rizosfera_bacterias), row.names(otus_centrales_tomate2[[i]])),]
   print( paste0( "Se obtuvieron "  , length(row.names(otus_centrales_tomate2[[i]])) , " OTUs clave en las " , length(colnames(otus_centrales_tomate2[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
+  write.csv( taxa_centrales_tomate[[i]] ,  paste0("taxonomy_keystone_otus_tomate_", muestras_tomate[i] , ".csv"))
 }
 
 ```
@@ -109,7 +110,18 @@ colnames(data_familias) <- muestras_tomate
 upset(data_familias    )
 ```
 
-Pseudomonadaceae, Micrococcaceae y Mycobacteriaceae son las tres familias que se encontraron en los tres analisis.
+Pseudomonadaceae, Micrococcaceae y Mycobacteriaceae son las tres familias que se encontraron en los tres análisis. La familia Pseudomonadaceae aparece a través de varias especies de los géneros Pseudomonas y Halopseudomonas. Los géneros clave de la familia Micrococcaceae difieren en cada uno de los tres submuestreos (Glutamicibacter, desarrollo  Enhancement of growth and salt tolerance of tomato seedlings by a natural halotolerant actinobacterium Glutamicibacter halophytocola KLBMP 5180 … ; Neomicrococcus, no_desarrolllo ; Kocuria (Potential for plant growth promotion of Kocuria arsenatis Strain ST19 on tomato under salt stress conditions) y Pseudarthrobacter en las totales.)
+
+De la familia Mycobacteriaceae aparecen en las muestras de desarrollo la especie Mycobacteroides immunogenu, en las muestras de no_desarrollo la especie Mycobacterium stephanolepidi, mientras que en las muestras totales se encontro la especie Mycolicibacterium doricu.
+
+```{r}
+for (familia in c("Pseudomonadaceae" , "Micrococcaceae" , "Mycobacteriaceae")){
+  for (i in 1:3){
+    print(taxa_centrales_tomate[[i]][which(taxa_centrales_tomate[[i]][, "V7"] == familia) , c("V7" , "V8" , "V9")])
+  }
+}
+```
+
 
 ```{r}
 interseccion_familias <- intersect(as.vector(taxa_centrales_tomate[[1]][,"V7"]) , as.vector(taxa_centrales_tomate[[2]][,"V7"]))
@@ -193,6 +205,7 @@ for (i in 1:10){
   x_i <-  length(row.names(otus_tomate_aleatorio1[[i]]))
   print( paste0( "Se obtuvieron "  , as.character(x_i)  , " OTUs centrales en el submuestreo aleatorio " , as.character(i)  ) )
   numero_otus <- c(numero_otus , x_i)
+  write.csv( taxa_tomate_aleatorio1[[i]] ,  paste0("taxonomy_keystone_otus_tomate_aleatorio_", as.character(i)  , ".csv"))
 }
 print(paste0("Su media fue ", as.character(mean(numero_otus))))
 print(paste0("Su mediana fue ", as.character(median(numero_otus))))

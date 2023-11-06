@@ -359,6 +359,7 @@ taxa_centrales <- list()
 for (i in 1:3){
   taxa_centrales[[i]] <- rizosferas[[i]][ intersect( row.names(otus_centrales[[i]]), row.names(rizosferas[[i]]) ) ,]
   print( paste0( "Se obtuvieron "  , length(intersect( row.names(otus_centrales[[i]]), row.names(rizosferas[[i]]) ))  , " OTUs (bacterias) centrales en las muestras de " , muestras[i] ) )
+  write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_", muestras[i] , ".csv"))
   }
 ```
 En las siguientes celdas se verifican las intersecciones por pares de los otus centrales a nivel familia, género y especie. 
