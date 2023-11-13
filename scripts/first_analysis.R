@@ -4,12 +4,12 @@
 
 args = commandArgs(trailingOnly=TRUE)
 
-if (!require(vegan)) install.packages('vegan')
+#if (!require(vegan)) install.packages('vegan')
 library(vegan)
 if (!require(igraph)) install.packages('igraph')
 library(igraph)
 #library(ggplot2)
-if (!require(apcluster)) install.packages('apcluster')
+#if (!require(apcluster)) install.packages('apcluster')
 library(apcluster)
 if (!require(plyr)) install.packages('plyr')
 library(plyr)
