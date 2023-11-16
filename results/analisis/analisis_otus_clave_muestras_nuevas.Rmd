@@ -1,0 +1,255 @@
+---
+title: "Otus centrales de tomate según muestras divididas"
+output: html_document
+date: '2023-09-27'
+---
+
+Para determinar la validez de los resultados sobre OTUs clave analizados en "./analisis_de_otus_clave.Rmd" se reprodujo el algoritmo del script "first_analysis.R" sobre submuestreos de las muestras de rizósfera de tomate. Se tomaron esas muestras por ser las más abundantes (22). Los primeros submuestreos fueron por metadatos y los siguientes fueron aleatorios. En cada uno de los casos se construyó una red de correlación de Spearman, y a cada una de las redes se le aplicó el script "first_analysis.R".
+
+
+En este archivo se analizan los reportes de OTUs clave de cada una de los submuestreos y se contrastan con los originales. 
+
+#Paquetes y funciones auxiliares
+
+```{r}
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+if (!require(vegan)) install.packages('vegan')
+library(vegan)
+if (!require(igraph)) install.packages('igraph')
+library(igraph)
+if (!require(apcluster)) install.packages('apcluster')
+library(apcluster)
+if (!require(plyr)) install.packages('plyr')
+library(plyr)
+if (!require(stringr)) install.packages('stringr')
+library(stringr)
+if (!require(phyloseq)) install.packages('phyloseq')
+library(phyloseq)
+if (!require(UpSetR)) install.packages('UpSetR')
+library(UpSetR)
+
+```
+
+
+
+```{r}
+lista_nombres <- function(lista_taxa , rango){
+  nombres_rango <- c()
+  for (i in 1:length(lista_taxa)) {
+    nombres_rango <- union(nombres_rango , as.vector(lista_taxa[[i]][ , rango]))
+  }
+  return(nombres_rango)
+}
+```
+
+```{r}
+matriz_incidencia <- function(lista_nombres , lista_taxa , rango){
+  matriz <- matrix( nrow = length(lista_nombres), ncol = length(lista_taxa) )
+  
+  for (i in 1:length(lista_taxa)){
+  for (j in 1:length(lista_nombres)) {
+    if (is.element(lista_nombres[j], as.vector(lista_taxa[[i]][, rango] ))){
+      matriz[j,i] <- 1
+    }else
+    {
+      matriz[j,i] <- 0
+    }
+  }
+  
+  }
+
+
+df <- data.frame(matriz , row.names = lista_nombres )
+return(df)
+}
+```
+
+```{r}
+muestras_tomate <- c("original" , "nuevo")
+```
+
+```{r}
+otus_tomate_original <- read.csv("../central_otus/reporte_tomate1.csv" , row.names = 1)
+otus_tomate_nuevo <- read.csv("../central_otus/otus_clave_tomate_nuevo.csv" , row.names = 1)
+
+otus_clave <- list(otus_tomate_original , otus_tomate_nuevo)
+```
+
+```{r}
+rizosfera_bacterias <- import_biom("../../data/biom/tomate_nuevo.biom" , header = FALSE , sep = ";" , row.names = 1)
+```
+
+```{r}
+rizosfera_bacterias <- rizosfera_bacterias@tax_table@.Data
+```
+
+```{r}
+taxa_centrales <- list()
+for (i in 1:2){
+  taxa_centrales[[i]] <- as.data.frame(rizosfera_bacterias[intersect( row.names(rizosfera_bacterias), row.names(otus_clave[[i]])),])
+  print( paste0( "Se obtuvieron "  , length(row.names(otus_clave[[i]])) , " OTUs clave en las " , length(colnames(otus_clave[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
+  write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_tomate_", muestras_tomate[i] , ".csv"))
+}
+
+```
+```{r}
+nombres_familias <- lista_nombres(taxa_centrales, "Rank5")
+data_familias <- matriz_incidencia(nombres_familias , taxa_centrales , "Rank5")
+
+colnames(data_familias) <- muestras_tomate
+upset(data_familias    )
+```
+
+
+```{r}
+interseccion_familias <- intersect(as.vector(taxa_centrales[[1]][,"Rank5"]) , as.vector(taxa_centrales[[2]][,"Rank5"]))
+
+print(interseccion_familias)
+```
+
+
+```{r}
+for (familia in interseccion_familias){
+  for (i in 1:2){
+    print(taxa_centrales[[i]][which(taxa_centrales[[i]][, "Rank5"] == familia) , c("Rank5" , "Rank6" , "Rank7")])
+  }
+}
+```
+
+
+```{r}
+nombres_generos <- lista_nombres(taxa_centrales, "Rank6")
+data_generos <- matriz_incidencia(nombres_generos , taxa_centrales , "Rank6")
+
+colnames(data_generos) <- muestras_tomate
+
+upset(data_generos)
+```
+
+```{r}
+interseccion_generos <- intersect(as.vector(taxa_centrales[[1]][,"Rank6"]) , as.vector(taxa_centrales[[2]][,"Rank6"]))
+
+print(interseccion_generos)
+```
+
+```{r}
+nombres_especies <- lista_nombres(taxa_centrales, "Rank7")
+data_especies <- matriz_incidencia(nombres_especies , taxa_centrales , "Rank7")
+
+colnames(data_especies) <- muestras_tomate
+
+upset(data_especies)
+```
+
+```{r}
+interseccion_generos <- intersect(as.vector(taxa_centrales[[1]][,"Rank6"]) , as.vector(taxa_centrales[[2]][,"Rank6"]))
+
+print(interseccion_generos)
+```
+
+
+
+
+```{r}
+bydegree <- read.csv("../otus_by_centrality/tomate_nuevo_bydegree.csv" , row.names = 1)
+bycloseness <- read.csv("../otus_by_centrality/tomate_nuevo_bycloseness.csv" , row.names = 1)
+bybetweenness <- read.csv("../otus_by_centrality/tomate_nuevo_bybetweenness.csv" , row.names = 1)
+```
+
+```{r}
+hdeg <- which(bydegree$degrees >= quantile(bydegree$degrees, probs = seq(0, 1, 0.25))[4])
+hclose <- which(bydegree$closeness >= quantile(bydegree$closeness , probs = seq(0, 1, 0.25))[4])
+lbetween <- which(bydegree$betweenness <= quantile(bydegree$betweenness , probs = seq(0, 1, 0.25))[2])
+```
+
+```{r}
+
+```
+
+
+```{r}
+results_1 <- intersect(hdeg,hclose)
+results_1 <- intersect(results_1 , lbetween)
+
+data_report_1 <- bydegree[results_1,]
+```
+
+```{r}
+muestras_tomate <- c("original" , "nuevo")
+```
+
+```{r}
+otus_tomate_original <- read.csv("../central_otus/reporte_tomate1.csv" , row.names = 1)
+
+otus_clave <- list(otus_tomate_original , data_report_1)
+```
+
+```{r}
+rizosfera_bacterias <- import_biom("../../data/biom/tomate_nuevo.biom" , header = FALSE , sep = ";" , row.names = 1)
+```
+
+```{r}
+rizosfera_bacterias <- rizosfera_bacterias@tax_table@.Data
+```
+
+```{r}
+taxa_centrales <- list()
+for (i in 1:2){
+  taxa_centrales[[i]] <- as.data.frame(rizosfera_bacterias[intersect( row.names(rizosfera_bacterias), row.names(otus_clave[[i]])),])
+  print( paste0( "Se obtuvieron "  , length(row.names(otus_clave[[i]])) , " OTUs clave en las " , length(colnames(otus_clave[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
+  write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_tomate_", muestras_tomate[i] , ".csv"))
+}
+
+```
+
+
+```{r}
+nombres_familias <- lista_nombres(taxa_centrales, "Rank5")
+data_familias <- matriz_incidencia(nombres_familias , taxa_centrales , "Rank5")
+
+colnames(data_familias) <- muestras_tomate
+upset(data_familias    )
+```
+
+
+```{r}
+interseccion_familias <- intersect(as.vector(taxa_centrales[[1]][,"Rank5"]) , as.vector(taxa_centrales[[2]][,"Rank5"]))
+
+print(interseccion_familias)
+```
+
+
+```{r}
+for (familia in interseccion_familias){
+  for (i in 1:2){
+    print(taxa_centrales[[i]][which(taxa_centrales[[i]][, "Rank5"] == familia) , c("Rank5" , "Rank6" , "Rank7")])
+  }
+}
+```
+
+
+```{r}
+nombres_generos <- lista_nombres(taxa_centrales, "Rank6")
+data_generos <- matriz_incidencia(nombres_generos , taxa_centrales , "Rank6")
+
+colnames(data_generos) <- muestras_tomate
+
+upset(data_generos)
+```
+
+```{r}
+interseccion_generos <- intersect(as.vector(taxa_centrales[[1]][,"Rank6"]) , as.vector(taxa_centrales[[2]][,"Rank6"]))
+
+print(interseccion_generos)
+```
+
+```{r}
+nombres_especies <- lista_nombres(taxa_centrales, "Rank7")
+data_especies <- matriz_incidencia(nombres_especies , taxa_centrales , "Rank7")
+
+colnames(data_especies) <- muestras_tomate
+
+upset(data_especies)
+```
