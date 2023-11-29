@@ -68,6 +68,7 @@ return(df)
 
 ```{r}
 muestras_tomate <- c("original" , "nuevo")
+
 ```
 
 ```{r}
@@ -79,40 +80,21 @@ otus_clave <- list(otus_tomate_original , otus_tomate_nuevo)
 
 ```{r}
 rizosfera_bacterias <- import_biom("../../data/biom/tomate_nuevo.biom" , header = FALSE , sep = ";" , row.names = 1)
-rizosfera <- import_biom("../../data/biom/tomate.txt_9.biom" , header = FALSE , sep = ";" , row.names = 1)
+#rizosfera <- import_biom("../../data/biom/tomate.txt_9.biom" , header = FALSE , sep = ";" , row.names = 1)
 ```
 
 ```{r}
-rizosfera_bacterias <- rizosfera_bacterias@tax_table@.Data
+#rizosfera_bacterias <- rizosfera_bacterias@tax_table@.Data
 ```
 
 ```{r}
 taxa_centrales <- list()
 for (i in 1:2){
-  taxa_centrales[[i]] <- as.data.frame(rizosfera_bacterias[intersect( row.names(rizosfera_bacterias), row.names(otus_clave[[i]])),])
-  print( paste0( "Se obtuvieron "  , length(row.names(otus_clave[[i]])) , " OTUs clave en las " , length(colnames(otus_clave[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
+  taxa_centrales[[i]] <- as.data.frame(rizosfera_bacterias@tax_table@.Data[intersect(row.names(rizosfera_bacterias@tax_table@.Data), row.names(otus_clave[[i]])),])
+  #print( paste0( "Se obtuvieron "  , length(row.names(otus_clave[[i]])) , " OTUs clave en las " , length(colnames(otus_clave[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
   write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_tomate_", muestras_tomate[i] , ".csv"))
 }
 
-```
-
-```{r}
-abundance <- read.csv("../../data/tables/tomate_nuevo.csv" , row.names = 1)
-relative_abundance <- matrix(nrow = dim(abundance)[1] , ncol = dim(abundance)[2]  )
-for (i in 1:dim(abundance)[2]){
-  relative_abundance[ , i] <- abundance[ , i]/sum(abundance[ , i])
-}
-
-
-colnames(relative_abundance) <- colnames(abundance)
-row.names(relative_abundance) <- row.names(abundance)
-
-media <- c()
-for (i in 1:dim(relative_abundance)[1]){
-  media <- c(media , mean(relative_abundance[i , ]))
-}
-
-#relative_abundance <- as.data.frame(cbind( relative_abundance , media))
 ```
 
 ```{r}
@@ -134,22 +116,66 @@ for (i in 1:dim(relative_abundance)[1]){
 #relative_abundance <- as.data.frame(cbind( relative_abundance , media))
 ```
 
+```{r}
+metadata <- read.csv("../../data/metadata/fastp_metadat.csv")
+metadata <- metadata[ which(metadata$Cultivo == "Tomate") ,]
+metadata <- metadata[ , c("ID" , "Etapa_fenologica")]
+metadata <- data.frame(metadata , row.names = 1)
+
+```
 
 ```{r}
-meta_ord <- ordinate( abundance , method = "NMDS", distance = "bray")
-plot_ordination(physeq = abundance, ordination = meta_ord)
+samp_metadata <- rizosfera_bacterias@sam_data@row.names
+
+etapa <- c()
+for (i in 1:length(samp_metadata)){
+  if (substr(samp_metadata[i],1,1) == "S"){
+    etapa <- c(etapa , "Nuevo" )
+  } else {
+   id <- substr(samp_metadata[i] , 3 , nchar(samp_metadata[i]))
+    etapa <- c(etapa, as.character(metadata[ id , 1 ]))
+    #etapa <- c(etapa, "Viejo")
+  }
+}
+etapa <- data.frame( Etapa = etapa , ID = samp_metadata ,row.names = samp_metadata)
+
+etapa <- sample_data(etapa)
+```
+
+
+
+```{r}
+abundance@sam_data <- etapa
+
+meta_ord <- ordinate( abundance , method = "PCoA", distance = "bray")
+plot_ordination(physeq = abundance, ordination = meta_ord , color = "Etapa")
 ```
 
 ```{r}
 o_table <- otu_table(rizosfera_bacterias@otu_table@.Data[row.names(taxa_centrales[[2]])   , ] , taxa_are_rows = TRUE)
 t_table <- tax_table(rizosfera_bacterias@tax_table@.Data[row.names(taxa_centrales[[2]])   , ] )
-clave <- phyloseq(o_table , t_table)
+s_table <- sample_data(etapa)
+clave <- phyloseq(o_table , t_table , s_table)
 ```
 
 ```{r}
 clave <- transform_sample_counts(clave , function(x) x / sum(x) )
-meta_ord_clave <- ordinate( clave , method = "NMDS", distance = "bray")
-plot_ordination(physeq = clave, ordination = meta_ord_clave)
+meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
+plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
+```
+```{r}
+clave_glom <- tax_glom(clave, taxrank = 'Rank3')
+clave_df <- psmelt(clave_glom)
+
+library(RColorBrewer)
+library(ggplot2)
+clave_df$Phylum <- as.factor(clave_df$Rank3)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Rank3)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Rank3))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
 ```
 
 
