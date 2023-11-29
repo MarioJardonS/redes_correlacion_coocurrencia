@@ -79,6 +79,7 @@ otus_clave <- list(otus_tomate_original , otus_tomate_nuevo)
 
 ```{r}
 rizosfera_bacterias <- import_biom("../../data/biom/tomate_nuevo.biom" , header = FALSE , sep = ";" , row.names = 1)
+rizosfera <- import_biom("../../data/biom/tomate.txt_9.biom" , header = FALSE , sep = ";" , row.names = 1)
 ```
 
 ```{r}
@@ -94,6 +95,69 @@ for (i in 1:2){
 }
 
 ```
+
+```{r}
+abundance <- read.csv("../../data/tables/tomate_nuevo.csv" , row.names = 1)
+relative_abundance <- matrix(nrow = dim(abundance)[1] , ncol = dim(abundance)[2]  )
+for (i in 1:dim(abundance)[2]){
+  relative_abundance[ , i] <- abundance[ , i]/sum(abundance[ , i])
+}
+
+
+colnames(relative_abundance) <- colnames(abundance)
+row.names(relative_abundance) <- row.names(abundance)
+
+media <- c()
+for (i in 1:dim(relative_abundance)[1]){
+  media <- c(media , mean(relative_abundance[i , ]))
+}
+
+#relative_abundance <- as.data.frame(cbind( relative_abundance , media))
+```
+
+```{r}
+abundance <- transform_sample_counts(rizosfera_bacterias, function(x) x / sum(x) )
+relative_abundance <- matrix(nrow = dim(abundance)[1] , ncol = dim(abundance)[2]  )
+for (i in 1:dim(abundance)[2]){
+  relative_abundance[ , i] <- abundance[ , i]/sum(abundance[ , i])
+}
+
+
+colnames(relative_abundance) <- colnames(abundance)
+row.names(relative_abundance) <- row.names(abundance)
+
+media <- c()
+for (i in 1:dim(relative_abundance)[1]){
+  media <- c(media , mean(relative_abundance[i , ]))
+}
+
+#relative_abundance <- as.data.frame(cbind( relative_abundance , media))
+```
+
+
+```{r}
+meta_ord <- ordinate( abundance , method = "NMDS", distance = "bray")
+plot_ordination(physeq = abundance, ordination = meta_ord)
+```
+
+```{r}
+o_table <- otu_table(rizosfera_bacterias@otu_table@.Data[row.names(taxa_centrales[[2]])   , ] , taxa_are_rows = TRUE)
+t_table <- tax_table(rizosfera_bacterias@tax_table@.Data[row.names(taxa_centrales[[2]])   , ] )
+clave <- phyloseq(o_table , t_table)
+```
+
+```{r}
+clave <- transform_sample_counts(clave , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( clave , method = "NMDS", distance = "bray")
+plot_ordination(physeq = clave, ordination = meta_ord_clave)
+```
+
+
+```{r}
+media1 <- relative_abundance[ intersect(row.names(taxa_centrales[[1]]) , row.names(relative_abundance) ), "media" ]
+print(cbind(taxa_centrales[[1]][ ,c("Rank5" , "Rank6" , "Rank7") ] , media1 ))
+```
+
 ```{r}
 nombres_familias <- lista_nombres(taxa_centrales, "Rank5")
 data_familias <- matriz_incidencia(nombres_familias , taxa_centrales , "Rank5")
@@ -142,6 +206,14 @@ colnames(data_especies) <- muestras_tomate
 
 upset(data_especies)
 ```
+
+
+
+
+
+
+
+
 
 ```{r}
 interseccion_generos <- intersect(as.vector(taxa_centrales[[1]][,"Rank6"]) , as.vector(taxa_centrales[[2]][,"Rank6"]))
