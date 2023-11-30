@@ -1,0 +1,436 @@
+sample_id,Experiment,Assay Type,seq_type,Organism,plant_part,host_name,latitude,longitude,state,country,continent,DOI,year
+SRR10127267,SRX6855687,WGS,Shotgun,plant metagenome,Phylosphere,Agave Tequilana,21.7658 ,-100.163,Jalisco,Mexico,North America,NA,
+SRR10127271,SRX6855691,WGS,Shotgun,plant metagenome,Phylosphere,Myrtillocactus Geometrizans,21.7658 ,-100.163,Guanajuato,Mexico,North America,NA,
+SRR11092496,SRX7731335,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Fagales,21.8363 ,-105.0829,Nayarit,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092498,SRX7731333,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Asteraceae,21.1790 ,-104.5403,Jalisco,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092499,SRX7731332,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Solanum Lycopersicum,19.3211 ,-99.1944,Jalisco,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092501,SRX7731330,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Poaceae,24.0062 ,-104.3847,Durango,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092502,SRX7731329,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Solanum Lycopersicum,19.3211 ,-99.1944,Durango,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092505,SRX7731326,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Poaceae,21.9878 ,-101.2767,San Luis Potosi,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092506,SRX7731325,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Solanum Lycopersicum,19.3211 ,-99.1944,San Luis Potosi,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092508,SRX7731323,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Poaceae,23.2927 ,-106.4787,Sinaloa,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092509,SRX7731322,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Solanum Lycopersicum,19.3211 ,-99.1944,Sinaloa,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092511,SRX7731320,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Poaceae,21.8275 ,-102.1208,Aguascalientes,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092512,SRX7731319,WGS,Shotgun,rhizosphere metagenome,Rhizosphere,Solanum Lycopersicum,19.3211 ,-99.1944,Aguascalientes,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4140275,SRX2122695,WGS,Shotgun,plant metagenome,Rhizosphere,Agave Salmiana,21.0936 ,-100.2988,Guanajuato,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4140276,SRX2122696,WGS,Shotgun,plant metagenome,Rhizosphere,Agave Salmiana,21.7658 ,-100.163,Guanajuato,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4140277,SRX2122697,WGS,Shotgun,plant metagenome,Rhizosphere,Agave Tequilana,20.6863 ,-101.8747,Guanajuato,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4140278,SRX2122698,WGS,Shotgun,plant metagenome,Rhizosphere,Agave Tequilana,21.0411 ,-103.9083,Jalisco,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4141180,SRX2124701,WGS,Shotgun,plant metagenome,Rhizosphere,Myrtillocactus Geometrizans,21.0936 ,-100.2988,Guanajuato,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4142282,SRX2124702,WGS,Shotgun,plant metagenome,Phylosphere,Agave Salmiana,21.7658 ,-100.163,Guanajuato,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR4142283,SRX2124703,WGS,Shotgun,plant metagenome,Rhizosphere,Opuntia Robusta,21.7658 ,-100.163,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR4142417,SRX2124704,WGS,Shotgun,plant metagenome,Rhizosphere,Opuntia Robusta,21.0936 ,-100.2988,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR4142418,SRX2124705,WGS,Shotgun,plant metagenome,Rhizosphere,Myrtillocactus Geometrizans,21.7658 ,-100.163,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR4142430,SRX2124717,WGS,Shotgun,plant metagenome,Phylosphere,Agave Salmiana,21.7658 ,-100.163,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR4142433,SRX2124720,WGS,Shotgun,plant metagenome,Phylosphere,Agave Tequilana,20.6863 ,-101.8747,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR4142459,SRX2124746,WGS,Shotgun,plant metagenome,Phylosphere,Opuntia Robusta,21.7658 ,-100.163,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR4142460,SRX2124747,WGS,Shotgun,plant metagenome,Phylosphere,Myrtillocactus Geometrizans,21.7658 ,-100.163,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR5166355,SRX2483315,WGS,Shotgun,plant metagenome,Phylosphere,Opuntia Robusta,21.0936 ,-100.2988,Guanajuato,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR5829600,SRX3006943,WGS,NA,root metagenome,Rhizosphere,Macroptilium Atropurpureum,19.09098 ,-98.87936,Edo. Mex.,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR5829603,SRX3006946,WGS,NA,root metagenome,Rhizosphere,Phaseolus Vulgaris,19.09098 ,-98.87936,Edo. Mex.,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR5829609,SRX3006952,WGS,NA,root metagenome,Rhizosphere,Phaseolus Vulgaris,19.09098 ,-98.87936,Edo. Mex.,Mexico,North America,https://doi.org/10.1016/j.isci.2020.101624 ,2020
+SRR12778013,SRX9247618,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778014,SRX9247617,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778015,SRX9247616,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778016,SRX9247615,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778017,SRX9247614,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778018,SRX9247613,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778019,SRX9247612,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778020,SRX9247611,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778021,SRX9247610,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778022,SRX9247609,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778023,SRX9247608,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR12778024,SRX9247607,OTHER,Shotgun,plant metagenome,,Capsicum,26.1328999,106.6567,Huishui,China,Asia,10.1186/s40168-021-01138-2,2021
+SRR13319509,SRX9746988,WGS,Shotgun,plant metagenome,,Capsicum annuum var. annuum,37.47 , 127.97,Hoengseong,Korea,Asia,https://doi.org/10.3390/ijms22126202,2021
+SRR13319510,SRX9746987,WGS,Shotgun,plant metagenome,,Capsicum annuum var. annuum,37.47 , 127.97,Hoengseong,Korea,Asia,https://doi.org/10.3390/ijms22126202,2021
+SRR13319511,SRX9746986,WGS,Shotgun,plant metagenome,,Capsicum annuum var. annuum,37.47 , 127.97,Hoengseong,Korea,Asia,https://doi.org/10.3390/ijms22126202,2021
+ERR5639101,ERX5355241,WGS,Shotgun,plant metagenome,,Capsicum annuum,56,10,NA,Denmark,Europe,10.1016/j.fochms.2021.100044,2021
+SRR10527387,SRX7211879,WGS,Shotgun,Xanthomonas euvesicatoria,phyllosphere,Capsicum annuum,32.601389 ,-85.353611,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527388,SRX7211878,WGS,Shotgun,Xanthomonas euvesicatoria,phyllosphere,Capsicum annuum,32.601389 ,-85.353611,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527389,SRX7211877,WGS,Shotgun,Xanthomonas euvesicatoria,phyllosphere,Capsicum annuum,33.20654 ,-87.534607,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR11092497,SRX7731334,WGS,Shotgun,soil metagenome,,Soil,21.1790 ,-104.5403,Jalisco,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092500,SRX7731331,WGS,Shotgun,soil metagenome,,Soil,24.0062 ,-104.3847,Durango,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092503,SRX7731328,WGS,Shotgun,soil metagenome,,Soil,21.8275 ,-102.1208,Aguascalientes,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092504,SRX7731327,WGS,Shotgun,soil metagenome,,not applicable,21.9878 ,-101.2767,San Luis Potosi,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR11092507,SRX7731324,WGS,Shotgun,soil metagenome,,Soil,23.2927 ,-106.4787,Sinaloa,Mexico,North America,10.3389/fmicb.2020.542742,2020
+SRR10527383,SRX7211883,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,32.385278 ,-85.693611,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527384,SRX7211882,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,32.385278 ,-85.693611,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527386,SRX7211880,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,32.601389 ,-85.353611,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527390,SRX7211876,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,33.20654 ,-87.534607,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527391,SRX7211875,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,34.457222 ,-85.806667,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527392,SRX7211874,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,34.05 ,-86.033333,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR10527393,SRX7211873,WGS,Shotgun,Xanthomonas perforans,phyllosphere,Solanum lycopersicum,30.733056 ,-87.720278,Alabama,USA,North America,https://doi.org/10.1111/1462-2920.14989,2020
+SRR7448200,SRX4317501,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448260,SRX4317502,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448267,SRX4317503,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448268,SRX4317504,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448274,SRX4317505,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448275,SRX4317506,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448276,SRX4317507,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448277,SRX4317508,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7448278,SRX4317509,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457704,SRX4328209,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457705,SRX4328208,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457706,SRX4328207,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457707,SRX4328206,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457708,SRX4328205,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457709,SRX4328204,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457710,SRX4328203,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457711,SRX4328202,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR7457713,SRX4328200,WGA,Shotgun,soil metagenome,geocaulosphere,Solanum tuberosum,34.2487 , 119.8167,Jiaozhou,China,Asia,https://doi.org/10.1186/s40168-019-0629-2,2019
+SRR12192801,SRX8706638,WGS,Shotgun,soil metagenome,,Zea mays,-25.59, 26.31,Lichtenburg,South Africa,Africa,10.1128/MRA.00860-20,2020
+SRR12192802,SRX8706637,WGS,Shotgun,soil metagenome,,Zea mays,-25.59, 26.31,Lichtenburg,South Africa,Africa,10.1128/MRA.00860-20,2020
+SRR12192803,SRX8706636,WGS,Shotgun,soil metagenome,,Zea mays,-25.59, 26.31,Lichtenburg,South Africa,Africa,10.1128/MRA.00860-20,2020
+SRR12192804,SRX8706635,WGS,Shotgun,soil metagenome,,Zea mays,-25.59, 26.31,Lichtenburg,South Africa,Africa,10.1128/MRA.00860-20,2020
+SRR12192805,SRX8706634,WGS,Shotgun,soil metagenome,,Zea mays,-25.59, 26.31,Lichtenburg,South Africa,Africa,10.1128/MRA.00860-20,2020
+SRR11041069,SRX7692846,WGA,Shotgun,NA,NA,Zea mays,37.09024,-95.712891,NA,USA,North America,10.1186/s12866-020-02037-6,2020
+SRR11041070,SRX7692845,WGA,Shotgun,NA,NA,Zea mays,37.09024,-95.712891,NA,USA,North America,10.1186/s12866-020-02037-6,2020
+SRR11041072,SRX7692843,WGA,Shotgun,NA,NA,Zea mays,37.09024,-95.712891,NA,USA,North America,10.1186/s12866-020-02037-6,2020
+SRR11041071,SRX7692844,WGA,Shotgun,NA,NA,Zea mays,37.09024,-95.712891,NA,USA,North America,10.1186/s12866-020-02037-6,2020
+SRR9021691,SRX5799614,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9021703,SRX5799626,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9021704,SRX5799627,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9021705,SRX5799628,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9021707,SRX5799630,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9021708,SRX5799631,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9021711,SRX5799634,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR9023236,SRX5801130,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR8554882,SRX5356659,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://doi.org/10.46936/10.25585/60000783,2016
+SRR8554884,SRX5356661,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,38.5 ,-121.7,California,USA,North America,https://gold.jgi.doe.gov/srastudy?id=SRP185319,2016
+SRR8197394,SRX5016770,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,51.991111 , 5.661972,Wageningen,Netherlands,Europe,10.1186/s40793-023-00479-9,2023
+SRR8197395,SRX5016769,WGS,Shotgun,rhizosphere metagenome,rhizosphere,Zea mays,51.991111 , 5.661972,Wageningen,Netherlands,Europe,10.1186/s40793-023-00479-9,2023
+SRR2924453,SRX1437849,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924454,SRX1437850,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924460,SRX1437856,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924461,SRX1437857,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924462,SRX1437858,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924464,SRX1437861,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924465,SRX1437862,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,34.184136 ,-101.943636,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924469,SRX1437864,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,34.184136 ,-101.943636,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924470,SRX1437865,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,34.184136 ,-101.943636,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924445,SRX1437841,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,34.184136 ,-101.943636,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924446,SRX1437842,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924447,SRX1437843,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924450,SRX1437846,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924452,SRX1437848,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924455,SRX1437851,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924456,SRX1437852,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924457,SRX1437853,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924458,SRX1437854,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924459,SRX1437855,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,37.53128 ,-122.7598,California,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924463,SRX1437860,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,35.998744 ,-101.988583,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR2924468,SRX1437863,WGS,Shotgun,phyllosphere metagenome,phyllosphere,Zea mays,34.184136 ,-101.943636,Texas,USA,North America,10.1371/journal.pone.0237493,2020
+SRR12192848,SRX8706685,WGS,Shotgun,soil metagenome,,Zea mays,-26.11, 27.33,Randfontein,South Africa,Africa,https://doi.org/10.3390/microorganisms9071419,2021
+SRR12192849,SRX8706684,WGS,Shotgun,soil metagenome,,Zea mays,-26.11, 27.33,Randfontein,South Africa,Africa,https://doi.org/10.3390/microorganisms9071419,2021
+SRR12192850,SRX8706683,WGS,Shotgun,soil metagenome,,Zea mays,-26.11, 27.33,Randfontein,South Africa,Africa,https://doi.org/10.3390/microorganisms9071419,2021
+SRR12192851,SRX8706682,WGS,Shotgun,soil metagenome,,Zea mays,-26.11, 27.33,Randfontein,South Africa,Africa,https://doi.org/10.3390/microorganisms9071419,2021
+SRR12192852,SRX8706681,WGS,Shotgun,soil metagenome,,Zea mays,-26.11, 27.33,Randfontein,South Africa,Africa,https://doi.org/10.3390/microorganisms9071419,2021
+SRR14027267,SRX10403898,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027268,SRX10403897,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.4,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027269,SRX10403896,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027270,SRX10403895,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027271,SRX10403894,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027272,SRX10403893,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027273,SRX10403892,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.3,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027274,SRX10403891,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.5,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027275,SRX10403890,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.6,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027276,SRX10403889,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.8,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027277,SRX10403888,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.7,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027278,SRX10403887,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027279,SRX10403886,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.1,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027280,SRX10403885,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.0,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027281,SRX10403884,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.0,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027282,SRX10403883,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.3,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027283,SRX10403882,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.5,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027285,SRX10403880,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.2,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027286,SRX10403879,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.0,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027288,SRX10403877,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.0,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027290,SRX10403875,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.8 , 115.2,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+SRR14027292,SRX10403873,CLONE,Shotgun,soil metagenome,,Soil of Zea mays and Triticum rotation,36.9 , 115.10,NA,China,Asia,https://doi.org/10.1007/s42832-023-0172-8  ,2023
+t-Ia7iM2MAIPOOB100245,,,,,,Zea mays,NA,NA,NA,NA,NA,,
+t-P0ZQM2MAIPOOA100240,,,,,,Zea mays,NA,NA,NA,NA,NA,,
+t-qU3SM2MAIPOOM070605,,,,,,Zea mays,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-B7zTM2MAIPOOA070610,,,,,,Zea mays,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-c5isM2MAIPOOA070615,,,,,,Zea mays,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-TgLUM2MAIPOOM070620,,,,,,Zea mays,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-pse1M2MAIPOOA100685,,,,,,Zea mays,21.8852562,-102.2915677,Aguascalientes,Mexico,North America,,
+t-AJwcM2MAIPOOA100700,,,,,,Zea mays,21.8852562,-102.2915677,Aguascalientes,Mexico,North America,,
+t-1ayWM2CHIPOOB100705,,,,,,Capsicum,21.8852562,-102.2915677,Aguascalientes,Mexico,North America,,
+t-oAVVM2CHIPOOB051360,,,,,,Capsicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-3xfYM2CHIPOOA051365,,,,,,Capsicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-vcXtM2TOMPOOB050180,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-iYASM2TOMPOOA050195,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-XR8LM2TOMPOOB051125,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-TECcM2TOMPOOA051310,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-FvY2M2TOMPOOB051329,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-abKIM2TOMPOOA051320,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-cuu6M2TOMPOOB051315,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-jYxWM2CHIPOOB051110,,,,,,Capsicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-hoQoM2CHIPOOA051115,,,,,,Capsicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-s9OmM2TOMPOOB051285,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-Nm8MM2TOMPOOA051300,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-IGpcM2TOMPOOB051290,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-a50wM2TOMPOOB051350,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-OeS0M2TOMPOOA051355,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-dSz8M2TOMPOOA051340,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-aFJgM2TOMPOOM090325,,,,,,Solanum lycopersicum,-9.189967,-75.015152,Peru,Peru,South America,,
+t-cSObM2TOMPOOM080315,,,,,,Solanum lycopersicum,-9.189967,-75.015152,Peru,Peru,South America,,
+t-wQqUM2TOMPOOA080335,,,,,,Solanum lycopersicum,-9.189967,-75.015152,Peru,Peru,South America,,
+t-0n7bM2TOMPOOA100365,,,,,,Solanum lycopersicum,21.0190145,-101.2573586,Guanajuato,Mexico,North America,,
+t-1qGgM2TOMPOOM080340,,,,,,Solanum lycopersicum,-9.189967,-75.015152,Peru,Peru,South America,,
+t-9JUZM2TOMPOOB100355,,,,,,Solanum lycopersicum,21.0190145,-101.2573586,Guanajuato,Mexico,North America,,
+t-AYtCM2TOMPOOA100360,,,,,,Solanum lycopersicum,21.0190145,-101.2573586,Guanajuato,Mexico,North America,,
+t-DYZgM2TOMPOOB100370,,,,,,Solanum lycopersicum,21.0190145,-101.2573586,Guanajuato,Mexico,North America,,
+t-eBCjM2CHIPOOBXX1180,,,,,,Capsicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-j1iWM2CHIPOOBXX1561,,,,,,Capsicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+t-nG3jM2TOMPOOA051345,,,,,,Solanum lycopersicum,25.1721091,-107.4795173,Sinaloa,Mexico,North America,,
+SRR16095322,SRX12381469,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095323,SRX12381468,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095324,SRX12381467,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095325,SRX12381466,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095326,SRX12381465,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095327,SRX12381464,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095328,SRX12381463,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095329,SRX12381462,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095330,SRX12381461,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095331,SRX12381460,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095332,SRX12381459,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095333,SRX12381458,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095334,SRX12381457,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095335,SRX12381456,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095336,SRX12381455,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095337,SRX12381454,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095338,SRX12381453,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095339,SRX12381452,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095340,SRX12381451,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095341,SRX12381450,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095342,SRX12381449,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095343,SRX12381448,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095344,SRX12381447,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR16095345,SRX12381452,OTHER,size fractionation,soil metagenome,rhizosphere,Zea mays L. hybrid,39.916668,116.383331,Beijing,China,Asia,10.1016/j.scitotenv.2023.164221,2023
+SRR19161330,SRX15227677,WGS,RANDOM,soil metagenome,rhizosphere,Zea mays and Arachis hypogaea ,37.177017,119.942327,Laizhou,China,Asia,10.3389/fpls.2022.957336,2022
+SRR19161331,SRX15227676,WGS,RANDOM,soil metagenome,rhizosphere,Zea mays and Arachis hypogaea ,37.177017,119.942327,Laizhou,China,Asia,10.3389/fpls.2022.957336,2022
+SRR19161332,SRX15227675,WGS,RANDOM,soil metagenome,rhizosphere,Zea mays and Arachis hypogaea ,37.177017,119.942327,Laizhou,China,Asia,10.3389/fpls.2022.957336,2022
+SRR19161333,SRX15227674,WGS,RANDOM,soil metagenome,rhizosphere,Zea mays and Arachis hypogaea ,37.177017,119.942327,Laizhou,China,Asia,10.3389/fpls.2022.957336,2022
+SRR19161334,SRX15227673,WGS,RANDOM,soil metagenome,rhizosphere,Zea mays and Arachis hypogaea ,37.177017,119.942327,Laizhou,China,Asia,10.3389/fpls.2022.957336,2022
+SRR19161335,SRX15227672,WGS,RANDOM,soil metagenome,rhizosphere,Zea mays and Arachis hypogaea ,37.177017,119.942327,Laizhou,China,Asia,10.3389/fpls.2022.957336,2022
+SRR12358472,SRX8857822,WGA,PCR,soil metagenome,rhizosphere,Soil of Zea mays,,,Mafikeng,South Africa,Africa,10.3390/genes12091431,2021
+SRR16079611,SRX12366070,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079612,SRX12366069,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079613,SRX12366068,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079614,SRX12366067,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079615,SRX12366066,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079616,SRX12366065,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079617,SRX12366064,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079618,SRX12366063,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR16079619,SRX12366062,WGS,other,rhizosphere metagenome,rhizosphere,Solanum lycopersicum,,,Potchefstroom,South Africa,Africa,10.7717/peerj.15432,2023
+SRR7907963,SRX4744128,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907964,SRX4744127,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907965,SRX4744126,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907966,SRX4744125,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907967,SRX4744124,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907968,SRX4744123,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907969,SRX4744122,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907970,SRX4744121,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907971,SRX4744120,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907972,SRX4744119,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907973,SRX4744118,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907974,SRX4744117,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907975,SRX4744116,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907976,SRX4744115,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907977,SRX4744114,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907978,SRX4744113,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907979,SRX4744112,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907980,SRX4744111,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907981,SRX4744110,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907982,SRX4744109,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907983,SRX4744108,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907984,SRX4744107,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907985,SRX4744106,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907986,SRX4744105,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907987,SRX4744104,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907988,SRX4744103,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907989,SRX4744102,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907990,SRX4744101,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907991,SRX4744100,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907992,SRX4744099,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907993,SRX4744098,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907994,SRX4744097,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907995,SRX4744096,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907996,SRX4744095,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907997,SRX4744094,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907998,SRX4744093,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7907999,SRX4744092,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7908000,SRX4744091,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7908001,SRX4744090,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR7908002,SRX4744089,WGS,cDNA,soil metagenome,rhizosphere,Solanum lycopersicum,32.06167,118.77778,Nanjing,China,Asia,10.1186/s40168-023-01463-8,2023
+SRR15883085,SRX12173960,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883086,SRX12173959,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883087,SRX12173958,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883088,SRX12173957,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883089,SRX12173956,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883090,SRX12173955,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883091,SRX12173954,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883092,SRX12173953,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883093,SRX12173952,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883094,SRX12173951,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883095,SRX12173950,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883096,SRX12173949,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883097,SRX12173948,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883098,SRX12173947,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15883099,SRX12173946,WGS,RANDOM,metagenome,rhizosphere,Lactuta sativa L.,-26.27076,28.112268,Gauteng ,South Africa,Africa,10.1016/j.dib.2023.109214,2023
+SRR15947147,SRX12237088,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947148,SRX12237087,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947149,SRX12237086,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947150,SRX12237085,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947151,SRX12237084,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947152,SRX12237083,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947153,SRX12237082,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947154,SRX12237081,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947155,SRX12237080,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947156,SRX12237079,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947157,SRX12237078,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR15947158,SRX12237077,WGS,other,soil metagenome,rhizosphere,Glycine max ,-28.454111,26.796785,Free State,South Africa,Africa,10.3390/ijms23169422,2022
+SRR17408286,SRX13580296,WGS,RANDOM,rhizosphere metagenome,rhizosphere,"Coffea stenophylla, Coffea racemosa, and Coffea liberica",-23.533773,-46.62529,Sao Paulo,Brazil,South America,10.1128/spectrum.00444-22,2022
+SRR12439273,SRX8933946,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,19.69639,-101.18444,Michoacan,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439274,SRX8933945,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,19.69639,-101.18444,Michoacan,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439275,SRX8933944,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439276,SRX8933943,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439277,SRX8933942,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439278,SRX8933941,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439279,SRX8933940,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439280,SRX8933939,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR12439281,SRX8933938,WGS,size fractionation,metagenome,rhizosphere,Persea americana Mill,18.9446,-99.4954,Estado de Mexico,Mexico,North America,10.1007/s00203-021-02449-6,2021
+SRR10695388,SRX7372029,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695389,SRX7372028,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695390,SRX7372027,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695391,SRX7372026,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695392,SRX7372025,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695393,SRX7372024,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695394,SRX7372023,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695395,SRX7372022,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695396,SRX7372021,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695397,SRX7372020,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695398,SRX7372019,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695399,SRX7372018,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695400,SRX7372017,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695401,SRX7372016,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR10695402,SRX7372015,WGS,size fractionation,soil metagenome,rhizosphere,Panax notoginseng,25.043333,102.706108,Yunnan,China,Asia,10.1186/s13020-020-00364-4,2020
+SRR6866878,SRX3821509,OTHER,RANDOM,rhizosphere metagenome,rhizosphere,Glycine max ,32.049999,118.76667,Jiangsu,China,Asia,10.3390/genes9040214,2018
+SRR6866879,SRX3821508,OTHER,RANDOM,rhizosphere metagenome,rhizosphere,Glycine max ,32.049999,118.76667,Jiangsu,China,Asia,10.3390/genes9040214,2018
+SRR8921818,SRX5703135,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921819,SRX5703134,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921820,SRX5703133,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921821,SRX5703132,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921822,SRX5703131,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921823,SRX5703130,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921824,SRX5703129,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921825,SRX5703128,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921826,SRX5703127,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921827,SRX5703126,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921828,SRX5703125,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921829,SRX5703124,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921830,SRX5703123,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921831,SRX5703122,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921832,SRX5703121,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR8921833,SRX5703120,WGS,RANDOM,soil metagenome,rhizosphere,Malus domestica,54.323334,10.139444,Schleswig-Holstein,Germany,Europe,10.1186/s40793-019-0346-2,2019
+SRR14320320,SRX10675476,WGS,RANDOM,soil metagenome,rhizosphere,Sorghum bicolor,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320321,SRX10675475,WGS,RANDOM,soil metagenome,rhizosphere,Sesbania cannabina,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320322,SRX10675474,WGS,RANDOM,soil metagenome,rhizosphere,Sesbania cannabina,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320323,SRX10675473,WGS,RANDOM,soil metagenome,rhizosphere,Sesbania cannabina,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320324,SRX10675472,WGS,RANDOM,soil metagenome,rhizosphere,Glycine soja,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320325,SRX10675471,WGS,RANDOM,soil metagenome,rhizosphere,Glycine soja,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320326,SRX10675470,WGS,RANDOM,soil metagenome,rhizosphere,Glycine soja,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320328,SRX10675468,WGS,RANDOM,soil metagenome,rhizosphere,Sorghum bicolor,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR14320329,SRX10675467,WGS,RANDOM,soil metagenome,rhizosphere,Sorghum bicolor,37.5,118.52,Dongying,China,Asia,10.1128/Spectrum.00767-21,2021
+SRR21737279,SRX17733063,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737280,SRX17733062,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737281,SRX17733061,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737282,SRX17733060,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737283,SRX17733059,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737284,SRX17733058,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737285,SRX17733057,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737286,SRX17733056,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737287,SRX17733055,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737288,SRX17733054,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737289,SRX17733053,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737290,SRX17733052,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737291,SRX17733051,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737292,SRX17733050,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737293,SRX17733049,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737294,SRX17733048,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737295,SRX17733047,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737296,SRX17733046,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737297,SRX17733045,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737298,SRX17733044,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737299,SRX17733043,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737300,SRX17733042,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737301,SRX17733041,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737302,SRX17733040,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737303,SRX17733039,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737304,SRX17733038,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737305,SRX17733037,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737306,SRX17733036,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21737307,SRX17733035,WGS,unspecified,metagenome,rhizosphere,Triticum aestivum,50.288055,-107.793892,Swift Current,Canada,North America,10.1093/femsec/fiab071,2021
+SRR21821665,SRX17810948,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821666,SRX17810947,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821667,SRX17810946,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821668,SRX17810945,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821669,SRX17810944,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821670,SRX17810943,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821671,SRX17810942,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821672,SRX17810941,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821673,SRX17810940,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821674,SRX17810939,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821675,SRX17810938,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821676,SRX17810937,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821677,SRX17810936,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821678,SRX17810935,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821679,SRX17810934,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821680,SRX17810933,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821681,SRX17810932,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821682,SRX17810931,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821683,SRX17810930,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821684,SRX17810929,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821685,SRX17810928,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821686,SRX17810927,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821687,SRX17810926,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821688,SRX17810925,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821689,SRX17810924,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821690,SRX17810923,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821691,SRX17810922,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821692,SRX17810921,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821693,SRX17810920,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821694,SRX17810919,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821695,SRX17810918,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821696,SRX17810917,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821697,SRX17810916,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821698,SRX17810915,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821699,SRX17810914,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821700,SRX17810913,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821701,SRX17810912,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821702,SRX17810911,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821703,SRX17810910,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821704,SRX17810909,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821705,SRX17810908,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821706,SRX17810907,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821707,SRX17810906,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821708,SRX17810905,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR21821709,SRX17810904,OTHER,other,rhizosphere metagenome,rhizosphere,Oryza sativa,30.25,120.166664,Zhejiang,China,Asia,10.3389/fmicb.2022.1053153,2022
+SRR17036897,SRX13226791,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036898,SRX13226790,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036899,SRX13226789,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036900,SRX13226788,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036901,SRX13226787,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036902,SRX13226786,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036903,SRX13226785,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR17036904,SRX13226784,WGS,RANDOM,soil metagenome,rhizosphere,Arachis hypogaea,26.0753,119.308197,Fujian,China,Asia,10.1186/s40168-022-01287-y,2022
+SRR12964292,SRX9416890,WGS,other,metagenome,rhizosphere,Zea mays,-26.152,26.15968,Lichtenburg,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12964293,SRX9416889,WGS,other,metagenome,rhizosphere,Zea mays,-26.152,26.15968,Lichtenburg,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12964294,SRX9416888,WGS,other,metagenome,rhizosphere,Zea mays,-26.152,26.15968,Lichtenburg,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12964295,SRX9416887,WGS,other,metagenome,rhizosphere,Zea mays,-26.152,26.15968,Lichtenburg,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12977023,SRX9429219,WGS,other,metagenome,rhizosphere,Zea mays,-26.3166667,26.8166667,Ventersdorp,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12977024,SRX9429218,WGS,other,metagenome,rhizosphere,Zea mays,-26.3166667,26.8166667,Ventersdorp,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12977025,SRX9429217,WGS,other,metagenome,rhizosphere,Zea mays,-26.3166667,26.8166667,Ventersdorp,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRR12977026,SRX9429216,WGS,other,metagenome,rhizosphere,Zea mays,-26.3166667,26.8166667,Ventersdorp,South Africa,Africa,10.1007/s00203-021-02354-y,2021
+SRX1989930,SRR3988227,,,,,,,,,,,,

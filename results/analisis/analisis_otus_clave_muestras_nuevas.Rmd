@@ -99,19 +99,19 @@ for (i in 1:2){
 
 ```{r}
 abundance <- transform_sample_counts(rizosfera_bacterias, function(x) x / sum(x) )
-relative_abundance <- matrix(nrow = dim(abundance)[1] , ncol = dim(abundance)[2]  )
-for (i in 1:dim(abundance)[2]){
-  relative_abundance[ , i] <- abundance[ , i]/sum(abundance[ , i])
-}
+#relative_abundance <- matrix(nrow = dim(abundance)[1] , ncol = dim(abundance)[2]  )
+#for (i in 1:dim(abundance)[2]){
+ # relative_abundance[ , i] <- abundance[ , i]/sum(abundance[ , i])
+#}
 
 
-colnames(relative_abundance) <- colnames(abundance)
-row.names(relative_abundance) <- row.names(abundance)
+#colnames(relative_abundance) <- colnames(abundance)
+#row.names(relative_abundance) <- row.names(abundance)
 
-media <- c()
-for (i in 1:dim(relative_abundance)[1]){
-  media <- c(media , mean(relative_abundance[i , ]))
-}
+#media <- c()
+#for (i in 1:dim(relative_abundance)[1]){
+ # media <- c(media , mean(relative_abundance[i , ]))#
+#}
 
 #relative_abundance <- as.data.frame(cbind( relative_abundance , media))
 ```
@@ -163,6 +163,30 @@ clave <- transform_sample_counts(clave , function(x) x / sum(x) )
 meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
 plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
 ```
+
+```{r}
+
+metadata <- read.csv("../../data/metadata/metadata_agave_clavi_solena.csv")
+#metadata <- metadata[ which(metadata$Cultivo == "Tomate") ,]
+metadata <- metadata[ , c("sample_id" , "state")]
+metadata <- metadata[which(is.element(metadata[ , "sample_id"],colnames(rizosfera_bacterias@otu_table@.Data))) , ]
+estado <- data.frame( Estado = metadata[ , "state"] , ID = metadata[ , "sample_id"] , row.names =  metadata[ , "sample_id"])
+estado <- sample_data(estado)
+
+```
+
+```{r}
+abundance@sam_data <- estado
+
+meta_ord <- ordinate( abundance , method = "PCoA", distance = "bray")
+plot_ordination(physeq = abundance, ordination = meta_ord , color = "Estado")
+```
+```{r}
+clave@sam_data <- estado
+meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
+plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Estado")
+```
+
 ```{r}
 clave_glom <- tax_glom(clave, taxrank = 'Rank3')
 clave_df <- psmelt(clave_glom)
@@ -177,6 +201,46 @@ relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Rank3))+
 #absolute_plot | 
 relative_plot
 ```
+
+```{r}
+clave_glom <- tax_glom(clave, taxrank = 'Rank5')
+clave_df <- psmelt(clave_glom)
+
+library(RColorBrewer)
+library(ggplot2)
+clave_df$Phylum <- as.factor(clave_df$Rank5)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Rank5)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Rank5))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
+```{r}
+abundance_glom <- tax_glom(abundance, taxrank = 'Rank5')
+abundance_df <- psmelt(abundance_glom)
+key_not_key <- c()
+for (i in 1:dim(abundance_df)[1]){
+  if (is.element(abundance_df[i,"OTU"], as.vector(clave_df[ , "OTU"])  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  }
+}
+abundance_df$key <- key_not_key
+```
+
+```{r}
+#bundance_df$key_1 <- as.factor(abundance_df$key)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(abundance_df$key)))
+relative_plot <- ggplot(data=abundance_df, aes(x=Sample, y=Abundance, fill=abundance_df$key ))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
 
 
 ```{r}
