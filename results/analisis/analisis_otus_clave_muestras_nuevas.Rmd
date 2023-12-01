@@ -91,7 +91,7 @@ rizosfera_bacterias <- import_biom("../../data/biom/tomate_nuevo.biom" , header 
 taxa_centrales <- list()
 for (i in 1:2){
   taxa_centrales[[i]] <- as.data.frame(rizosfera_bacterias@tax_table@.Data[intersect(row.names(rizosfera_bacterias@tax_table@.Data), row.names(otus_clave[[i]])),])
-  #print( paste0( "Se obtuvieron "  , length(row.names(otus_clave[[i]])) , " OTUs clave en las " , length(colnames(otus_clave[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
+  print( paste0( "Se obtuvieron "  , length(row.names(otus_clave[[i]])) , " OTUs clave en las " , length(colnames(otus_clave[[i]]))-4 , " muestras de " , muestras_tomate[i] ) )
   write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_tomate_", muestras_tomate[i] , ".csv"))
 }
 
@@ -237,10 +237,37 @@ relative_plot
 ```
 
 ```{r}
-for (i in 1:(dim(clave@otu_table@.Data)[1])){
-  print(summary(clave@otu_table@.Data[i,]))
+#Means <- c()
+Medians <- c()
+for (i in row.names(clave@otu_table@.Data)  ){
+ # Means <- c(Means, summary(clave@otu_table@.Data[i,])["Mean"])
+  Medians <- c(Medians , median(abundance@otu_table@.Data[i, ]))
+}
+Medians <- Medians[sort.list(Medians)]
+
+#distribuciones <- data.frame(Means = Means , Medians = Medians )
+
+```
+
+```{r}
+bin <- c()
+for (j in 1:(dim(abundance@otu_table@.Data)[1])){
+  i <- 1
+ while (is.element(i ,1:length(Medians)) &  summary(abundance@otu_table@.Data[j,])["Median"] > Medians[i]  ){
+   i <- i + 1
+ } 
+  bin <- c(bin , i)
+}  
+```
+
+```{r}
+for (i in 1:(length(Medians)+1)){
+  print(as.character(i)  )
+  print(length(which( bin == i )))
 }
 ```
+
+
 ```{r}
 tabla_muestras <- t(as.matrix(abundance@otu_table@.Data))
 tabla_muestras <- otu_table(as.data.frame(tabla_muestras) , taxa_are_rows = TRUE)
