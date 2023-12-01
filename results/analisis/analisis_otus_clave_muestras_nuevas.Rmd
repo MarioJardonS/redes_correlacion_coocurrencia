@@ -203,6 +203,21 @@ relative_plot
 ```
 
 ```{r}
+clave_glom <- tax_glom(clave, taxrank = 'Rank2')
+clave_df <- psmelt(clave_glom)
+
+library(RColorBrewer)
+library(ggplot2)
+clave_df$Phylum <- as.factor(clave_df$Rank2)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Rank2)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Rank2))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
+```{r}
 clave_glom <- tax_glom(clave, taxrank = 'Rank5')
 clave_df <- psmelt(clave_glom)
 
@@ -218,10 +233,46 @@ relative_plot
 ```
 
 ```{r}
+
+```
+
+```{r}
+for (i in 1:(dim(clave@otu_table@.Data)[1])){
+  print(summary(clave@otu_table@.Data[i,]))
+}
+```
+```{r}
+tabla_muestras <- t(as.matrix(abundance@otu_table@.Data))
+tabla_muestras <- otu_table(as.data.frame(tabla_muestras) , taxa_are_rows = TRUE)
+```
+
+```{r}
+key_not_key <- c()
+for (i in 1:dim(abundance@otu_table@.Data)[1]){
+  
+  if (is.element( row.names(abundance@otu_table@.Data)[i]   , row.names(clave@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  }
+}
+metadata_otu <- data.frame( ID = row.names(abundance@otu_table@.Data) , Key = key_not_key , row.names = row.names(abundance@otu_table@.Data) )
+metadata_otu <- sample_data(metadata_otu)
+```
+
+```{r}
+t_abundance <- phyloseq( otu_table = tabla_muestras , sample_data = metadata_otu )
+meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
+plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
+```
+
+
+```{r}
 abundance_glom <- tax_glom(abundance, taxrank = 'Rank5')
 abundance_df <- psmelt(abundance_glom)
 key_not_key <- c()
 for (i in 1:dim(abundance_df)[1]){
+  
   if (is.element(abundance_df[i,"OTU"], as.vector(clave_df[ , "OTU"])  )   ){
     key_not_key <- c(key_not_key , "key")
   } else {
@@ -234,12 +285,14 @@ abundance_df$key <- key_not_key
 ```{r}
 #bundance_df$key_1 <- as.factor(abundance_df$key)
 phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(abundance_df$key)))
-relative_plot <- ggplot(data=abundance_df, aes(x=Sample, y=Abundance, fill=abundance_df$key ))+ 
+relative_plot <- ggplot(data=abundance_df, aes(x=Sample, y=Abundance, fill=key ))+ 
     geom_bar(aes(), stat="identity", position="stack")+
     scale_fill_manual(values = phylum_colors_rel)
 #absolute_plot | 
 relative_plot
 ```
+
+
 
 
 
