@@ -243,10 +243,10 @@ for (i in row.names(clave@otu_table@.Data)  ){
  # Means <- c(Means, summary(clave@otu_table@.Data[i,])["Mean"])
   Medians <- c(Medians , median(abundance@otu_table@.Data[i, ]))
 }
-Medians <- Medians[sort.list(Medians)]
+Medians <- sort(Medians)
 
 #distribuciones <- data.frame(Means = Means , Medians = Medians )
-
+abundante <- summary(Medians)["3rd Qu."]
 ```
 
 ```{r}
@@ -288,10 +288,87 @@ metadata_otu <- sample_data(metadata_otu)
 ```
 
 ```{r}
-t_abundance <- phyloseq( otu_table = tabla_muestras , sample_data = metadata_otu )
-meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
-plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
+#t_abundance <- phyloseq( otu_table = tabla_muestras , sample_data = metadata_otu )
+#meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
+#plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
 ```
+
+```{r}
+vec_sample <- sample(1:13350 , size = 300)
+vec_sample <- union(vec_sample , which(key_not_key == "key" ))
+#vec_sample <- vec[sort.list(vec_sample)]
+tabla_muestras <- t(as.matrix(abundance@otu_table@.Data))
+tabla_muestras_sample <- tabla_muestras[, vec_sample ]
+tabla_muestras_sample <- otu_table(as.data.frame(tabla_muestras_sample) , taxa_are_rows = TRUE)
+```
+
+```{r}
+key_not_key <- c()
+for (i in 1:dim(tabla_muestras_sample@.Data)[2]){
+  
+  if (is.element( colnames(tabla_muestras_sample@.Data)[i]   , row.names(clave@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  }
+}
+metadata_otu_sample <- data.frame( ID = colnames(tabla_muestras_sample@.Data) , Key = key_not_key , row.names = colnames(tabla_muestras_sample@.Data) )
+metadata_otu_sample <- sample_data(metadata_otu)
+```
+
+```{r}
+t_abundance <- phyloseq( otu_table = tabla_muestras_sample , sample_data = metadata_otu_sample )
+meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
+plot_sample
+ggsave("./plot_pcoa_otus1" , plot_sample , device = "png")
+```
+```{r}
+key_not_key <- c()
+for (i in 1:dim(abundance@otu_table@.Data)[1]){
+  
+  if (is.element( row.names(abundance@otu_table@.Data)[i]   , row.names(clave@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {if (median(abundance@otu_table@.Data[i,])> abundante ){
+    key_not_key <- c(key_not_key , "abundante")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  }
+    }
+}
+```
+
+
+
+```{r}
+vec_sample <- sample(1:13350 , size = 300)
+vec_sample <- union(vec_sample , which(key_not_key == "key" ))
+#vec_sample <- vec[sort.list(vec_sample)]
+tabla_muestras <- t(as.matrix(abundance@otu_table@.Data))
+tabla_muestras_sample <- tabla_muestras[, vec_sample ]
+tabla_muestras_sample <- otu_table(as.data.frame(tabla_muestras_sample) , taxa_are_rows = TRUE)
+```
+
+```{r}
+
+metadata_otu_sample <- data.frame( ID = colnames(tabla_muestras_sample@.Data) , Key = key_not_key[vec_sample] , row.names = colnames(tabla_muestras_sample@.Data) )
+metadata_otu_sample <- sample_data(metadata_otu_sample)
+```
+
+```{r}
+t_abundance <- phyloseq( otu_table = tabla_muestras_sample , sample_data = metadata_otu_sample )
+meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
+plot_sample
+#ggsave("./plot_pcoa_otus1" , plot_sample , device = "png")
+```
+
+
+
+
+
+
+
 
 
 ```{r}
