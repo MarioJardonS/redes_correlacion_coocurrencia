@@ -29,6 +29,8 @@ if (!require(phyloseq)) install.packages('phyloseq')
 library(phyloseq)
 if (!require(UpSetR)) install.packages('UpSetR')
 library(UpSetR)
+if (!require(ggplot2)) install.packages('ggplot2')
+library(ggplot2)
 
 ```
 
@@ -148,7 +150,9 @@ etapa <- sample_data(etapa)
 abundance@sam_data <- etapa
 
 meta_ord <- ordinate( abundance , method = "PCoA", distance = "bray")
-plot_ordination(physeq = abundance, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras <- plot_ordination(physeq = abundance, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras
+ggsave("./tomate_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
 
 ```{r}
@@ -161,7 +165,9 @@ clave <- phyloseq(o_table , t_table , s_table)
 ```{r}
 clave <- transform_sample_counts(clave , function(x) x / sum(x) )
 meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
-plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
+plot_pcoa_clave <- plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
+plot_pcoa_clave
+ggsave("./tomate_clave_pcoa.png" , plot_pcoa_clave , device = "png")
 ```
 
 ```{r}
@@ -221,11 +227,34 @@ relative_plot
 clave_glom <- tax_glom(clave, taxrank = 'Rank5')
 clave_df <- psmelt(clave_glom)
 
+abundance_f <- c()
+for (i in 1:length(levels(clave_df$Rank5))){
+  which_i <- which(as.vector(clave_df$Rank5) == levels(clave_df$Rank5)[i])
+  #print(which_i)
+  sum_i <- sum(as.vector(clave_df[which_i,]$Abundance))
+  abundance_f <- c(abundance_f , sum_i)
+}
+familia_abundante <- which(abundance_f > summary(abundance_f)["3rd Qu."] )
+familia_abundante <- levels(clave_df$Rank5)[familia_abundante]
+
+Rank5_ab <- c()
+for (i in 1:dim(clave_df)[1]){
+  if (is.element(as.vector(clave_df$Rank5)[i] , familia_abundante )){
+    Rank5_ab <- c(Rank5_ab , as.vector(clave_df$Rank5)[i]   )
+  } else {
+    Rank5_ab <- c(Rank5_ab , "f__")
+  }
+}
+
+clave_df$Rank5_ab <- Rank5_ab
+```
+
+```{r}
 library(RColorBrewer)
 library(ggplot2)
-clave_df$Phylum <- as.factor(clave_df$Rank5)
-phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Rank5)))
-relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Rank5))+ 
+clave_df$Rank5_ab <- as.factor(Rank5_ab)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Rank5_ab)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Rank5_ab))+ 
     geom_bar(aes(), stat="identity", position="stack")+
     scale_fill_manual(values = phylum_colors_rel)
 #absolute_plot | 
@@ -247,25 +276,9 @@ Medians <- sort(Medians)
 
 #distribuciones <- data.frame(Means = Means , Medians = Medians )
 abundante <- summary(Medians)["3rd Qu."]
+no_abundante <- summary(Medians)["1st Qu."]
 ```
 
-```{r}
-bin <- c()
-for (j in 1:(dim(abundance@otu_table@.Data)[1])){
-  i <- 1
- while (is.element(i ,1:length(Medians)) &  summary(abundance@otu_table@.Data[j,])["Median"] > Medians[i]  ){
-   i <- i + 1
- } 
-  bin <- c(bin , i)
-}  
-```
-
-```{r}
-for (i in 1:(length(Medians)+1)){
-  print(as.character(i)  )
-  print(length(which( bin == i )))
-}
-```
 
 
 ```{r}
@@ -323,6 +336,10 @@ plot_sample <- plot_ordination(physeq = t_abundance , ordination = meta_ord_clav
 plot_sample
 ggsave("./plot_pcoa_otus1" , plot_sample , device = "png")
 ```
+
+
+
+
 ```{r}
 key_not_key <- c()
 for (i in 1:dim(abundance@otu_table@.Data)[1]){
@@ -331,8 +348,12 @@ for (i in 1:dim(abundance@otu_table@.Data)[1]){
     key_not_key <- c(key_not_key , "key")
   } else {if (median(abundance@otu_table@.Data[i,])> abundante ){
     key_not_key <- c(key_not_key , "abundante")
-  } else {
+  } else { if (median(abundance@otu_table@.Data[i,])< no_abundante){
+    key_not_key <- c(key_not_key , "escaso")
+  }else {
     key_not_key <- c(key_not_key , "not_key")
+  }
+    
   }
     }
 }
@@ -341,7 +362,7 @@ for (i in 1:dim(abundance@otu_table@.Data)[1]){
 
 
 ```{r}
-vec_sample <- sample(1:13350 , size = 300)
+vec_sample <- sample(1:13350 , size = 1000)
 vec_sample <- union(vec_sample , which(key_not_key == "key" ))
 #vec_sample <- vec[sort.list(vec_sample)]
 tabla_muestras <- t(as.matrix(abundance@otu_table@.Data))
@@ -360,7 +381,7 @@ t_abundance <- phyloseq( otu_table = tabla_muestras_sample , sample_data = metad
 meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
 plot_sample <- plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
 plot_sample
-#ggsave("./plot_pcoa_otus1" , plot_sample , device = "png")
+ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
 ```
 
 
@@ -571,4 +592,24 @@ data_especies <- matriz_incidencia(nombres_especies , taxa_centrales , "Rank7")
 colnames(data_especies) <- muestras_tomate
 
 upset(data_especies)
+```
+
+
+
+```{r}
+bin <- c()
+for (j in 1:(dim(abundance@otu_table@.Data)[1])){
+  i <- 1
+ while (is.element(i ,1:length(Medians)) &  summary(abundance@otu_table@.Data[j,])["Median"] > Medians[i]  ){
+   i <- i + 1
+ } 
+  bin <- c(bin , i)
+}  
+```
+
+```{r}
+for (i in 1:(length(Medians)+1)){
+  print(as.character(i)  )
+  print(length(which( bin == i )))
+}
 ```
