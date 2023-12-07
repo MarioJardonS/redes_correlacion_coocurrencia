@@ -339,11 +339,125 @@ Las principales coincidencias a nivel género se dieron entre los taxa centrales
 En este par de celdas se cargan las tablas de otus centrales y se obtienen sus clasificaciones taxonómicas. 
 
 ```{r}
+data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
+data_tomate <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
+data_maiz <- read.table("../../data/tables/table.from_maiz.txt" , row.names = 1, header = TRUE , sep = "" )
+
+data <- list( data_chile , data_tomate , data_maiz)
+```
+
+```{r}
+otus_totales <- union(row.names(data_chile), row.names(data_tomate) )
+otus_totales <- union(otus_totales , row.names(data_maiz))
+muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(muestras_totales , colnames(data_maiz))
+data_totales <- matrix( nrow = length(otus_totales) , ncol = length(muestras_totales) )
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(otus_totales)){
+      if (is.element(otus_totales[k], row.names(data[[i]]) )){
+        data_totales[k, x] <- data[[i]][otus_totales[k], j]
+      } else { data_totales[k, x] <- 0 }
+    }
+  }
+}
+```
+
+
+```{r}
+row.names(data_totales) <- otus_totales
+colnames(data_totales) <- muestras_totales
+data_totales <- data.frame(data_totales)
+data_totales <- otu_table(data_totales , taxa_are_rows = TRUE)
+```
+
+```{r}
+planta <- c()
+for (i in 1:length(muestras_totales)){
+  if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {planta <- c(planta , "maiz") }}
+}
+plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
+plant_sample <- sample_data(plant_sample)
+```
+
+
+```{r}
+phy_totales <- phyloseq( otu_table = data_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_totales , method = "NMDS", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+```{r}
+phy_totales <- phyloseq( otu_table = data_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+
+
+```{r}
 otus_centrales_chile <- read.csv("../central_otus/reporte_chile1.csv" , row.names = 1)
 otus_centrales_tomate <- read.csv("../central_otus/reporte_tomate1.csv" , row.names = 1)
 otus_centrales_maiz <- read.csv("../central_otus/reporte_maiz1.csv" , row.names = 1)
 
 otus_centrales <- list(otus_centrales_chile , otus_centrales_tomate , otus_centrales_maiz)
+```
+
+```{r}
+
+for (i in 1:3){
+  otus_centrales[[i]] <- data[[i]][ intersect( row.names(otus_centrales[[i]]), row.names(data[[i]]) ) ,]
+  }
+```
+
+```{r}
+clave_totales <- union(row.names(otus_centrales[[1]]), row.names(otus_centrales[[2]]) )
+clave_totales <- union(clave_totales , row.names(otus_centrales[[3]]))
+#muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+#muestras_totales <- union(muestras_totales , colnames(data_maiz))
+data_clave_totales <- matrix( nrow = length(clave_totales) , ncol = length(muestras_totales) )
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(otus_centrales[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(clave_totales)){
+      if (is.element(clave_totales[k], row.names(otus_centrales[[i]]) )){
+        data_clave_totales[k, x] <- otus_centrales[[i]][clave_totales[k], j]
+      } else { data_clave_totales[k, x] <- 0 }
+    }
+  }
+}
+```
+
+```{r}
+row.names(data_clave_totales) <- clave_totales
+colnames(data_clave_totales) <- muestras_totales
+data_clave_totales <- data.frame(data_clave_totales)
+data_clave_totales <- otu_table(data_clave_totales , taxa_are_rows = TRUE)
+```
+
+```{r}
+phy_claves <- phyloseq( otu_table = data_clave_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_claves , method = "NMDS", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_claves , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+```{r}
+#phy_claves <- phyloseq( otu_table = data_clave_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_claves , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_claves , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
 ```
 
 ##Cotas en las medidas de centralidad para la obtención de OTUs centrales
@@ -362,6 +476,11 @@ for (i in 1:3){
   write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_", muestras[i] , ".csv"))
   }
 ```
+
+
+
+
+
 En las siguientes celdas se verifican las intersecciones por pares de los otus centrales a nivel familia, género y especie. 
 
 ```{r}
