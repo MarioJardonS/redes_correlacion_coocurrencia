@@ -171,6 +171,57 @@ ggsave("./tomate_clave_pcoa.png" , plot_pcoa_clave , device = "png")
 ```
 
 ```{r}
+vec_sample <- sample(1:8000 , size = 100)
+o_table <- otu_table(rizosfera_bacterias@otu_table@.Data[vec_sample, ] , taxa_are_rows = TRUE)
+t_table <- tax_table(rizosfera_bacterias@tax_table@.Data[vec_sample   , ] )
+s_table <- sample_data(etapa)
+clave <- phyloseq(o_table , t_table , s_table)
+```
+
+```{r}
+clave <- transform_sample_counts(clave , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
+plot_pcoa_clave <- plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
+plot_pcoa_clave
+#ggsave("./tomate_clave_pcoa.png" , plot_pcoa_clave , device = "png")
+```
+
+```{r}
+vec_sample <- sample(1:8000 , size = 100)
+o_table <- otu_table(rizosfera_bacterias@otu_table@.Data[vec_sample, ] , taxa_are_rows = TRUE)
+t_table <- tax_table(rizosfera_bacterias@tax_table@.Data[vec_sample   , ] )
+s_table <- sample_data(etapa)
+clave <- phyloseq(o_table , t_table , s_table)
+```
+
+```{r}
+clave <- transform_sample_counts(clave , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
+plot_pcoa_clave <- plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
+plot_pcoa_clave
+#ggsave("./tomate_clave_pcoa.png" , plot_pcoa_clave , device = "png")
+```
+
+```{r}
+vec_sample <- sample(1:8000 , size = 100)
+o_table <- otu_table(rizosfera_bacterias@otu_table@.Data[vec_sample, ] , taxa_are_rows = TRUE)
+t_table <- tax_table(rizosfera_bacterias@tax_table@.Data[vec_sample   , ] )
+s_table <- sample_data(etapa)
+clave <- phyloseq(o_table , t_table , s_table)
+```
+
+```{r}
+clave <- transform_sample_counts(clave , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( clave , method = "PCoA", distance = "bray")
+plot_pcoa_clave <- plot_ordination(physeq = clave, ordination = meta_ord_clave , color = "Etapa")
+plot_pcoa_clave
+#ggsave("./tomate_clave_pcoa.png" , plot_pcoa_clave , device = "png")
+```
+
+
+
+
+```{r}
 
 metadata <- read.csv("../../data/metadata/metadata_agave_clavi_solena.csv")
 #metadata <- metadata[ which(metadata$Cultivo == "Tomate") ,]
@@ -349,13 +400,19 @@ metadata_otu_sample <- sample_data(metadata_otu_sample)
 ```
 
 ```{r}
+#t_abundance <- phyloseq( otu_table = tabla_muestras_sample , sample_data = metadata_otu_sample )
+#meta_ord_clave <- ordinate( t_abundance , method = "NMDS", distance = "bray")
+#plot_sample <- plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
+#plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+```{r}
 t_abundance <- phyloseq( otu_table = tabla_muestras_sample , sample_data = metadata_otu_sample )
-meta_ord_clave <- ordinate( t_abundance , method = "NMDS", distance = "bray")
+meta_ord_clave <- ordinate( t_abundance , method = "PCoA", distance = "bray")
 plot_sample <- plot_ordination(physeq = t_abundance , ordination = meta_ord_clave , color = "Key")
 plot_sample
 #ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
 ```
-
 
 
 
