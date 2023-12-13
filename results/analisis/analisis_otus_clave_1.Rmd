@@ -1,0 +1,1019 @@
+---
+title: "Untitled"
+output: html_document
+date: '2023-12-13'
+---
+
+```{r}
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+if (!require(vegan)) install.packages('vegan')
+library(vegan)
+if (!require(igraph)) install.packages('igraph')
+library(igraph)
+if (!require(apcluster)) install.packages('apcluster')
+library(apcluster)
+if (!require(plyr)) install.packages('plyr')
+library(plyr)
+if (!require(stringr)) install.packages('stringr')
+library(stringr)
+if (!require(phyloseq)) install.packages('phyloseq')
+library(phyloseq)
+if (!require(UpSetR)) install.packages('UpSetR')
+library(UpSetR)
+
+```
+
+```{r}
+muestras <- c("chile", "tomate" , "maiz")
+```
+
+Los análisis generales se harán sobre los OTUs clave que sean bacterias. 
+
+```{r}
+rizosfera_chile <- read.csv("../../data/taxonomy/linaje_bacterias_standarizado.de_chile.csv" , header = FALSE , sep = ";" , row.names = 1)
+rizosfera_tomate <- read.csv("../../data/taxonomy/linaje_bacterias_standarizado.de_tomate.csv" , header = FALSE , sep = ";" , row.names = 1)
+rizosfera_maiz <- read.csv("../../data/taxonomy/linaje_bacterias_standarizado.de_maiz.csv" , header = FALSE , sep = ";" , row.names = 1) 
+
+rizosferas <- list( rizosfera_chile , rizosfera_tomate , rizosfera_maiz )
+```
+
+
+```{r}
+red_chile <- read.csv("../../data/networks/chile_species_raw_network.csv")
+red_tomate <- read.csv("../../data/networks/tomate_species_raw_network.csv")
+red_maiz <- read.csv("../../data/networks/maiz_species_raw_network.csv")
+
+redes <- list(red_chile , red_tomate , red_maiz)
+```
+
+
+
+
+```{r}
+otus_centrales_chile <- read.csv("../central_otus/reporte_chile1.csv" , row.names = 1 )
+otus_centrales_tomate <- read.csv("../central_otus/reporte_tomate1.csv" , row.names = 1 )
+otus_centrales_maiz <- read.csv("../central_otus/reporte_maiz1.csv" , row.names = 1 )
+
+otus_centrales <- list(otus_centrales_chile , otus_centrales_tomate , otus_centrales_maiz)
+```
+
+```{r}
+for (i in 1:3){
+  coln_i <- c()
+  for (j in 1:(dim(otus_centrales[[i]])[2]-4)) {
+    col_j <- make.names(colnames(otus_centrales[[i]])[j])
+    coln_i <- c(coln_i , substr(col_j  , 1 ,  nchar(col_j)-21))
+  }
+  colnames(otus_centrales[[i]]) <- c(coln_i , colnames(otus_centrales[[i]])[(length(colnames(otus_centrales[[i]]))-3):length(colnames(otus_centrales[[i]]))])
+  
+  }
+```
+
+
+
+```{r}
+data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
+data_tomate <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
+data_maiz <- read.table("../../data/tables/table.from_maiz.txt" , row.names = 1, header = TRUE , sep = "" )
+
+data <- list( data_chile , data_tomate , data_maiz)
+
+```
+
+Poner nombres de muestras
+
+```{r}
+for (i in 1:3){
+  coln_i <- c()
+  for (j in 1:dim(data[[i]])[2]) {
+    col_j <- colnames(data[[i]])[j]
+    coln_i <- c(coln_i , substr(col_j  , 1 ,  nchar(col_j)-21))
+  }
+  colnames(data[[i]]) <- coln_i
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Cotas en las medidas de centralidad para la obtención de OTUs centrales
+
+```{r}
+for (i in 1:3){
+  print(paste0( "Para rizósfera de " , muestras[i] , " se consideraron OTUs de grado mayor o igual a " , as.character(min(otus_centrales[[i]]$degrees )) , ", cercanía mayor o igual a " , as.character(min(otus_centrales[[i]]$closeness )) , " e intermediación menor o igual a " , as.character(max(otus_centrales[[i]]$betweenness)) , "." ))
+}
+```
+
+```{r}
+taxa_centrales <- list()
+for (i in 1:3){
+  taxa_centrales[[i]] <- rizosferas[[i]][ intersect( row.names(otus_centrales[[i]]), row.names(rizosferas[[i]]) ) ,]
+  print( paste0( "Se obtuvieron "  , length(intersect( row.names(otus_centrales[[i]]), row.names(rizosferas[[i]]) ))  , " OTUs (bacterias) centrales en las muestras de " , muestras[i] ) )
+  write.csv( taxa_centrales[[i]] ,  paste0("taxonomy_keystone_otus_", muestras[i] , ".csv"))
+  }
+```
+
+```{r}
+nombres_phyla <- c()
+for (i in 1:3){
+  nombres_phyla <- union(nombres_phyla ,as.vector(taxa_centrales[[i]][, "V4"]))
+  
+}
+
+print(nombres_phyla)
+```
+
+
+
+```{r}
+data_phyla <- matrix( nrow = length(nombres_phyla), ncol = length(muestras) )
+
+
+
+for (i in 1:3){
+  for (j in 1:12) {
+    if (is.element(nombres_phyla[j], as.vector(taxa_centrales[[i]][, "V4"] ))){
+      data_phyla[j,i] <- 1
+    }else
+    {
+      data_phyla[j,i] <- 0
+    }
+  }
+  
+  }
+
+
+data_phyla <- data.frame(data_phyla , row.names = nombres_phyla )
+colnames(data_phyla) <- c(  muestras)
+```
+
+
+```{r}
+upset(data_phyla    )
+```
+
+```{r}
+interseccion <- intersect(as.vector(taxa_centrales[[1]][ , "V4"]) , as.vector(taxa_centrales[[2]][ , "V4"]) )
+interseccion <- intersect(interseccion , as.vector(taxa_centrales[[3]][ , "V4"]))
+print(interseccion)
+print(intersect(as.vector(taxa_centrales[[1]][, "V4"]) , as.vector(taxa_centrales[[2]][ , "V4"]) ))
+```
+
+
+En las siguientes celdas se verifican las intersecciones por pares de los otus clave a nivel familia, género y especie. 
+
+```{r}
+nombres_familias <- c()
+for (i in 1:3){
+  nombres_familias <- union(nombres_familias ,as.vector(taxa_centrales[[i]][, "V7"]))
+  
+}
+
+print(nombres_familias)
+```
+
+
+
+```{r}
+data_familias <- matrix( nrow = length(nombres_familias), ncol = length(muestras) )
+
+
+
+for (i in 1:3){
+  for (j in 1:38) {
+    if (is.element(nombres_familias[j], as.vector(taxa_centrales[[i]][, "V7"] ))){
+      data_familias[j,i] <- 1
+    }else
+    {
+      data_familias[j,i] <- 0
+    }
+  }
+  
+  }
+
+
+data_familias <- data.frame(data_familias , row.names = nombres_familias )
+colnames(data_familias) <- c(  muestras)
+```
+
+
+```{r}
+upset(data_familias    )
+```
+
+A nivel familia los tres tipos de muestras tienen en común son bacterias de la familia Burkholderiaceae (Involvement of Burkholderiaceae and sulfurous volatiles in disease-suppressive soils). 
+
+
+```{r}
+interseccion <- intersect(as.vector(taxa_centrales[[1]][ , "V7"]) , as.vector(taxa_centrales[[2]][ , "V7"]) )
+interseccion <- intersect(interseccion , as.vector(taxa_centrales[[3]][ , "V7"]))
+print(interseccion)
+```
+
+
+```{r}
+nombres_generos <- c()
+for (i in 1:3){
+  nombres_generos <- union(nombres_generos ,as.vector(taxa_centrales[[i]][, "V8"]))
+  
+}
+print(nombres_generos)
+```
+
+```{r}
+data_generos <- matrix( nrow = length(nombres_generos), ncol = length(muestras) )
+
+
+
+for (i in 1:3){
+  for (j in 1:47) {
+    if (is.element(nombres_generos[j], as.vector(taxa_centrales[[i]][, "V8"] ))){
+      data_generos[j,i] <- 1
+    }else
+    {
+      data_generos[j,i] <- 0
+    }
+  }
+  
+  }
+
+
+data_generos <- data.frame(data_generos , row.names = nombres_generos )
+colnames(data_generos) <- c(  muestras)
+```
+
+
+```{r}
+upset(data_generos    )
+```
+
+
+Las coincidencias entre los otus centrales a nivel género de las muestras de chile y tomate son:
+
+* Burkholderia (Members of the genus Burkholderia are versatile organisms that occupy a surprisingly wide range of ecological niches. These bacteria are exploited for biocontrol, bioremediation and plant growth promotion purposes,)
+* Paenibacillus (Many Paenibacillus species can promote crop growth directly via biological nitrogen fixation, phosphate solubilization, production of the phytohormone indole-3-acetic acid (IAA), and release of siderophores that enable iron acquisition. They can also offer protection against insect herbivores and phytopathogens https://link.springer.com/article/10.1186/s12934-016-0603-7), 
+113)
+
+
+```{r}
+print(intersect(as.vector(taxa_centrales[[1]][ , "V8"]) , as.vector(taxa_centrales[[2]][ , "V8"]) ))
+```
+```{r}
+pares <- list(c(1,2) , c(1,3) , c(2,3))
+for (i in 1:3){
+  print(intersect(as.vector(taxa_centrales[[pares[[i]][1]]][ , "V9"]) , as.vector(taxa_centrales[[pares[[i]][2]]][ , "V9"]) ))
+}
+```
+##OTUs centrales de la rizósfera de chile 
+
+Los OTUs (bacterias) centrales de las muestras de suelo de chile incluyen reguladores de metano y descomponedores de sustancias tóxicas. También hay patógenos humanos. Más detalles se enlistan y verifican a continuación:
+
+* Burkholderia metallica (erosion de metales)
+* Advenella mimigardefordensis (able to significantly improve levels of assimilated phosphate)Plant Productivity 
+* Sutterella faecalis (heces humanas)
+* Eikenella corrodens (cáncer humano?)
+* Serratia sp. MYb239 propuesta como especie Serratia rhizosphaerae sp. nov., a novel plant resistance inducer against soft rot disease in tobacco
+* Marinobacter (metanotrófica)
+* Methylovulum psychrotolerans (metanotrófico, adaptado al frío?)
+* Desulfomonile tiedjei (deshalogenante degradador de compuestos tóxicos)
+* Paenibacillus chitinolyticus(fijar nitrogeno)
+* Nitrosopumilus oxyclinae(solubilización de fosfato)
+
+
+A continuación se enlistan todos los OTUs centrales con su clasificación a nivel género y nivel especie. 
+
+```{r}
+print(taxa_centrales[[1]][ , c("V8" , "V9" )])
+```
+
+Solamente entre los OTUs clave de suelo de tomate se recuperó un virus, Spodoptera exigua multiple nucleopolyhedrovirus, que es usado como plaguicida.
+
+```{r}
+taxa_virus_chile <- read.csv("../../data/taxonomy/linaje_virus.de_chile.csv" , header = FALSE , sep = ";" )
+taxa_virus_chile_centrales <- taxa_virus_chile[ is.element(taxa_virus_chile[,"V1"]  , intersect(as.character(taxa_virus_chile[,"V1"]) , row.names(otus_centrales[[1]]))),]
+print(taxa_virus_chile_centrales)
+```
+```{r}
+metadata_chile <- read.csv("../../data/metadata/fastp_metadat.csv" , colClasses = "character")
+metadata_chile <- metadata_chile[ which(metadata_chile$Cultivo == "Chile") ,]
+metadata_chile <- metadata_chile[ , c("ID" , "Etapa_fenologica" , "Origen")]
+for (i in 1:dim(metadata_chile)[1]){
+  metadata_chile[i , "ID"] <- make.names(metadata_chile[i , "ID"])
+}
+metadata_chile <- metadata_chile[which(is.element(metadata_chile[ , "ID"], colnames(otus_centrales[[1]])) ) ,  ]
+
+etapa <- data.frame( ID = metadata_chile[ , "ID"], Etapa =  metadata_chile [ , "Etapa_fenologica"] , Estado = metadata_chile[ , "Origen"],row.names = metadata_chile[ , "ID"])
+
+etapa <- sample_data(etapa)
+```
+
+
+
+
+```{r}
+o_table_key_chile <- otu_table(otus_centrales[[1]][1:(dim(otus_centrales[[1]])[1]-1) , 1:(dim(otus_centrales[[1]])[2]-4) ] , taxa_are_rows = TRUE)  
+t_table_key_chile <- tax_table(taxa_centrales[[1]])
+row.names(t_table_key_chile@.Data) <- row.names(taxa_centrales[[1]])
+o_table_chile <- otu_table(data[[1]], taxa_are_rows = TRUE)
+```
+
+
+
+```{r}
+phy_chile <- phyloseq(otu_table = o_table_chile , sample_data = etapa)
+phy_chile <- transform_sample_counts(phy_chile , function(x) x / sum(x) )
+meta_ord <- ordinate( phy_chile , method = "NMDS", distance = "bray")
+plot_pcoa_muestras <- plot_ordination(physeq = phy_chile, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras
+#ggsave("./tomate_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+```
+
+
+
+```{r}
+phy_chile_key <- phyloseq(otu_table = o_table_key_chile , tax_table = t_table_key_chile , sample_data = etapa)
+phy_chile_key <- transform_sample_counts(phy_chile_key , function(x) x / sum(x) )
+meta_ord <- ordinate( phy_chile_key , method = "NMDS", distance = "bray")
+plot_pcoa_muestras <- plot_ordination(physeq = phy_chile_key, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras
+#ggsave("./tomate_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+```
+
+
+
+
+```{r}
+clave_glom <- tax_glom(phy_chile_key, taxrank = 'ta3')
+clave_df <- psmelt(clave_glom)
+
+library(RColorBrewer)
+library(ggplot2)
+clave_df$Phylum <- as.factor(clave_df$ta3)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta3)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta3))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
+
+```{r}
+clave_glom <- tax_glom(phy_chile_key, taxrank = 'ta6')
+clave_df <- psmelt(clave_glom)
+
+abundance_f <- c()
+for (i in 1:length(levels(clave_df$ta6))){
+  which_i <- which(as.vector(clave_df$ta6) == levels(clave_df$ta6)[i])
+  #print(which_i)
+  sum_i <- sum(as.vector(clave_df[which_i,]$Abundance))
+  abundance_f <- c(abundance_f , sum_i)
+}
+familia_abundante <- which(abundance_f > summary(abundance_f)["Median"] )
+familia_abundante <- levels(clave_df$ta6)[familia_abundante]
+
+ta6_ab <- c()
+for (i in 1:dim(clave_df)[1]){
+  if (is.element(as.vector(clave_df$ta6)[i] , familia_abundante )){
+    ta6_ab <- c(ta6_ab , as.vector(clave_df$ta6)[i]   )
+  } else {
+    ta6_ab <- c(ta6_ab , "f__")
+  }
+}
+
+clave_df$ta6_ab <- ta6_ab
+```
+
+
+```{r}
+library(RColorBrewer)
+library(ggplot2)
+clave_df$ta6_ab <- as.factor(ta6_ab)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta6_ab)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta6_ab))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+```{r}
+clave_glom <- tax_glom(phy_chile_key, taxrank = 'ta7')
+clave_df <- psmelt(clave_glom)
+
+abundance_g <- c()
+for (i in 1:length(levels(clave_df$ta7))){
+  which_i <- which(as.vector(clave_df$ta7) == levels(clave_df$ta7)[i])
+  #print(which_i)
+  sum_i <- sum(as.vector(clave_df[which_i,]$Abundance))
+  abundance_g <- c(abundance_g , sum_i)
+}
+genero_abundante <- which(abundance_g > summary(abundance_g)["Median"] )
+genero_abundante <- levels(clave_df$ta7)[genero_abundante]
+
+ta7_ab <- c()
+for (i in 1:dim(clave_df)[1]){
+  if (is.element(as.vector(clave_df$ta7)[i] , genero_abundante )){
+    ta7_ab <- c(ta7_ab , as.vector(clave_df$ta7)[i]   )
+  } else {
+    ta7_ab <- c(ta7_ab , "g__")
+  }
+}
+
+clave_df$ta7_ab <- ta7_ab
+```
+
+```{r}
+clave_df$ta7_ab <- as.factor(ta7_ab)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta7_ab)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta7_ab))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
+```{r}
+V(redes[[1]])$label <- NA
+V(redes[[1]])$size <- 3
+plot(redes[[1]])
+```
+
+
+
+```{r}
+nombres_otus_centrales_chiles <- as.character(otus_centrales[[1]][,"nodos"])
+red_otus_centrales_chile <- induced_subgraph(redes[[1]], nombres_otus_centrales_chiles  ,"auto")
+print( otus_centrales[[1]][,"nodos"])
+print(V(red_otus_centrales_chile))
+print(degree( red_otus_centrales_chile))
+#V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
+```
+
+
+
+```{r}
+plot(red_otus_centrales_chile)
+
+```
+
+
+```{r}
+otus_no_centrales_chile <- names(V(redes[[1]]))[ is.element(names(V(redes[[1]])), nombres_otus_centrales_chiles) == FALSE]
+red_otus_no_centrales_chile <- induced_subgraph(redes[[1]] , otus_no_centrales_chile , "auto" )
+plot(red_otus_no_centrales_chile)
+```
+
+##Primer reporte de tomate
+
+Aquí se enlistan las especies correspondientes a las muestras de tomate. 
+
+Pseudomonas( Buen colonizador de raíces que se ha postulado para controlar Ralstonia solanacearum  )
+Paraburkholderia (fijar nitrogeno  Paraburkholderia spp., are able to improve the macro- and micro-nutrients uptakes by the plants.graminis C4D1M improved tomato seedling re-growth and reduced cell membrane injuries  PG inoculation induced
+the expression of five genes (Solyc05g007630.3.1, Solyc07g049700.1.1, Solyc05g013260.3.1,
+Solyc09g098100.4.1, Solyc05g005130.3.1) coding for putative late blight resistance protein)
+Candidatus Nitrosocosmicus también "centrales" de la canola.
+Pseudarthrobacter chlorophenolicus potencial de biofertilizante para tomate (fijar nitrógeno)
+Pirellula staleyi( which can degrade putrescine exudate from plant roots visto como importante en rizósfera de granada) 
+
+```{r}
+print(taxa_centrales[[2]][ , c( "V8" ,"V9")])
+```
+
+En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
+
+```{r}
+data_tomate <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
+
+medias <- c()
+medianas <- c()
+for (i in 1:dim(data_tomate)[2]){
+  medias <- c(medias , mean(data_tomate[ , i]))
+  medianas <- c(medianas , median(data_tomate[ , i]))
+  }
+
+data_tomate <- data_tomate[ row.names(otus_centrales[[2]]),]
+data_tomate <- rbind(medias , data_tomate)
+data_tomate <- rbind(medianas , data_tomate)
+
+row.names(data_tomate) <- c("Medianas" , "Medias" , row.names(otus_centrales[[2]]))
+head(data_tomate)
+```
+
+```{r}
+V(redes[[2]])$label <- NA
+V(redes[[2]])$size <- 3
+plot(redes[[2]])
+```
+
+```{r}
+nombres_otus_centrales_tomate <- as.character(otus_centrales[[2]][,"nodos"])
+red_otus_centrales_tomate <- induced_subgraph(redes[[2]], nombres_otus_centrales_tomate  ,"auto")
+print( otus_centrales[[2]][,"nodos"])
+print(V(red_otus_centrales_tomate))
+print(degree( red_otus_centrales_tomate))
+#V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
+```
+
+```{r}
+plot(red_otus_centrales_tomate)
+```
+
+```{r}
+otus_no_centrales_tomate <- names(V(redes[[2]]))[ is.element(names(V(redes[[2]])), nombres_otus_centrales_tomate) == FALSE]
+red_otus_no_centrales_tomate <- induced_subgraph(redes[[2]] , otus_no_centrales_tomate , "auto" )
+plot(red_otus_no_centrales_tomate)
+```
+
+
+
+
+##Primer reporte de maiz
+
+Aquí se enlistan las especies correspondientes a las muestras de maiz. 
+
+Phoenicibacter congonensis( microbiota intestinal humana )
+Bacillus glycinifermentans(solubilizacion de zinc, reportado como estimulante de crecimiento de raíz y tallo en trigo)
+
+Ralstonia solanacearum(patógeno conocido)
+Erwinia persicina (produces large amounts of mucilaginous exopolysaccharides on King’s B ciertas cepas mejora de alfalfa , this fungal species is mainly responsible for the accumulation of the mycotoxin disminuye virulence factor deoxynivalenol (DON).)
+
+```{r}
+print(taxa_centrales[[3]][ , c( "V8" ,"V9")])
+```
+
+En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
+
+```{r}
+data_maiz <- read.table("../../data/tables/table.from_maiz.txt" , row.names = 1, header = TRUE , sep = "" )
+
+medias <- c()
+medianas <- c()
+for (i in 1:dim(data_maiz)[2]){
+  medias <- c(medias , mean(data_maiz[ , i]))
+  medianas <- c(medianas , median(data_maiz[ , i]))
+  }
+
+data_maiz <- data_maiz[ row.names(otus_centrales[[3]]),]
+data_maiz <- rbind(medias , data_maiz)
+data_maiz <- rbind(medianas , data_maiz)
+
+row.names(data_maiz) <- c("Medianas" , "Medias" , row.names(otus_centrales[[3]]))
+head(data_maiz)
+```
+
+```{r}
+V(redes[[3]])$label <- NA
+V(redes[[3]])$size <- 3
+plot(redes[[3]])
+```
+```{r}
+nombres_otus_centrales_maiz <- as.character(otus_centrales[[3]][,"nodos"])
+red_otus_centrales_maiz <- induced_subgraph(redes[[3]], nombres_otus_centrales_maiz  ,"auto")
+print( otus_centrales[[3]][,"nodos"])
+
+print(row.names(otus_centrales[[3]]))
+print(degree( red_otus_centrales_maiz))
+#V(net_work_centrales)$label <- tax_centrales[,"Rank7"]
+```
+
+
+
+```{r}
+plot(red_otus_centrales_maiz)
+
+```
+
+
+```{r}
+otus_no_centrales_maiz <- names(V(redes[[3]]))[ is.element(names(V(redes[[3]])), nombres_otus_centrales_maiz) == FALSE]
+red_otus_no_centrales_maiz <- induced_subgraph(redes[[3]] , otus_no_centrales_maiz , "auto" )
+plot(red_otus_no_centrales_maiz)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+library(phyloseq)
+familias <- union(unique(rizosferas[[1]][,"V7"]), unique(rizosferas[[2]][,"V7"]))
+familias <- union(familias , unique(rizosferas[[3]][,"V7"]))
+
+muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(muestras_totales , colnames(data_maiz))
+
+familia_x_muestras <- matrix(nrow = length(familias) , ncol = length(muestras_totales))
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(familias)){
+      if (is.element(familias[k], rizosferas[[i]][, "V7"])){
+        familia_x_muestras[k, x] <- sum(data[[i]][, j][which( rizosferas[[i]][, "V7"] == familias[k]  ) ])
+      } else { familia_x_muestras[k, x] <- 0 }
+    }
+  }
+}
+
+row.names(familia_x_muestras) <- familias
+colnames(familia_x_muestras) <- muestras_totales
+
+familia_x_muestras <- data.frame(familia_x_muestras)
+familia_x_muestras <- otu_table(familia_x_muestras , taxa_are_rows = TRUE)
+```
+
+```{r}
+planta <- c()
+for (i in 1:length(muestras_totales)){
+  if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {planta <- c(planta , "maiz") }}
+}
+plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
+plant_sample <- sample_data(plant_sample)
+```
+
+```{r}
+phy_totales <- phyloseq( otu_table = familia_x_muestras , sample_data = plant_sample )
+phy_totales <- transform_sample_counts(phy_totales , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+```{r}
+familias_clave <- union(unique(rizosferas[[1]][row.names(otus_centrales[[1]]) ,"V7"]), unique(rizosferas[[2]][ row.names(otus_centrales[[2]]) ,"V7"]))
+familias_clave <- union(familias_clave , unique(rizosferas[[3]][row.names(otus_centrales[[2]])  ,"V7"]))
+#familias_clave <- unique(rizosferas[[3]][row.names(otus_centrales[[3]]) ,"V7"])
+
+familia_clave_x_muestras <- matrix(nrow = length(familias_clave) , ncol = length(muestras_totales))
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(familias_clave)){
+      if (is.element(familias_clave[k], rizosferas[[i]][, "V7"])){
+        familia_clave_x_muestras[k, x] <- sum(data[[i]][, j][which( rizosferas[[i]][, "V7"] == familias[k]  ) ])
+      } else { familia_clave_x_muestras[k, x] <- 0 }
+    }
+  }
+}
+
+row.names(familia_clave_x_muestras) <- familias_clave
+colnames(familia_clave_x_muestras) <- muestras_totales
+
+familia_clave_x_muestras <- data.frame(familia_clave_x_muestras)
+familia_clave_x_muestras <- otu_table(familia_clave_x_muestras , taxa_are_rows = TRUE)
+```
+
+
+
+
+```{r}
+phy_totales <- phyloseq( otu_table = familia_clave_x_muestras , sample_data = plant_sample )
+phy_totales <- transform_sample_counts(phy_totales , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+
+
+
+
+
+
+
+
+```{r}
+library(phyloseq)
+familias <- union(unique(rizosferas[[1]][,"V8"]), unique(rizosferas[[2]][,"V8"]))
+familias <- union(familias , unique(rizosferas[[3]][,"V8"]))
+
+muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(muestras_totales , colnames(data_maiz))
+
+familia_x_muestras <- matrix(nrow = length(familias) , ncol = length(muestras_totales))
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(familias)){
+      if (is.element(familias[k], rizosferas[[i]][, "V8"])){
+        familia_x_muestras[k, x] <- sum(data[[i]][, j][which( rizosferas[[i]][, "V8"] == familias[k]  ) ])
+      } else { familia_x_muestras[k, x] <- 0 }
+    }
+  }
+}
+
+row.names(familia_x_muestras) <- familias
+colnames(familia_x_muestras) <- muestras_totales
+
+familia_x_muestras <- data.frame(familia_x_muestras)
+familia_x_muestras <- otu_table(familia_x_muestras , taxa_are_rows = TRUE)
+```
+
+```{r}
+planta <- c()
+for (i in 1:length(muestras_totales)){
+  if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {planta <- c(planta , "maiz") }}
+}
+plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
+plant_sample <- sample_data(plant_sample)
+```
+
+```{r}
+phy_totales <- phyloseq( otu_table = familia_x_muestras , sample_data = plant_sample )
+phy_totales <- transform_sample_counts(phy_totales , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+```{r}
+familias_clave <- union(unique(rizosferas[[1]][row.names(otus_centrales[[1]]) ,"V8"]), unique(rizosferas[[2]][ row.names(otus_centrales[[2]]) ,"V8"]))
+familias_clave <- union(familias_clave , unique(rizosferas[[3]][row.names(otus_centrales[[2]])  ,"V8"]))
+#familias_clave <- unique(rizosferas[[3]][row.names(otus_centrales[[3]]) ,"V7"])
+
+familia_clave_x_muestras <- matrix(nrow = length(familias_clave) , ncol = length(muestras_totales))
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(familias_clave)){
+      if (is.element(familias_clave[k], rizosferas[[i]][, "V8"])){
+        familia_clave_x_muestras[k, x] <- sum(data[[i]][, j][which( rizosferas[[i]][, "V8"] == familias[k]  ) ])
+      } else { familia_clave_x_muestras[k, x] <- 0 }
+    }
+  }
+}
+
+row.names(familia_clave_x_muestras) <- familias_clave
+colnames(familia_clave_x_muestras) <- muestras_totales
+
+familia_clave_x_muestras <- data.frame(familia_clave_x_muestras)
+familia_clave_x_muestras <- otu_table(familia_clave_x_muestras , taxa_are_rows = TRUE)
+```
+
+
+
+
+```{r}
+phy_totales <- phyloseq( otu_table = familia_clave_x_muestras , sample_data = plant_sample )
+phy_totales <- transform_sample_counts(phy_totales , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+```{r}
+library(phyloseq)
+familias <- union(unique(rizosferas[[1]][,"V7"]), unique(rizosferas[[2]][,"V9"]))
+familias <- union(familias , unique(rizosferas[[3]][,"V9"]))
+
+muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(muestras_totales , colnames(data_maiz))
+
+familia_x_muestras <- matrix(nrow = length(familias) , ncol = length(muestras_totales))
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(familias)){
+      if (is.element(familias[k], rizosferas[[i]][, "V9"])){
+        familia_x_muestras[k, x] <- sum(data[[i]][, j][which( rizosferas[[i]][, "V9"] == familias[k]  ) ])
+      } else { familia_x_muestras[k, x] <- 0 }
+    }
+  }
+}
+
+row.names(familia_x_muestras) <- familias
+colnames(familia_x_muestras) <- muestras_totales
+
+familia_x_muestras <- data.frame(familia_x_muestras)
+familia_x_muestras <- otu_table(familia_x_muestras , taxa_are_rows = TRUE)
+```
+
+```{r}
+planta <- c()
+for (i in 1:length(muestras_totales)){
+  if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {planta <- c(planta , "maiz") }}
+}
+plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
+plant_sample <- sample_data(plant_sample)
+```
+
+```{r}
+phy_totales <- phyloseq( otu_table = familia_x_muestras , sample_data = plant_sample )
+phy_totales <- transform_sample_counts(phy_totales , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+```{r}
+familias_clave <- union(unique(rizosferas[[1]][row.names(otus_centrales[[1]]) ,"V9"]), unique(rizosferas[[2]][ row.names(otus_centrales[[2]]) ,"V9"]))
+familias_clave <- union(familias_clave , unique(rizosferas[[3]][row.names(otus_centrales[[2]])  ,"V9"]))
+#familias_clave <- unique(rizosferas[[3]][row.names(otus_centrales[[3]]) ,"V7"])
+
+familia_clave_x_muestras <- matrix(nrow = length(familias_clave) , ncol = length(muestras_totales))
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(familias_clave)){
+      if (is.element(familias_clave[k], rizosferas[[i]][, "V9"])){
+        familia_clave_x_muestras[k, x] <- sum(data[[i]][, j][which( rizosferas[[i]][, "V9"] == familias[k]  ) ])
+      } else { familia_clave_x_muestras[k, x] <- 0 }
+    }
+  }
+}
+
+row.names(familia_clave_x_muestras) <- familias_clave
+colnames(familia_clave_x_muestras) <- muestras_totales
+
+familia_clave_x_muestras <- data.frame(familia_clave_x_muestras)
+familia_clave_x_muestras <- otu_table(familia_clave_x_muestras , taxa_are_rows = TRUE)
+```
+
+
+
+
+```{r}
+phy_totales <- phyloseq( otu_table = familia_clave_x_muestras , sample_data = plant_sample )
+phy_totales <- transform_sample_counts(phy_totales , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+
+```{r}
+otus_totales <- union(row.names(data_chile), row.names(data_tomate) )
+otus_totales <- union(otus_totales , row.names(data_maiz))
+muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(muestras_totales , colnames(data_maiz))
+data_totales <- matrix( nrow = length(otus_totales) , ncol = length(muestras_totales) )
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(data[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(otus_totales)){
+      if (is.element(otus_totales[k], row.names(data[[i]]) )){
+        data_totales[k, x] <- data[[i]][otus_totales[k], j]
+      } else { data_totales[k, x] <- 0 }
+    }
+  }
+}
+```
+
+
+```{r}
+row.names(data_totales) <- otus_totales
+colnames(data_totales) <- muestras_totales
+data_totales <- data.frame(data_totales)
+data_totales <- otu_table(data_totales , taxa_are_rows = TRUE)
+```
+
+```{r}
+planta <- c()
+for (i in 1:length(muestras_totales)){
+  if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {planta <- c(planta , "maiz") }}
+}
+plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
+plant_sample <- sample_data(plant_sample)
+```
+
+
+```{r}
+phy_totales <- phyloseq( otu_table = data_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_totales , method = "NMDS", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+```{r}
+phy_totales <- phyloseq( otu_table = data_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_totales , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_totales , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+
+
+```{r}
+otus_centrales_chile <- read.csv("../central_otus/reporte_chile1.csv" , row.names = 1)
+otus_centrales_tomate <- read.csv("../central_otus/reporte_tomate1.csv" , row.names = 1)
+otus_centrales_maiz <- read.csv("../central_otus/reporte_maiz1.csv" , row.names = 1)
+
+otus_centrales <- list(otus_centrales_chile , otus_centrales_tomate , otus_centrales_maiz)
+```
+
+```{r}
+
+for (i in 1:3){
+  otus_centrales[[i]] <- data[[i]][ intersect( row.names(otus_centrales[[i]]), row.names(data[[i]]) ) ,]
+  }
+```
+
+```{r}
+clave_totales <- union(row.names(otus_centrales[[1]]), row.names(otus_centrales[[2]]) )
+clave_totales <- union(clave_totales , row.names(otus_centrales[[3]]))
+#muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+#muestras_totales <- union(muestras_totales , colnames(data_maiz))
+data_clave_totales <- matrix( nrow = length(clave_totales) , ncol = length(muestras_totales) )
+
+x <- 0
+for (i in 1:3) {
+  for (j in 1:dim(otus_centrales[[i]])[2]){
+    x <- x + 1
+    for (k in 1:length(clave_totales)){
+      if (is.element(clave_totales[k], row.names(otus_centrales[[i]]) )){
+        data_clave_totales[k, x] <- otus_centrales[[i]][clave_totales[k], j]
+      } else { data_clave_totales[k, x] <- 0 }
+    }
+  }
+}
+```
+
+```{r}
+row.names(data_clave_totales) <- clave_totales
+colnames(data_clave_totales) <- muestras_totales
+data_clave_totales <- data.frame(data_clave_totales)
+data_clave_totales <- otu_table(data_clave_totales , taxa_are_rows = TRUE)
+```
+
+```{r}
+phy_claves <- phyloseq( otu_table = data_clave_totales , sample_data = plant_sample )
+pht_claves <- transform_sample_counts(phy_claves , function(x) x / sum(x) )
+meta_ord_clave <- ordinate( phy_claves , method = "NMDS", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_claves , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+```{r}
+#phy_claves <- phyloseq( otu_table = data_clave_totales , sample_data = plant_sample )
+meta_ord_clave <- ordinate( phy_claves , method = "PCoA", distance = "bray")
+plot_sample <- plot_ordination(physeq = phy_claves , ordination = meta_ord_clave , color = "Planta")
+plot_sample
+#ggsave("./plot_pcoa_otus2" , plot_sample , device = "png")
+```
+
+
