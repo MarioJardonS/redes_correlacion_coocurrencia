@@ -469,28 +469,29 @@ for (i in 1:dim(phy_chile@otu_table@.Data)[1]){
 
 
 ```{r}
-alea <- sample(which(key_not_key == "not_key") , size = 100)
 alea_key <- sample(which(key_not_key == "key") , size = 1)
-
-vec_alea <- c()
-comp <- c()
-for (i in 1:length(alea)){
-  vec_alea <- c(vec_alea, phy_chile@otu_table@.Data[alea[i] , ])
-  comp <- c(comp , rep(i , 6))
-}
-
 alea_key <- phy_chile@otu_table@.Data[alea_key , ]
 
-dist <- c(vec_alea , alea_key)
-comp <- c(rep("not_key" , 600), rep("alea_key" , 6) )
+cfds <- list()
+for (i in 1:25){
+  alea <- sample(which(key_not_key == "not_key") , size = 1)
+  alea <- phy_chile@otu_table@.Data[alea , ]
+  dist <- c(alea , alea_key)
+  comp <- c(rep("not_key" , 6), rep("alea_key" , 6) )
 
-cdfs <- data.frame(dist , comp )
+  cdfs[[i]] <- data.frame(dist , comp )
 
 #cdf_alea <- ecdf(phy_chile@otu_table@.Data[ alea,])
 #cdf_key <- ecdf(phy_chile_key@otu_table@.Data[alea_key , ])
 
-ggplot(cdfs , aes(x = comp, y = dist)) + geom_boxplot()
-#ggplot(as.data.frame(cdfs$key) , aes(y = key)) + geom_boxplot()
+  #
+
+}
+for (i in 1:25){
+ ggsave(paste0("comp_distr.png" , as.character(i)) ,  ggplot(cdfs[[i]] , aes(x = comp, y = dist)) + geom_boxplot() , device = "png")
+}
+
+
 ```
 
 
