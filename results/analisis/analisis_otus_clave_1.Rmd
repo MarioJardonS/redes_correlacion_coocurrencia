@@ -474,19 +474,68 @@ means <- c()
 for (i in 1:dim(phy_chile@otu_table@.Data)[2]){
   
   medians <- c(medians , median(phy_chile@otu_table@.Data[, i]))
-  print(mean(as.vector(phy_chile@otu_table@.Data[, i])))
-  means <- c(means , mean(phy_chile@otu_table@.Data[, i]))
+  
   }
 
-keys_vs_median <- rbind(keys_vs_median , medians)
-keys_vs_median <- rbind(keys_vs_median , means)
-#keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
+keys_vs_median <- rbind(medians , keys_vs_median)
+#keys_vs_median <- rbind(keys_vs_median , means)
+keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
+#medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
 ```
 
 
 ```{r}
-ggplot(keys_vs_median , aes(x = Sample , y = Abundance , color = OTU)) + geom_point()
+ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)
+#ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
 ```
+
+
+```{r}
+
+
+
+
+
+#keys_vs_median <- rbind(keys_vs_median , means)
+key_vs_no_key <-  psmelt(phy_chile@otu_table)
+
+key_not_key <- c()
+for (i in 1:dim(key_vs_no_key)[1]){
+  
+  if (is.element( keys_vs_no_key[i, "OTU"]   , row.names(phy_chile_key@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  
+    }
+}
+keys_vs_no_key <- cbind(keys_vs_no_key , key_not_key)
+#medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
+```
+
+
+```{r}
+mini <- function(x){
+  return(mean_sdl(x)["ymin"])
+}
+maxi <- function(x){
+  return(mean_sdl(x)["ymax"])
+}
+ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
+  geom_pointrange(
+                 stat = "summary",
+                 fun.ymax = maxi,
+                 fun.ymin = mini,
+                 fun.y = median)
+```
+```{r}
+ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
+  stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5)
+#  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
+ #                position=position_dodge(0.05))
+```
+
 
 
 
@@ -738,14 +787,75 @@ means <- c()
 for (i in 1:dim(phy_tomate@otu_table@.Data)[2]){
   
   medians <- c(medians , median(phy_tomate@otu_table@.Data[, i]))
-  print(mean(as.vector(phy_tomate@otu_table@.Data[, i])))
-  means <- c(means , mean(phy_tomate@otu_table@.Data[, i]))
+  
   }
 
 keys_vs_median <- rbind(keys_vs_median , medians)
-keys_vs_median <- rbind(keys_vs_median , means)
+#keys_vs_median <- rbind(keys_vs_median , means)
 keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
 ```
+
+
+
+
+
+
+
+
+
+```{r}
+ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)
+#ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
+```
+
+
+```{r}
+
+
+
+
+
+#keys_vs_median <- rbind(keys_vs_median , means)
+key_vs_no_key <-  psmelt(phy_tomate@otu_table)
+
+key_not_key <- c()
+for (i in 1:dim(key_vs_no_key)[1]){
+  
+  if (is.element( key_vs_no_key[i, "OTU"]   , row.names(phy_tomate_key@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  
+    }
+}
+key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
+#medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
+```
+
+
+
+```{r}
+ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
+  stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5)
+#  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
+ #                position=position_dodge(0.05))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ```{r}
@@ -865,6 +975,252 @@ print(taxa_centrales[[3]][ , c( "V8" ,"V9")])
 
 En la tabla conseguida en la siguiente celda se observa que los otus centrales están presentes en sus muestras más que la mediana del resto de los otus, si bien menor a la media. Una de las muestras tiene la mayoría de los otus con una sola instancia. 
 
+
+
+
+
+
+
+
+
+
+```{r}
+metadata_maiz <- read.csv("../../data/metadata/fastp_metadat.csv" , colClasses = "character")
+metadata_maiz <- metadata_maiz[ which(metadata_maiz$Cultivo == "Maiz") ,]
+metadata_maiz <- metadata_maiz[ , c("ID" , "Etapa_fenologica" , "Origen")]
+for (i in 1:dim(metadata_maiz)[1]){
+  metadata_maiz[i , "ID"] <- make.names(metadata_maiz[i , "ID"])
+}
+metadata_maiz <- metadata_maiz[which(is.element(metadata_maiz[ , "ID"], colnames(otus_centrales[[3]])) ) ,  ]
+
+etapa <- data.frame( ID = metadata_maiz[ , "ID"], Etapa =  metadata_maiz [ , "Etapa_fenologica"] , Estado = metadata_maiz[ , "Origen"],row.names = metadata_maiz[ , "ID"])
+
+etapa <- sample_data(etapa)
+```
+
+
+
+
+```{r}
+o_table_key_maiz <- otu_table(otus_centrales[[3]][1:(dim(otus_centrales[[3]])[1]-1) , 1:(dim(otus_centrales[[3]])[2]-4) ] , taxa_are_rows = TRUE)  
+t_table_key_maiz <- tax_table(taxa_centrales[[3]])
+row.names(t_table_key_maiz@.Data) <- row.names(taxa_centrales[[3]])
+o_table_maiz <- otu_table(data[[3]], taxa_are_rows = TRUE)
+```
+
+
+
+```{r}
+phy_maiz <- phyloseq(otu_table = o_table_maiz , sample_data = etapa)
+phy_maiz <- transform_sample_counts(phy_maiz , function(x) x / sum(x) )
+meta_ord <- ordinate( phy_maiz , method = "PCoA", distance = "bray")
+plot_pcoa_muestras <- plot_ordination(physeq = phy_maiz, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras
+#ggsave("./maiz_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+```
+
+
+
+```{r}
+phy_maiz_key <- phyloseq(otu_table = o_table_key_maiz , tax_table = t_table_key_maiz , sample_data = etapa)
+phy_maiz_key <- transform_sample_counts(phy_maiz_key , function(x) x / sum(x) )
+meta_ord <- ordinate( phy_maiz_key , method = "PCoA", distance = "bray")
+plot_pcoa_muestras <- plot_ordination(physeq = phy_maiz_key, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras
+#ggsave("./maiz_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+```
+
+
+
+
+```{r}
+clave_glom <- tax_glom(phy_maiz_key, taxrank = 'ta3')
+clave_df <- psmelt(clave_glom)
+
+library(RColorBrewer)
+library(ggplot2)
+clave_df$Phylum <- as.factor(clave_df$ta3)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta3)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta3))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
+
+```{r}
+clave_glom <- tax_glom(phy_maiz_key, taxrank = 'ta6')
+clave_df <- psmelt(clave_glom)
+
+abundance_f <- c()
+for (i in 1:length(levels(clave_df$ta6))){
+  which_i <- which(as.vector(clave_df$ta6) == levels(clave_df$ta6)[i])
+  #print(which_i)
+  sum_i <- sum(as.vector(clave_df[which_i,]$Abundance))
+  abundance_f <- c(abundance_f , sum_i)
+}
+familia_abundante <- which(abundance_f > summary(abundance_f)["1st Qu."] )
+familia_abundante <- levels(clave_df$ta6)[familia_abundante]
+
+ta6_ab <- c()
+for (i in 1:dim(clave_df)[1]){
+  if (is.element(as.vector(clave_df$ta6)[i] , familia_abundante )){
+    ta6_ab <- c(ta6_ab , as.vector(clave_df$ta6)[i]   )
+  } else {
+    ta6_ab <- c(ta6_ab , "f__")
+  }
+}
+
+clave_df$ta6_ab <- ta6_ab
+```
+
+
+```{r}
+library(RColorBrewer)
+library(ggplot2)
+clave_df$ta6_ab <- as.factor(ta6_ab)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta6_ab)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta6_ab))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+```{r}
+clave_glom <- tax_glom(phy_maiz_key, taxrank = 'ta7')
+clave_df <- psmelt(clave_glom)
+
+abundance_g <- c()
+for (i in 1:length(levels(clave_df$ta7))){
+  which_i <- which(as.vector(clave_df$ta7) == levels(clave_df$ta7)[i])
+  #print(which_i)
+  sum_i <- sum(as.vector(clave_df[which_i,]$Abundance))
+  abundance_g <- c(abundance_g , sum_i)
+}
+genero_abundante <- which(abundance_g > summary(abundance_g)["1st Qu."] )
+genero_abundante <- levels(clave_df$ta7)[genero_abundante]
+
+ta7_ab <- c()
+for (i in 1:dim(clave_df)[1]){
+  if (is.element(as.vector(clave_df$ta7)[i] , genero_abundante )){
+    ta7_ab <- c(ta7_ab , as.vector(clave_df$ta7)[i]   )
+  } else {
+    ta7_ab <- c(ta7_ab , "g__")
+  }
+}
+
+clave_df$ta7_ab <- ta7_ab
+```
+
+```{r}
+clave_df$ta7_ab <- as.factor(ta7_ab)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta7_ab)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta7_ab))+ 
+    geom_bar(aes(), stat="identity", position="stack")+
+    scale_fill_manual(values = phylum_colors_rel)
+#absolute_plot | 
+relative_plot
+```
+
+```{r}
+key_not_key <- c()
+for (i in 1:dim(phy_maiz@otu_table@.Data)[1]){
+  
+  if (is.element( row.names(phy_maiz@otu_table@.Data)[i]   , row.names(phy_maiz_key@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  
+    }
+}
+```
+
+```{r}
+
+keys_vs_median <- phy_maiz@otu_table@.Data[which(key_not_key == "key") , ]
+medians <- c()
+means <- c()
+for (i in 1:dim(phy_maiz@otu_table@.Data)[2]){
+  
+  medians <- c(medians , median(phy_maiz@otu_table@.Data[, i]))
+  
+  }
+
+keys_vs_median <- rbind(keys_vs_median , medians)
+#keys_vs_median <- rbind(keys_vs_median , means)
+keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
+```
+
+
+
+
+
+
+
+
+
+```{r}
+ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)
+#ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
+```
+
+
+```{r}
+
+
+
+
+
+#keys_vs_median <- rbind(keys_vs_median , means)
+key_vs_no_key <-  psmelt(phy_maiz@otu_table)
+
+key_not_key <- c()
+for (i in 1:dim(key_vs_no_key)[1]){
+  
+  if (is.element( key_vs_no_key[i, "OTU"]   , row.names(phy_maiz_key@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+  
+    }
+}
+key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
+#medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
+```
+
+
+
+```{r}
+ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
+  stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5)
+#  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
+ #                position=position_dodge(0.05))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```{r}
 data_maiz <- read.table("../../data/tables/table.from_maiz.txt" , row.names = 1, header = TRUE , sep = "" )
 
@@ -946,7 +1302,7 @@ library(phyloseq)
 familias <- union(unique(rizosferas[[1]][,"V7"]), unique(rizosferas[[2]][,"V7"]))
 familias <- union(familias , unique(rizosferas[[3]][,"V7"]))
 
-muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(colnames(data_chile), colnames(data_maiz))
 muestras_totales <- union(muestras_totales , colnames(data_maiz))
 
 familia_x_muestras <- matrix(nrow = length(familias) , ncol = length(muestras_totales))
@@ -974,7 +1330,7 @@ familia_x_muestras <- otu_table(familia_x_muestras , taxa_are_rows = TRUE)
 planta <- c()
 for (i in 1:length(muestras_totales)){
   if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
-  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "maiz") } 
   else {planta <- c(planta , "maiz") }}
 }
 plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
@@ -1041,7 +1397,7 @@ library(phyloseq)
 familias <- union(unique(rizosferas[[1]][,"V8"]), unique(rizosferas[[2]][,"V8"]))
 familias <- union(familias , unique(rizosferas[[3]][,"V8"]))
 
-muestras_totales <- union(colnames(data_chile), colnames(data_tomate))
+muestras_totales <- union(colnames(data_chile), colnames(data_maiz))
 muestras_totales <- union(muestras_totales , colnames(data_maiz))
 
 familia_x_muestras <- matrix(nrow = length(familias) , ncol = length(muestras_totales))
@@ -1069,7 +1425,7 @@ familia_x_muestras <- otu_table(familia_x_muestras , taxa_are_rows = TRUE)
 planta <- c()
 for (i in 1:length(muestras_totales)){
   if (is.element(muestras_totales[i], colnames(data[[1]]) )){ planta <- c(planta , "chile") }
-  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "tomate") } 
+  else {if (is.element(muestras_totales[i], colnames(data[[2]]) )){ planta <- c(planta , "maiz") } 
   else {planta <- c(planta , "maiz") }}
 }
 plant_sample <- data.frame( ID = muestras_totales , Planta = planta , row.names = muestras_totales )
