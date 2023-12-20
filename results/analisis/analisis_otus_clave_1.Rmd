@@ -346,7 +346,7 @@ phy_chile <- transform_sample_counts(phy_chile , function(x) x / sum(x) )
 meta_ord <- ordinate( phy_chile , method = "PCoA", distance = "bray")
 plot_pcoa_muestras <- plot_ordination(physeq = phy_chile, ordination = meta_ord , color = "Etapa")
 plot_pcoa_muestras
-#ggsave("./tomate_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+#ggsave("./chile_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
 
 
@@ -357,7 +357,7 @@ phy_chile_key <- transform_sample_counts(phy_chile_key , function(x) x / sum(x) 
 meta_ord <- ordinate( phy_chile_key , method = "PCoA", distance = "bray")
 plot_pcoa_muestras <- plot_ordination(physeq = phy_chile_key, ordination = meta_ord , color = "Etapa")
 plot_pcoa_muestras
-#ggsave("./tomate_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+#ggsave("./chile__clave_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
 
 
@@ -376,6 +376,7 @@ relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta3))+
     scale_fill_manual(values = phylum_colors_rel)
 #absolute_plot | 
 relative_plot
+#ggsave("phyla_key_chile.png", relative_plot ,device = "png")
 ```
 
 
@@ -398,7 +399,7 @@ for (i in 1:dim(clave_df)[1]){
   if (is.element(as.vector(clave_df$ta6)[i] , familia_abundante )){
     ta6_ab <- c(ta6_ab , as.vector(clave_df$ta6)[i]   )
   } else {
-    ta6_ab <- c(ta6_ab , "f__")
+    ta6_ab <- c(ta6_ab , "Less abundant families")
   }
 }
 
@@ -416,6 +417,7 @@ relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta6_ab))+
     scale_fill_manual(values = phylum_colors_rel)
 #absolute_plot | 
 relative_plot
+#ggsave("families_key_chile.png", relative_plot ,device = "png")
 ```
 ```{r}
 clave_glom <- tax_glom(phy_chile_key, taxrank = 'ta7')
@@ -436,7 +438,7 @@ for (i in 1:dim(clave_df)[1]){
   if (is.element(as.vector(clave_df$ta7)[i] , genero_abundante )){
     ta7_ab <- c(ta7_ab , as.vector(clave_df$ta7)[i]   )
   } else {
-    ta7_ab <- c(ta7_ab , "g__")
+    ta7_ab <- c(ta7_ab , "Less abundant genera")
   }
 }
 
@@ -451,6 +453,7 @@ relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta7_ab))+
     scale_fill_manual(values = phylum_colors_rel)
 #absolute_plot | 
 relative_plot
+#ggsave("genera_key_chile.png", relative_plot ,device = "png")
 ```
 
 ```{r}
@@ -485,7 +488,8 @@ keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
 
 
 ```{r}
-ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)
+plot <- ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)
+#ggsave("abundance_key_otus_medians.png" , plot ,device = "png")
 #ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
 ```
 
@@ -496,72 +500,40 @@ ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU
 
 
 
-#keys_vs_median <- rbind(keys_vs_median , means)
+
 key_vs_no_key <-  psmelt(phy_chile@otu_table)
 
 key_not_key <- c()
 for (i in 1:dim(key_vs_no_key)[1]){
   
-  if (is.element( keys_vs_no_key[i, "OTU"]   , row.names(phy_chile_key@otu_table@.Data)  )   ){
+  if (is.element( key_vs_no_key[i, "OTU"]   , row.names(phy_chile_key@otu_table@.Data)  )   ){
     key_not_key <- c(key_not_key , "key")
   } else {
     key_not_key <- c(key_not_key , "not_key")
   
     }
 }
-keys_vs_no_key <- cbind(keys_vs_no_key , key_not_key)
+key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
 #medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
 ```
 
 
+
 ```{r}
-mini <- function(x){
-  return(mean_sdl(x)["ymin"])
-}
-maxi <- function(x){
-  return(mean_sdl(x)["ymax"])
-}
-ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
-  geom_pointrange(
-                 stat = "summary",
-                 fun.ymax = maxi,
-                 fun.ymin = mini,
-                 fun.y = median)
-```
-```{r}
-ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
-  stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
-                 geom="crossbar", width=0.5)
+plot <- ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
+  stat_summary(fun.data="mean_se", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5) +
+ stat_summary(fun="median", fun.args = list(mult=1), 
+                 geom="line", width=0.5)
 #  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
  #                position=position_dodge(0.05))
+#ggsave("mean_median_key_vs_not_key_chile.png" , plot , device = "png")
 ```
 
 
 
 
-```{r}
-key <- which(key_not_key == "key") 
-key <- phy_chile@otu_table@.Data[key , ]
 
-
-
-cfds <- list()
-for (i in 1:25){
-  alea <- sample(which(key_not_key == "not_key") , size = 1)
-  alea <- phy_chile@otu_table@.Data[alea , ]
-  dist <- c(alea , alea_key)
-  comp <- c(rep("not_key" , 6), rep("alea_key" , 6) )
-
-  cdfs[[i]] <- data.frame(dist , comp )
-
-
-}
-#for (i in 1:25){
- #ggsave(paste0("comp_distr.png" , as.character(i)) ,  ggplot(cdfs[[i]] , aes(x = comp, y = dist)) + geom_boxplot() , device = "png")
-#}
-
-
-```
 
 
 
@@ -808,14 +780,13 @@ ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU
 #ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
 ```
 
-
 ```{r}
 
 
 
 
 
-#keys_vs_median <- rbind(keys_vs_median , means)
+
 key_vs_no_key <-  psmelt(phy_tomate@otu_table)
 
 key_not_key <- c()
@@ -836,8 +807,10 @@ key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
 
 ```{r}
 ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
-  stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
-                 geom="crossbar", width=0.5)
+  stat_summary(fun.data="mean_se", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5) +
+ stat_summary(fun="median", fun.args = list(mult=1), 
+                 geom="line", width=0.5)
 #  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
  #                position=position_dodge(0.05))
 ```
@@ -1165,14 +1138,13 @@ ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU
 #ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
 ```
 
-
 ```{r}
 
 
 
 
 
-#keys_vs_median <- rbind(keys_vs_median , means)
+
 key_vs_no_key <-  psmelt(phy_maiz@otu_table)
 
 key_not_key <- c()
@@ -1193,8 +1165,10 @@ key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
 
 ```{r}
 ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
-  stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
-                 geom="crossbar", width=0.5)
+  stat_summary(fun.data="mean_se", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5) +
+ stat_summary(fun="median", fun.args = list(mult=1), 
+                 geom="line", width=0.5)
 #  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
  #                position=position_dodge(0.05))
 ```
