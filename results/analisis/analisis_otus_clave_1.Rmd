@@ -323,8 +323,8 @@ for (i in 1:dim(metadata_chile)[1]){
 }
 metadata_chile <- metadata_chile[which(is.element(metadata_chile[ , "ID"], colnames(otus_centrales[[1]])) ) ,  ]
 
-etapa <- data.frame( ID = metadata_chile[ , "ID"], Etapa =  metadata_chile [ , "Etapa_fenologica"] , Estado = metadata_chile[ , "Origen"],row.names = metadata_chile[ , "ID"])
-
+etapa <- data.frame( ID = metadata_chile[ , "ID"], Phenology =  metadata_chile [ , "Etapa_fenologica"] , Estado = metadata_chile[ , "Origen"],row.names = metadata_chile[ , "ID"])
+etapa$Phenology <- c(rep("Developement" , 4) , "Plantation" , NA )
 etapa <- sample_data(etapa)
 ```
 
@@ -344,7 +344,7 @@ o_table_chile <- otu_table(data[[1]], taxa_are_rows = TRUE)
 phy_chile <- phyloseq(otu_table = o_table_chile , sample_data = etapa)
 phy_chile <- transform_sample_counts(phy_chile , function(x) x / sum(x) )
 meta_ord <- ordinate( phy_chile , method = "PCoA", distance = "bray")
-plot_pcoa_muestras <- plot_ordination(physeq = phy_chile, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras <- plot_ordination(physeq = phy_chile, ordination = meta_ord , color = "Phenology")
 plot_pcoa_muestras
 #ggsave("./chile_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
@@ -355,7 +355,7 @@ plot_pcoa_muestras
 phy_chile_key <- phyloseq(otu_table = o_table_key_chile , tax_table = t_table_key_chile , sample_data = etapa)
 phy_chile_key <- transform_sample_counts(phy_chile_key , function(x) x / sum(x) )
 meta_ord <- ordinate( phy_chile_key , method = "PCoA", distance = "bray")
-plot_pcoa_muestras <- plot_ordination(physeq = phy_chile_key, ordination = meta_ord , color = "Etapa")
+plot_pcoa_muestras <- plot_ordination(physeq = phy_chile_key, ordination = meta_ord , color = "Phenology")
 plot_pcoa_muestras
 #ggsave("./chile__clave_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
@@ -366,14 +366,17 @@ plot_pcoa_muestras
 ```{r}
 clave_glom <- tax_glom(phy_chile_key, taxrank = 'ta3')
 clave_df <- psmelt(clave_glom)
+colnames(clave_df)[9] <- "Phylum"
 
 library(RColorBrewer)
 library(ggplot2)
-clave_df$Phylum <- as.factor(clave_df$ta3)
-phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta3)))
-relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta3))+ 
+clave_df$Phylum <- as.factor(clave_df$Phylum)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Phylum)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Phylum))+ 
     geom_bar(aes(), stat="identity", position="stack")+
-    scale_fill_manual(values = phylum_colors_rel)
+    scale_fill_manual(values = phylum_colors_rel)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 #absolute_plot | 
 relative_plot
 #ggsave("phyla_key_chile.png", relative_plot ,device = "png")
@@ -446,11 +449,16 @@ clave_df$ta7_ab <- ta7_ab
 ```
 
 ```{r}
-clave_df$ta7_ab <- as.factor(ta7_ab)
-phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$ta7_ab)))
-relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=ta7_ab))+ 
+clave_glom <- tax_glom(phy_chile_key, taxrank = 'ta7')
+clave_df <- psmelt(clave_glom)
+colnames(clave_df)[13] <- "Genus"
+
+
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(clave_df$Genus)))
+relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Genus))+ 
     geom_bar(aes(), stat="identity", position="stack")+
-    scale_fill_manual(values = phylum_colors_rel)
+    scale_fill_manual(values = phylum_colors_rel)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 #absolute_plot | 
 relative_plot
 #ggsave("genera_key_chile.png", relative_plot ,device = "png")
@@ -472,15 +480,15 @@ for (i in 1:dim(phy_chile@otu_table@.Data)[1]){
 ```{r}
 
 keys_vs_median <- phy_chile@otu_table@.Data[which(key_not_key == "key") , ]
-medians <- c()
+Medians <- c()
 means <- c()
 for (i in 1:dim(phy_chile@otu_table@.Data)[2]){
   
-  medians <- c(medians , median(phy_chile@otu_table@.Data[, i]))
+  Medians <- c(medians , median(phy_chile@otu_table@.Data[, i]))
   
   }
 
-keys_vs_median <- rbind(medians , keys_vs_median)
+keys_vs_median <- rbind(Medians , keys_vs_median)
 #keys_vs_median <- rbind(keys_vs_median , means)
 keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
 #medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
@@ -488,8 +496,10 @@ keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
 
 
 ```{r}
-plot <- ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)
-#ggsave("abundance_key_otus_medians.png" , plot ,device = "png")
+plot <- ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+plot
+ggsave("abundance_chile_key_otus_medians.png" , plot ,device = "png")
 #ggplot(, aes(x = Sample , y = Abundance , color = OTU)) 
 ```
 
@@ -507,28 +517,44 @@ key_not_key <- c()
 for (i in 1:dim(key_vs_no_key)[1]){
   
   if (is.element( key_vs_no_key[i, "OTU"]   , row.names(phy_chile_key@otu_table@.Data)  )   ){
-    key_not_key <- c(key_not_key , "key")
+    key_not_key <- c(key_not_key , "Keystone")
   } else {
-    key_not_key <- c(key_not_key , "not_key")
+    key_not_key <- c(key_not_key , "Not keystone")
   
     }
 }
 key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
+colnames(key_vs_no_key)[4] <- c("Type")
 #medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
 ```
 
 
 
 ```{r}
-plot <- ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = key_not_key , group = key_not_key))+ #geom_dotplot(binaxis='y', stackdir='center') +
+plot <- ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = Type  , group = Type ))+ #geom_dotplot(binaxis='y', stackdir='center') +
   stat_summary(fun.data="mean_se", fun.args = list(mult=1), 
                  geom="crossbar", width=0.5) +
  stat_summary(fun="median", fun.args = list(mult=1), 
-                 geom="line", width=0.5)
+                 geom="line", width=0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+plot
 #  geom_errorbar(aes(ymin=Abundance-sd, ymax=Abundance+sd), width=.2,
  #                position=position_dodge(0.05))
-#ggsave("mean_median_key_vs_not_key_chile.png" , plot , device = "png")
+ggsave("mean_median_key_vs_not_key_chile.png" , plot , device = "png")
 ```
+```{r}
+medias <- c()
+medianas <- c()
+se <- c()
+for (i in row.names(taxa_centrales[[1]])){
+  medias <- c(medias , mean(phy_chile@otu_table@.Data[i , ] ))
+  medianas <- c(medianas , median(phy_chile@otu_table@.Data[i , ] ))
+  se <- c(se , mean_se(phy_chile@otu_table@.Data[i , ])[ ,"ymax" ]- mean_se(phy_chile@otu_table@.Data[i , ])[ ,"y" ] )
+}
+tabla_chile <- data.frame( "OTU" = taxa_centrales[[1]][ , "V9"] ,  "Mean relative abundance" = medias , "Median relative abundance" = medianas, "Standard error" = se  , row.names = row.names(taxa_centrales[[1]]) )
+xtable::xtable(tabla_chile , caption = "Keystone OTUs of \textit{Capsicum}" , digits = 8)
+```
+
 
 
 
