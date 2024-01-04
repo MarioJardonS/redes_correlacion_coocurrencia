@@ -1061,12 +1061,13 @@ o_table_maiz <- otu_table(data[[3]], taxa_are_rows = TRUE)
 
 
 ```{r}
+library(ggplot2)
 phy_maiz <- phyloseq(otu_table = o_table_maiz , sample_data = etapa)
 phy_maiz <- transform_sample_counts(phy_maiz , function(x) x / sum(x) )
 meta_ord <- ordinate( phy_maiz , method = "PCoA", distance = "bray")
 plot_pcoa_muestras <- plot_ordination(physeq = phy_maiz, ordination = meta_ord , color = "Phenology")
 plot_pcoa_muestras
-ggsave("maiz_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+#ggsave("maiz_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
 
 
@@ -1197,6 +1198,31 @@ plot
  #                position=position_dodge(0.05))
 ggsave("mean_median_key_vs_not_key_maiz.png" , plot , device = "png")
 ```
+
+```{r}
+medias <- c()
+medianas <- c()
+se <- c()
+for (i in row.names(taxa_centrales[[3]])){
+  medias <- c(medias , mean(phy_maiz@otu_table@.Data[i , ] ))
+  medianas <- c(medianas , median(phy_maiz@otu_table@.Data[i , ] ))
+  se <- c(se , mean_se(phy_maiz@otu_table@.Data[i , ])[ ,"ymax" ]- mean_se(phy_maiz@otu_table@.Data[i , ])[ ,"y" ] )
+}
+tabla_tomate <- data.frame( "OTU" = taxa_centrales[[3]][ , "V"] ,  "Mean relative abundance" = medias , "Median relative abundance" = medianas, "Standard error" = se  , row.names = row.names(taxa_centrales[[3]]) )
+xtable::xtable(tabla_tomate , caption = "Keystone OTUs of textit{Zea mays}" , digits = 8)
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
