@@ -332,10 +332,10 @@ etapa <- sample_data(etapa)
 
 
 ```{r}
-o_table_key_chile <- otu_table(otus_centrales[[1]][1:(dim(otus_centrales[[1]])[1]-1) , 1:(dim(otus_centrales[[1]])[2]-4) ] , taxa_are_rows = TRUE)  
+o_table_key_chile <- otu_table(otus_centrales[[1]][1:(dim(otus_centrales[[1]])[1]-1) ,  intersect(row.names(etapa) , colnames(otus_centrales[[1]]))  ] , taxa_are_rows = TRUE)  
 t_table_key_chile <- tax_table(taxa_centrales[[1]])
 row.names(t_table_key_chile@.Data) <- row.names(taxa_centrales[[1]])
-o_table_chile <- otu_table(data[[1]], taxa_are_rows = TRUE)
+o_table_chile <- otu_table(data[[1]][,  intersect(row.names(etapa) , colnames(otus_centrales[[1]])) ], taxa_are_rows = TRUE)
 ```
 
 
@@ -1052,10 +1052,10 @@ etapa <- sample_data(etapa)
 
 
 ```{r}
-o_table_key_maiz <- otu_table(otus_centrales[[3]][1:(dim(otus_centrales[[3]])[1]-1) , 1:(dim(otus_centrales[[3]])[2]-4) ] , taxa_are_rows = TRUE)  
+o_table_key_maiz <- otu_table(otus_centrales[[3]][ ,  intersect(row.names(etapa) , colnames(otus_centrales[[3]]))  ] , taxa_are_rows = TRUE)  
 t_table_key_maiz <- tax_table(taxa_centrales[[3]])
 row.names(t_table_key_maiz@.Data) <- row.names(taxa_centrales[[3]])
-o_table_maiz <- otu_table(data[[3]], taxa_are_rows = TRUE)
+o_table_maiz <- otu_table(data[[3]][, intersect(row.names(etapa) , colnames(otus_centrales[[3]])) ], taxa_are_rows = TRUE)
 ```
 
 
@@ -1067,7 +1067,7 @@ phy_maiz <- transform_sample_counts(phy_maiz , function(x) x / sum(x) )
 meta_ord <- ordinate( phy_maiz , method = "PCoA", distance = "bray")
 plot_pcoa_muestras <- plot_ordination(physeq = phy_maiz, ordination = meta_ord , color = "Phenology")
 plot_pcoa_muestras
-#ggsave("maiz_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
+ggsave("maiz_muestras_pcoa.png" , plot_pcoa_muestras , device = "png")
 ```
 
 
@@ -1100,7 +1100,7 @@ relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Phylum))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 #absolute_plot | 
 relative_plot
-#ggsave("phyla_key_maiz.png", relative_plot ,device = "png")
+ggsave("phyla_key_maiz.png", relative_plot ,device = "png")
 ```
 ```{r}
 clave_glom <- tax_glom(phy_maiz_key, taxrank = 'ta7')
@@ -1118,7 +1118,7 @@ relative_plot <- ggplot(data=clave_df, aes(x=Sample, y=Abundance, fill=Genus))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 #absolute_plot | 
 relative_plot
-#ggsave("genera_key_maiz.png", relative_plot ,device = "png")
+ggsave("genera_key_maiz.png", relative_plot ,device = "png")
 ```
 ```{r}
 key_not_key <- c()
@@ -1145,7 +1145,7 @@ for (i in 1:dim(phy_maiz@otu_table@.Data)[2]){
   }
 
 keys_vs_median <- rbind(Medians , keys_vs_median)
-keys_vs_median <- rbind(keys_vs_median , Means)
+#keys_vs_median <- rbind(keys_vs_median , Means)
 keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
 #medians <- psmelt(otu_table(as.data.frame(medians) , taxa_are_rows = FALSE))
 ```
@@ -1208,7 +1208,7 @@ for (i in row.names(taxa_centrales[[3]])){
   medianas <- c(medianas , median(phy_maiz@otu_table@.Data[i , ] ))
   se <- c(se , mean_se(phy_maiz@otu_table@.Data[i , ])[ ,"ymax" ]- mean_se(phy_maiz@otu_table@.Data[i , ])[ ,"y" ] )
 }
-tabla_tomate <- data.frame( "OTU" = taxa_centrales[[3]][ , "V"] ,  "Mean relative abundance" = medias , "Median relative abundance" = medianas, "Standard error" = se  , row.names = row.names(taxa_centrales[[3]]) )
+tabla_tomate <- data.frame( "OTU" = taxa_centrales[[3]][ , "V8"] ,  "Mean relative abundance" = medias , "Median relative abundance" = medianas, "Standard error" = se  , row.names = row.names(taxa_centrales[[3]]) )
 xtable::xtable(tabla_tomate , caption = "Keystone OTUs of textit{Zea mays}" , digits = 8)
 ```
 
