@@ -75,7 +75,7 @@ for (i in 1:3){
 
 ```{r}
 data_chile <- read.table("../../data/tables/table.from_chile.txt" , row.names = 1, header = TRUE , sep = "" )
-data_tomate <- read.table("../../data/tables/table.from_tomate.txt" , row.names = 1, header = TRUE , sep = "" )
+data_tomate <- read.csv("../../data/tables/tomate_desarrollo.csv" , row.names = 1, header = TRUE , sep = "" )
 data_maiz <- read.table("../../data/tables/table.from_maiz.txt" , row.names = 1, header = TRUE , sep = "" )
 
 data <- list( data_chile , data_tomate , data_maiz)
@@ -98,7 +98,7 @@ for (i in 1:3){
 
 
 
-
+da
 
 
 
