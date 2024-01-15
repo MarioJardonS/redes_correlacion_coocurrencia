@@ -9,6 +9,8 @@ args = commandArgs(trailingOnly=TRUE)
 library(phyloseq)
 library(xtable)
 library(ggplot2)
+library(RColorBrewer)
+
 #construcción de phyloseqs desde argumentos 
 
 key_otus <- paste0( "../results/central_otus/" , args[1] )
@@ -62,6 +64,7 @@ metadata <- read.csv(metadata ,  colClasses = "character")
 
 
 
+
 ##utilización de tipo para sacar samp_data desde metadata
 
 ###los nombres de las muestras están en una columna llamada "ID"
@@ -84,9 +87,13 @@ o_table_key <- otu_table(key_otus[intersect(row.names(key_otus) , row.names(taxo
 o_table <- otu_table(data[ intersect(row.names(data) , row.names(taxonomy)) ,  intersect(row.names(tipo) ,colnames(key_otus)) ], taxa_are_rows = TRUE)
 
 
-taxonomy = taxonomy[ intersect(row.names(taxonomy) ,  row.names(key_otus) ) , ]
+taxonomy <- taxonomy[ intersect(row.names(taxonomy) ,  row.names(key_otus) ) , ]
+taxonomy_table <- tax_table(taxonomy)
+row.names(taxonomy_table@.Data) <- row.names(taxonomy)
+
 ##creación y normalización de los phyloseqs
-phy_key <- phyloseq(otu_table = o_table_key  , sample_data = tipo)
+phy_key <- phyloseq(otu_table = o_table_key , tax_table = taxonomy_table , sample_data = tipo)
+#print(phy_key@tax_table)
 phy <- phyloseq(otu_table = o_table , sample_data = tipo)
 
 phy_key <- transform_sample_counts(phy_key , function(x) x / sum(x) )
@@ -110,7 +117,7 @@ for (i in row.names(taxonomy)){
     #print(taxonomy[i, "V9"])
   } else {
     otu <- c(otu ,as.character(taxonomy[i, "V8"]))
-    print(as.character(taxonomy[i, "V8"]))
+   # print(as.character(taxonomy[i, "V8"]))
   }
   
   medias <- c(medias , mean(phy@otu_table@.Data[i , ] ))
@@ -120,4 +127,32 @@ for (i in row.names(taxonomy)){
 
 tabla <- data.frame( "OTU" = otu ,  "MeanRA" = medias , "MedianRA" = medianas, "SE" = se  , row.names = row.names(taxonomy) )
 
-xtable(tabla , caption = "Keystone OTUs of "  , digits = 8)
+print(xtable(tabla , caption = "Keystone OTUs of "  , digits = 8))
+
+#figuras para abundancia relativa de filo, familia y género
+
+##transformación de phy_key en el dataframe con el que se construirán la figura de abundancias relativas de
+##filo, aquí descrito como ta3
+df_key_phylum <- tax_glom(phy_key, taxrank = 'ta3')
+df_key_phylum <- psmelt(df_key_phylum)
+colnames(df_key_phylum)[dim(df_key_phylum)[2]] <- "Phylum"
+
+##construcción de la figura de filo 
+df_key_phylum$Phylum <- as.factor(df_key_phylum$Phylum)
+phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df_key_phylum$Phylum)))
+relative_plot <- ggplot(data=df_key_phylum, aes(x=Sample, y=Abundance, fill=Phylum))+ 
+  geom_bar(aes(), stat="identity", position="stack")+
+  scale_fill_manual(values = phylum_colors_rel)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggsave( paste0("../results/analisis/" , substr(args[2] , 1 , nchar(args[2])-4 ), ".png") , relative_plot , device = 'png' )
+
+print(paste0("begin{figure}
+    centering
+    includegraphics[scale = 0.8]{" , substr(args[2] , 1 , nchar(args[2])-4 ), ".png}
+    caption{Relative abundance by phyla of keystone OTUs }
+    label{fig:", substr(args[2] , 1 , nchar(args[2])-4 ), "_phyla}
+end{figure}"))
+
+
