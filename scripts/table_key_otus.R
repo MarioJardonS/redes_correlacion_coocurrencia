@@ -9,7 +9,6 @@ args = commandArgs(trailingOnly=TRUE)
 library(phyloseq)
 library(xtable)
 library(ggplot2)
-library(RColorBrewer)
 
 #construcción de phyloseqs desde argumentos 
 
@@ -133,26 +132,5 @@ print(xtable(tabla , caption = "Keystone OTUs of "  , digits = 8))
 
 ##transformación de phy_key en el dataframe con el que se construirán la figura de abundancias relativas de
 ##filo, aquí descrito como ta3
-df_key_phylum <- tax_glom(phy_key, taxrank = 'ta3')
-df_key_phylum <- psmelt(df_key_phylum)
-colnames(df_key_phylum)[dim(df_key_phylum)[2]] <- "Phylum"
-
-##construcción de la figura de filo 
-df_key_phylum$Phylum <- as.factor(df_key_phylum$Phylum)
-phylum_colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df_key_phylum$Phylum)))
-relative_plot <- ggplot(data=df_key_phylum, aes(x=Sample, y=Abundance, fill=Phylum))+ 
-  geom_bar(aes(), stat="identity", position="stack")+
-  scale_fill_manual(values = phylum_colors_rel)+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
-ggsave( paste0("../results/analisis/" , substr(args[2] , 1 , nchar(args[2])-4 ), ".png") , relative_plot , device = 'png' )
-
-print(paste0("begin{figure}
-    centering
-    includegraphics[scale = 0.8]{" , substr(args[2] , 1 , nchar(args[2])-4 ), ".png}
-    caption{Relative abundance by phyla of keystone OTUs }
-    label{fig:", substr(args[2] , 1 , nchar(args[2])-4 ), "_phyla}
-end{figure}"))
 
 
