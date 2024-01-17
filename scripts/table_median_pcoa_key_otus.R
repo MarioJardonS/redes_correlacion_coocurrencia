@@ -128,9 +128,72 @@ tabla <- data.frame( "OTU" = otu ,  "MeanRA" = medias , "MedianRA" = medianas, "
 
 print(xtable(tabla , caption = "Keystone OTUs of "  , digits = 8))
 
-#figuras para abundancia relativa de filo, familia y género
+key_not_key <- c()
+for (i in 1:dim(phy@otu_table@.Data)[1]){
+  
+  if (is.element( row.names(phy@otu_table@.Data)[i]   , row.names(phy_key@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "key")
+  } else {
+    key_not_key <- c(key_not_key , "not_key")
+    
+  }
+}
 
-##transformación de phy_key en el dataframe con el que se construirán la figura de abundancias relativas de
-##filo, aquí descrito como ta3
+#figuras que contrastan abundancia de otus clave con media y mediana através de las muestras
+
+##código para una figura que contrasta distribuciones individuales con las medianas
+keys_vs_median <- phy@otu_table@.Data[which(key_not_key == "key") , ]
+medians <- c()
+means <- c()
+for (i in 1:dim(phy@otu_table@.Data)[2]){
+  
+  medians <- c(medians , median(phy@otu_table@.Data[, i]))
+  
+}
+
+keys_vs_median <- rbind(medians , keys_vs_median)
+#keys_vs_median <- rbind(keys_vs_median , means)
+keys_vs_median <-  psmelt(otu_table(keys_vs_median  , taxa_are_rows = TRUE))
+
+plot <- ggplot(keys_vs_median , aes(x = Sample , y = Abundance , col = OTU , group = OTU))  + geom_line( ) + facet_wrap(~OTU)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggsave( paste0("../results/analisis/abundance_" , args[2] , "_key_otus_medians.png" ), plot ,device = "png")
 
 
+
+
+##codigo para obtener una figura que contrasta la distribución de todos los OTUs con la de los OTUs clave
+key_vs_no_key <-  psmelt(phy@otu_table)
+
+key_not_key <- c()
+for (i in 1:dim(key_vs_no_key)[1]){
+  
+  if (is.element( key_vs_no_key[i, "OTU"]   , row.names(phy_key@otu_table@.Data)  )   ){
+    key_not_key <- c(key_not_key , "Keystone")
+  } else {
+    key_not_key <- c(key_not_key , "Not keystone")
+    
+  }
+}
+key_vs_no_key <- cbind(key_vs_no_key , key_not_key)
+colnames(key_vs_no_key)[4] <- c("Type")
+
+plot <- ggplot(key_vs_no_key , aes(x = Sample , y= Abundance , color = Type  , group = Type ))+ #geom_dotplot(binaxis='y', stackdir='center') +
+  stat_summary(fun.data="mean_se", fun.args = list(mult=1), 
+               geom="crossbar", width=0.5) +
+  stat_summary(fun="median", fun.args = list(mult=1), 
+               geom="line", width=0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggsave(paste0("../results/analisis/mean_median_key_vs_not_key_" , args[2] , ".png") , plot , device = "png")
+
+#Análisis PCoA con distancia bray-curtis
+
+meta_ord <- ordinate( phy , method = "PCoA", distance = "bray")
+plot_pcoa_muestras <- plot_ordination(physeq = phy, ordination = meta_ord , color = "Type")
+ggsave( paste0("../results/analisis/pcoa_muestras_" , args[2] , ".png"), plot_pcoa_muestras , device = "png")
+
+meta_ord <- ordinate( phy_key , method = "PCoA", distance = "bray")
+plot_pcoa_key <- plot_ordination(physeq = phy_key, ordination = meta_ord , color = "Type")
+ggsave( paste0("../results/analisis/pcoa_key_otus_" , args[2] , ".png"), plot_pcoa_key , device = "png")

@@ -180,7 +180,7 @@ if (nivel == "Phylum"){
 
 
 
-ggsave( paste0("../results/analisis/" , substr(args[2] , 1 , nchar(args[2])-4 ), "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
+ggsave( paste0("../results/analisis/" , args[2], "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
 
 
 
