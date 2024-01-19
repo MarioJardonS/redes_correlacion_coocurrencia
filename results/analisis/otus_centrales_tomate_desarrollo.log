@@ -1,0 +1,289 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.29)  18 JAN 2024 16:00
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**otus_centrales_tomate_desarrollo.tex
+(./otus_centrales_tomate_desarrollo.tex
+LaTeX2e <2022-11-01>
+L3 programming layer <2022-11-02> (/home/mario/.TinyTeX/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
+(/home/mario/.TinyTeX/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count185
+\c@section=\count186
+\c@subsection=\count187
+\c@subsubsection=\count188
+\c@paragraph=\count189
+\c@subparagraph=\count190
+\c@figure=\count191
+\c@table=\count192
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen140
+) (/home/mario/.TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/home/mario/.TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+) (/home/mario/.TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+ (/home/mario/.TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/home/mario/.TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+ (/home/mario/.TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+) (/home/mario/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2022-10-26 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count193
+\l__pdf_internal_box=\box51
+) (./otus_centrales_tomate_desarrollo.aux)
+\openout1 = `otus_centrales_tomate_desarrollo.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+ (/home/mario/.TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/home/mario/.TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 35.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 35.
+
+Overfull \hbox (59.61209pt too wide) in paragraph at lines 35--95
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 131.08887pt on input line 96.
+
+
+Overfull \hbox (54.63983pt too wide) in paragraph at lines 100--128
+ [][] 
+ []
+
+
+Overfull \hbox (71.66766pt too wide) in paragraph at lines 133--176
+ [][] 
+ []
+
+<tomate_desarrollo.csv_relative_abundance_Phylum.png, id=1, 505.89pt x 505.89pt>
+File: tomate_desarrollo.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use tomate_desarrollo.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: tomate_desarrollo.csv_relative_abundance_Phylum.png  used on input line 185.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 185--186
+ [][] 
+ []
+
+<tomate_no_desarrollo.csv_relative_abundance_Phylum.png, id=2, 505.89pt x 505.89pt>
+File: tomate_no_desarrollo.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use tomate_no_desarrollo.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: tomate_no_desarrollo.csv_relative_abundance_Phylum.png  used on input line 192.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 192--193
+ [][] 
+ []
+
+<phyla_key_tomate.png, id=3, 526.8483pt x 325.215pt>
+File: phyla_key_tomate.png Graphic file (type png)
+<use phyla_key_tomate.png>
+Package pdftex.def Info: phyla_key_tomate.png  used on input line 199.
+(pdftex.def)             Requested size: 421.47922pt x 260.17235pt.
+
+Overfull \hbox (76.47922pt too wide) in paragraph at lines 199--200
+ [][] 
+ []
+
+<tomate_desarrollo.csv_relative_abundance_Family.png, id=4, 505.89pt x 505.89pt>
+File: tomate_desarrollo.csv_relative_abundance_Family.png Graphic file (type png)
+<use tomate_desarrollo.csv_relative_abundance_Family.png>
+Package pdftex.def Info: tomate_desarrollo.csv_relative_abundance_Family.png  used on input line 207.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 207--208
+ [][] 
+ []
+
+<tomate_no_desarrollo.csv_relative_abundance_Family.png, id=5, 505.89pt x 505.89pt>
+File: tomate_no_desarrollo.csv_relative_abundance_Family.png Graphic file (type png)
+<use tomate_no_desarrollo.csv_relative_abundance_Family.png>
+Package pdftex.def Info: tomate_no_desarrollo.csv_relative_abundance_Family.png  used on input line 214.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 214--215
+ [][] 
+ []
+
+<family_key_tomate.png, id=6, 526.8483pt x 325.215pt>
+File: family_key_tomate.png Graphic file (type png)
+<use family_key_tomate.png>
+Package pdftex.def Info: family_key_tomate.png  used on input line 221.
+(pdftex.def)             Requested size: 421.47922pt x 260.17235pt.
+
+Overfull \hbox (76.47922pt too wide) in paragraph at lines 221--222
+ [][] 
+ []
+
+<tomate_desarrollo.csv_relative_abundance_Genus.png, id=7, 505.89pt x 505.89pt>
+File: tomate_desarrollo.csv_relative_abundance_Genus.png Graphic file (type png)
+<use tomate_desarrollo.csv_relative_abundance_Genus.png>
+Package pdftex.def Info: tomate_desarrollo.csv_relative_abundance_Genus.png  used on input line 229.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 229--230
+ [][] 
+ []
+
+<tomate_no_desarrollo.csv_relative_abundance_Genus.png, id=8, 505.89pt x 505.89pt>
+File: tomate_no_desarrollo.csv_relative_abundance_Genus.png Graphic file (type png)
+<use tomate_no_desarrollo.csv_relative_abundance_Genus.png>
+Package pdftex.def Info: tomate_no_desarrollo.csv_relative_abundance_Genus.png  used on input line 236.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 236--237
+ [][] 
+ []
+
+<mean_median_key_vs_not_key_tomate_desarrollo.csv.png, id=9, 505.89pt x 505.89pt>
+File: mean_median_key_vs_not_key_tomate_desarrollo.csv.png Graphic file (type png)
+<use mean_median_key_vs_not_key_tomate_desarrollo.csv.png>
+Package pdftex.def Info: mean_median_key_vs_not_key_tomate_desarrollo.csv.png  used on input line 262.
+(pdftex.def)             Requested size: 379.41655pt x 379.41655pt.
+
+Overfull \hbox (34.41655pt too wide) in paragraph at lines 262--263
+ [][] 
+ []
+
+<mean_median_key_vs_not_key_tomate_no_desarrollo.csv.png, id=10, 505.89pt x 505.89pt>
+File: mean_median_key_vs_not_key_tomate_no_desarrollo.csv.png Graphic file (type png)
+<use mean_median_key_vs_not_key_tomate_no_desarrollo.csv.png>
+Package pdftex.def Info: mean_median_key_vs_not_key_tomate_no_desarrollo.csv.png  used on input line 269.
+(pdftex.def)             Requested size: 379.41655pt x 379.41655pt.
+
+Overfull \hbox (34.41655pt too wide) in paragraph at lines 269--270
+ [][] 
+ []
+
+<mean_median_key_vs_not_key_tomate.png, id=11, 526.8483pt x 325.215pt>
+File: mean_median_key_vs_not_key_tomate.png Graphic file (type png)
+<use mean_median_key_vs_not_key_tomate.png>
+Package pdftex.def Info: mean_median_key_vs_not_key_tomate.png  used on input line 276.
+(pdftex.def)             Requested size: 395.13525pt x 243.91064pt.
+
+Overfull \hbox (50.13525pt too wide) in paragraph at lines 276--277
+ [][] 
+ []
+
+<pcoa_muestras_tomate_desarrollo.csv.png, id=12, 505.89pt x 505.89pt>
+File: pcoa_muestras_tomate_desarrollo.csv.png Graphic file (type png)
+<use pcoa_muestras_tomate_desarrollo.csv.png>
+Package pdftex.def Info: pcoa_muestras_tomate_desarrollo.csv.png  used on input line 284.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+Overfull \hbox (9.12057pt too wide) in paragraph at lines 284--285
+ [][] 
+ []
+
+<pcoa_key_otus_tomate_desarrollo.csv.png, id=13, 505.89pt x 505.89pt>
+File: pcoa_key_otus_tomate_desarrollo.csv.png Graphic file (type png)
+<use pcoa_key_otus_tomate_desarrollo.csv.png>
+Package pdftex.def Info: pcoa_key_otus_tomate_desarrollo.csv.png  used on input line 290.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+Overfull \hbox (9.12057pt too wide) in paragraph at lines 290--291
+ [][] 
+ []
+
+<pcoa_muestras_tomate_no_desarrollo.csv.png, id=14, 505.89pt x 505.89pt>
+File: pcoa_muestras_tomate_no_desarrollo.csv.png Graphic file (type png)
+<use pcoa_muestras_tomate_no_desarrollo.csv.png>
+Package pdftex.def Info: pcoa_muestras_tomate_no_desarrollo.csv.png  used on input line 301.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+Overfull \hbox (9.12057pt too wide) in paragraph at lines 301--302
+ [][] 
+ []
+
+<pcoa_key_otus_tomate_no_desarrollo.csv.png, id=15, 505.89pt x 505.89pt>
+File: pcoa_key_otus_tomate_no_desarrollo.csv.png Graphic file (type png)
+<use pcoa_key_otus_tomate_no_desarrollo.csv.png>
+Package pdftex.def Info: pcoa_key_otus_tomate_no_desarrollo.csv.png  used on input line 307.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+Overfull \hbox (9.12057pt too wide) in paragraph at lines 307--308
+ [][] 
+ []
+
+<tomate_muestras_pcoa.png, id=16, 526.8483pt x 325.215pt>
+File: tomate_muestras_pcoa.png Graphic file (type png)
+<use tomate_muestras_pcoa.png>
+Package pdftex.def Info: tomate_muestras_pcoa.png  used on input line 343.
+(pdftex.def)             Requested size: 368.79129pt x 227.64894pt.
+
+Overfull \hbox (23.79129pt too wide) in paragraph at lines 343--344
+ [][] 
+ []
+
+<tomate_clave_pcoa.png, id=17, 526.8483pt x 325.215pt>
+File: tomate_clave_pcoa.png Graphic file (type png)
+<use tomate_clave_pcoa.png>
+Package pdftex.def Info: tomate_clave_pcoa.png  used on input line 350.
+(pdftex.def)             Requested size: 368.79129pt x 227.64894pt.
+
+Overfull \hbox (23.79129pt too wide) in paragraph at lines 350--351
+ [][] 
+ []
+
+[1
+
+{/home/mario/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2 <./tomate_desarrollo.csv_relative_abundance_Phylum.png (PNG copy)>] [3 <./tomate_no_desarrollo.csv_relative_abundance_Phylum.png (PNG copy)>] [4 <./phyla_key_tomate.png (PNG copy)>] [5 <./tomate_desarrollo.csv_relative_abundance_Family.png (PNG copy)>] [6 <./tomate_no_desarrollo.csv_relative_abundance_Family.png (PNG copy)>] [7 <./family_key_tomate.png (PNG copy)>] [8 <./tomate_desarrollo.csv_relative_abundance_Genus.png (PNG copy)>] [9 <./tomate_no_desarrollo.csv_relative_abundance_Genus.png (PNG copy)>] [10 <./mean_median_key_vs_not_key_tomate_desarrollo.csv.png (PNG copy)>] [11 <./mean_median_key_vs_not_key_tomate_no_desarrollo.csv.png (PNG copy)>] [12 <./mean_median_key_vs_not_key_tomate.png (PNG copy)>] [13 <./pcoa_muestras_tomate_desarrollo.csv.png (PNG copy)>] [14 <./pcoa_key_otus_tomate_desarrollo.csv.png (PNG copy)>] [15 <./pcoa_muestras_tomate_no_desarrollo.csv.png (PNG copy)>] [16 <./pcoa_key_otus_tomate_no_desarrollo.csv.png (PNG copy)>] [17 <./tomate_muestras_pcoa.png (PNG copy)> <./tomate_clave_pcoa.png (PNG copy)>] [18] [19] [20] (./otus_centrales_tomate_desarrollo.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1145 strings out of 476931
+ 23975 string characters out of 5825239
+ 396413 words of memory out of 5000000
+ 22414 multiletter control sequences out of 15000+600000
+ 473592 words of font info for 42 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 55i,8n,62p,486b,225s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on otus_centrales_tomate_desarrollo.pdf (20 pages, 2294623 bytes).
+PDF statistics:
+ 116 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+
