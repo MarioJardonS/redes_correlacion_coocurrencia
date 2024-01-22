@@ -111,7 +111,7 @@ se <- c()
 for (i in row.names(taxonomy)){
   #print(i)
   #de momento la taxonomía es "V9" = especie y "V8" = género
-  if (taxonomy[i, "V9"] != ""){
+  if (as.character(taxonomy[i, "V9"]) != ""){
     otu <- c(otu , as.character(taxonomy[i, "V9"]))
     #print(taxonomy[i, "V9"])
   } else {
