@@ -23,8 +23,15 @@ nivel <- args[4]
 #criterio para separar otus que se graficaran por separado y los demás
 poco_abundante <- args[5]
 
+
+
 #lista de tablas de otus a comparar´
-lista <- list(args[6:length(args)])
+
+lista <- list()
+for (i in 7:length(args)){
+  lista[[i-6]] <- args[i]
+}
+
 
 ##cada uno de los elementos de la lista se 
 lista_data <- list()
@@ -45,6 +52,10 @@ for (i in 1:length(lista)){
   lista_data[[i]] <- data
   
 }
+
+taxonomy <- read.csv(taxonomy , header = FALSE , sep = ";" , row.names = 1)
+
+metadata <- read.csv(metadata ,  colClasses = "character")
 
 
 #figuras para abundancia relativa de filo, familia y género
@@ -71,23 +82,23 @@ for (i in 1:dim(metadata)[1]){
 }
 
 ###se restringen los metadatos a las muestras usadas en el análisis de OTUs clave
-metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(tabla) )) ,  ]
+#metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(tabla) )) ,  ]
 
-tipo <- data.frame( ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
+#tipo <- data.frame( ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
 
-tipo <- sample_data(tipo)
+#tipo <- sample_data(tipo)
 
 ##lista en que se guardarán los phyloseq
 lista_phy <- list()
 
 for (i in 1:length(lista)){
-  o_table_i <- otu_table(lista_data[[i]][ intersect(row.names(lista_data[[i]]) , row.names(taxonomy)) ,  intersect(row.names(tipo) ,colnames(lista_data[[i]])) ], taxa_are_rows = TRUE)
+  o_table_i <- otu_table(lista_data[[i]][ intersect(row.names(lista_data[[i]]) , row.names(taxonomy)) ,   ], taxa_are_rows = TRUE)
   
   
   taxonomy_i <- taxonomy[ intersect(row.names(taxonomy) ,  row.names(lista_data[[i]]) ) , ]
   taxonomy_table <- tax_table(taxonomy_i)
   row.names(taxonomy_table@.Data) <- row.names(taxonomy_i)
-  
+  lista_phy[[i]] <- phyloseq(otu_table = o_table_i , tax_table = taxonomy_table)
 }
 
 lista_df <- list()
@@ -109,39 +120,63 @@ for (i in 1:(length(lista))){
 ##poco abundante
 if (poco_abundante == "Si"){
   abundance <- c()
-  for (i in 1:length(levels(df_key[ , nivel]))){
-    which_i <- which(as.vector(df_key[ , nivel]) == levels(df_key[ , nivel])[i])
+  #tax_niv <- c()
+  for (i in 1:length(levels(df[ , nivel]))){
+    which_i <- which(as.vector(df[ , nivel]) == levels(df[ , nivel])[i])
     #print(which_i)
-    sum_i <- sum(as.vector(df_key[which_i,]$Abundance))
+    sum_i <- sum(as.vector(df[which_i,]$Abundance))
     abundance <- c(abundance , sum_i)
+    #tax_niv <- c(tax_niv , levels(df[ , nivel])[i])
   }
-  nivel_abundante <- which(abundance > summary(abundance)[args[8]] )
+  nivel_abundante <- which(abundance > summary(abundance)[args[6]] )
   nivel_abundante <- levels(df_key[ , nivel])[nivel_abundante]
+
+
+
+  for (i in 1:length(lista)){
+    ab_i <- c()
+    for (j in 1:dim(lista_df[[i]])[1]){
+      if (is.element(as.vector(lista_df[[i]][ , nivel])[j] , nivel_abundante )){
+        ab_i <- c(ab_i , as.vector(lista_df[[i]][ , nivel])[j]   )
+      } else {
+        ab_i <- c(ab_i , "Other")
+      }
+    }
+    
+    lista_df[[i]][ , nivel] <- ab_i
+  }
   
   ab <- c()
-  for (i in 1:dim(df_key)[1]){
-    if (is.element(as.vector(df_key[ , nivel])[i] , nivel_abundante )){
-      ab <- c(ab , as.vector(df_key[ , nivel])[i]   )
+  for (j in 1:dim(df)[1]){
+    if (is.element(as.vector(df[ , nivel])[j] , nivel_abundante )){
+      ab <- c(ab , as.vector(df[ , nivel])[j]   )
     } else {
       ab <- c(ab , "Other")
     }
   }
+  df[ , nivel] <- ab
+    
+    
+      
   
-  df_key[ , nivel] <- ab
-}
-
+}    
   
 
 ##construcción de la figura de filo 
-df_key[ , nivel] <- as.factor(df_key[ , nivel])
-colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df_key[ , nivel])))
+#df_key[ , nivel] <- as.factor(df_key[ , nivel])
+colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df[ , nivel])))
 
 
 if (nivel == "Phylum"){
-  relative_plot <- ggplot(data=df_key, aes(x=Sample, y=Abundance, fill=Phylum))+ 
-    geom_bar(aes(), stat="identity", position="stack")+
-    scale_fill_manual(values = colors_rel)+
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  relative_plot <- ggplot( aes(x=Sample, y=Abundance, fill=Phylum)) for (i in 1:length(list)){ +
+      geom_bar(aes(), stat="identity", position="stack")+
+      scale_fill_manual(values = colors_rel)+ 
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))}
+  
+  
+  
+   
+    
   
 } else {
   if (nivel == "Family"){
@@ -162,7 +197,7 @@ if (nivel == "Phylum"){
 
 
 
-ggsave( paste0("../results/analisis/" , args[2], "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
+ggsave( paste0("../results/analisis/" ,as.character(length(lista)), "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
 
 
 
