@@ -145,7 +145,7 @@ if (poco_abundante == "Si"){
     }
   }
   
-  df_key[ , nivel] <- ab
+  df_key[ , nivel] <- as.factor(df[ , nivel])
 }
 
   

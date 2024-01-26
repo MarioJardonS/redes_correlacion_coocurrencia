@@ -9,7 +9,7 @@ args = commandArgs(trailingOnly=TRUE)
 library(phyloseq)
 library(ggplot2)
 library(RColorBrewer)
-
+library(patchwork)
 
 
 #argumentos generales a todos los phyloseqs, comparten taxonomía, metadatos, y metadato elegido como tipo
@@ -130,7 +130,7 @@ if (poco_abundante == "Si"){
   }
   nivel_abundante <- which(abundance > summary(abundance)[args[6]] )
   nivel_abundante <- levels(df_key[ , nivel])[nivel_abundante]
-
+  print(nivel_abundante)
 
 
   for (i in 1:length(lista)){
@@ -144,6 +144,7 @@ if (poco_abundante == "Si"){
     }
     
     lista_df[[i]][ , nivel] <- ab_i
+    lista_df[[i]][ , nivel] <- as.factor(lista_df[[i]][ , nivel ])
   }
   
   ab <- c()
@@ -156,27 +157,41 @@ if (poco_abundante == "Si"){
   }
   df[ , nivel] <- ab
     
-    
+  df[ , nivel] <- as.factor(df[ , nivel ])
       
   
 }    
-  
+
+
 
 ##construcción de la figura de filo 
 #df_key[ , nivel] <- as.factor(df_key[ , nivel])
 colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df[ , nivel])))
+colors_rel
 
-
+lista_rp <- list()
+nombres <- c()
 if (nivel == "Phylum"){
-  relative_plot <- ggplot( aes(x=Sample, y=Abundance, fill=Phylum)) for (i in 1:length(list)){ +
+  for (i in 1:length(list)){
+  rp_i <- paste0("rp_" , as.character(i))  
+  nombres <- c(nombres , rp_i)
+  
+  relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Phylum))  +
       geom_bar(aes(), stat="identity", position="stack")+
       scale_fill_manual(values = colors_rel)+ 
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))}
-  
-  
-  
-   
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  lista_rp[[i]] <- relative_plot_i
+
+  }
+
+  names(lista_rp) <- nombres  
+  plot <- ggplot()
+  for (i in 1:length(list)){
+    plot <- ggplot_add(lista_rp[[i]]  , plot , names(lista_rp)[i])
+  }
     
+  plot <- plot + plot_layout(ncol = 1)
+  plot 
   
 } else {
   if (nivel == "Family"){
@@ -197,7 +212,7 @@ if (nivel == "Phylum"){
 
 
 
-ggsave( paste0("../results/analisis/" ,as.character(length(lista)), "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
+#ggsave( paste0("../results/analisis/" ,as.character(length(lista)), "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
 
 
 
