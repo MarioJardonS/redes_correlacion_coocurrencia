@@ -38,7 +38,7 @@ for (i in 5:length(args)){
 lista_data <- list()
 for (i in 1:length(lista)){
   
-  data <- read.csv( paste0("../data/tables/" , lista[[i]]) , row.names = 1 , header = TRUE )
+  data <- read.csv( paste0("../results/central_otus/" , lista[[i]]) , row.names = 1 , header = TRUE )
   
   col <- c()
   for (j in 1:dim(data)[2]) {
