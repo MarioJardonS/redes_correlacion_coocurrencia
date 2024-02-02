@@ -198,12 +198,21 @@ if (nivel == "Phylum"){
   }
 
   names(lista_rp) <- nombres  
-  plot <- lista_rp[[1]]
-  for (i in 2:length(lista)){
-    plot <- ggplot_add(lista_rp[[i]]  , plot , names(lista_rp)[i])
+  impar <- which(1:length(lista) %% 2 == 1)
+  
+  
+  for (i in impar){
+    if (is.element(i+1 , 1:length(lista))){
+    plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+    plot <- plot + plot_layout(ncol = 1) 
+    } else {
+      plot <- lista_rp[[i]]
+    }
+    
+    ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
   }
     
-  plot <- plot + plot_layout(ncol = 1) 
+  
   
   
 } else {
@@ -221,12 +230,23 @@ if (nivel == "Phylum"){
     
     
     names(lista_rp) <- nombres  
-    plot <- lista_rp[[1]]
-    for (i in 2:length(lista)){
-      plot <- ggplot_add(lista_rp[[i]]  , plot , names(lista_rp)[i])
+    
+    impar <- which(1:length(lista) %% 2 == 1)
+    
+    
+    for (i in impar){
+      if (is.element(i+1 , 1:length(lista))){
+        plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+        plot <- plot + plot_layout(ncol = 1) 
+      } else {
+        plot <- lista_rp[[i]]
+      }
+      
+      ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
     }
     
-    plot <- plot + plot_layout(ncol = 1) 
+    
+    
     
   } else {
     for (i in 1:length(lista)){
@@ -252,7 +272,7 @@ if (nivel == "Phylum"){
 }
 
 
-ggsave( paste0("../results/analisis/", args[5], args[6], "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
+#ggsave( paste0("../results/analisis/", args[5], args[6], "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
 
 #ggsave( paste0("../results/analisis/" ,as.character(length(lista)), "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
 
