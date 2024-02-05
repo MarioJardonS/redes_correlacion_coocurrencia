@@ -94,7 +94,8 @@ for (i in 1:dim(metadata)[1]){
 lista_phy <- list()
 
 for (i in 1:length(lista)){
-  o_table_i <- otu_table(lista_data[[i]][ intersect(row.names(lista_data[[i]]) , row.names(taxonomy)) ,   ], taxa_are_rows = TRUE)
+  
+  o_table_i <- otu_table(lista_data[[i]][ intersect(row.names(lista_data[[i]]) , row.names(taxonomy)) , intersect( colnames(lista_data[[i]]) , metadata[ , "ID"] )  ], taxa_are_rows = TRUE)
   
   
   taxonomy_i <- taxonomy[ intersect(row.names(taxonomy) ,  row.names(lista_data[[i]]) ) , ]
@@ -133,10 +134,11 @@ for (i in 1:(length(lista))){
   }
   
   if (nivel == "Phylum"){
-    il <- summary(abundance)["3rd Qu."] 
+    il <- 0
+    #il <- summary(abundance)["1st Qu."] 
   } else {
-    
-      il <- quantile(abundance , probs = seq(.02, .98, by = .02))[49]
+    il <- 0
+     # il <- summary(abundance)["1st Qu."] 
     
   }
   print(il)
@@ -179,8 +181,9 @@ for (i in 1:(length(lista))){
 
 ##construcción de la figura de filo 
 #df_key[ , nivel] <- as.factor(df_key[ , nivel])
-colors_rel<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df[ , nivel])))
-
+colors_rel <- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(df[ , nivel])))
+names(colors_rel) <- levels(df[ , nivel])
+print(colors_rel)
 
 lista_rp <- list()
 nombres <- c()
@@ -191,7 +194,7 @@ if (nivel == "Phylum"){
   
   relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Phylum))  +
       geom_bar(aes(), stat="identity", position="stack")+
-      scale_fill_manual(values = colors_rel , drop = FALSE)+ 
+      scale_fill_manual(values = colors_rel[levels(df[ , nivel])] , drop = FALSE)+ 
       theme(axis.text.x = element_text(angle = 45, hjust = 1) )
   lista_rp[[i]] <- relative_plot_i
 
@@ -223,7 +226,7 @@ if (nivel == "Phylum"){
       
       relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Family))  +
         geom_bar(aes(), stat="identity", position="stack")+
-        scale_fill_manual(values = colors_rel , drop = FALSE)+ 
+        scale_fill_manual(values = colors_rel[levels(df[ , nivel])] , drop = FALSE)+ 
         theme(axis.text.x = element_text(angle = 45, hjust = 1) )
       lista_rp[[i]] <- relative_plot_i
       }
@@ -262,11 +265,19 @@ if (nivel == "Phylum"){
     
     
     names(lista_rp) <- nombres  
-    plot <- lista_rp[[1]]
-    for (i in 2:length(lista)){
-      plot <- ggplot_add(lista_rp[[i]]  , plot , names(lista_rp)[i])
+    impar <- which(1:length(lista) %% 2 == 1)
+    
+    
+    for (i in impar){
+      if (is.element(i+1 , 1:length(lista))){
+        plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+        plot <- plot + plot_layout(ncol = 1) 
+      } else {
+        plot <- lista_rp[[i]]
+      }
+      
+      ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
     }
-    plot <- plot + plot_layout(ncol = 1) 
     
   }
 }

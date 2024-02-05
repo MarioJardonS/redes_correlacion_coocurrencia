@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.29)  2 FEB 2024 11:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.29)  5 FEB 2024 13:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -224,10 +224,10 @@ Overfull \hbox (23.79129pt too wide) in paragraph at lines 324--325
  [][] 
  []
 
-<tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png, id=14, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png Graphic file (type png)
-<use tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png>
-Package pdftex.def Info: tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png  used on input line 334.
+<otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png, id=14, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png  used on input line 334.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
 Overfull \hbox (59.71254pt too wide) in paragraph at lines 334--335
@@ -237,114 +237,132 @@ Overfull \hbox (59.71254pt too wide) in paragraph at lines 334--335
 [1
 
 {/home/mario/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2 <./tomate_desarrollo.csv_tomate_no_desarrollo.csv_relative_abundance_Phylum.png (PNG copy)>] [3 <./tomate_desarrollo.csv_tomate_no_desarrollo.csv_relative_abundance_Family.png (PNG copy)>] [4 <./tomate_desarrollo.csv_relative_abundance_Genus.png (PNG copy)>] [5 <./tomate_no_desarrollo.csv_relative_abundance_Genus.png (PNG copy)>] [6 <./mean_median_key_vs_not_key_tomate_desarrollo.csv.png (PNG copy)>] [7 <./mean_median_key_vs_not_key_tomate_no_desarrollo.csv.png (PNG copy)>] [8 <./mean_median_key_vs_not_key_tomate.png (PNG copy)>] [9 <./pcoa_muestras_tomate_desarrollo.csv.png (PNG copy)>] [10 <./pcoa_key_otus_tomate_desarrollo.csv.png (PNG copy)>] [11 <./pcoa_muestras_tomate_no_desarrollo.csv.png (PNG copy)>] [12 <./pcoa_key_otus_tomate_no_desarrollo.csv.png (PNG copy)>] [13 <./tomate_muestras_pcoa.png (PNG copy)> <./tomate_clave_pcoa.png (PNG copy)>]
-<tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png, id=64, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png Graphic file (type png)
-<use tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png>
-Package pdftex.def Info: tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png  used on input line 341.
+<otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png, id=64, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png  used on input line 341.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
 Overfull \hbox (59.71254pt too wide) in paragraph at lines 341--342
  [][] 
  []
 
-<tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png, id=65, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png Graphic file (type png)
-<use tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png>
-Package pdftex.def Info: tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png  used on input line 348.
+<otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png, id=65, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png  used on input line 348.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
 Overfull \hbox (59.71254pt too wide) in paragraph at lines 348--349
  [][] 
  []
 
-<tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png, id=66, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png Graphic file (type png)
-<use tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png>
-Package pdftex.def Info: tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png  used on input line 355.
+<otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png, id=66, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png  used on input line 355.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
 Overfull \hbox (59.71254pt too wide) in paragraph at lines 355--356
  [][] 
  []
 
-<tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Phylum.png, id=67, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Phylum.png Graphic file (type png)
-<use tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Phylum.png>
-Package pdftex.def Info: tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Phylum.png  used on input line 362.
+File: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png  used on input line 362.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
 Overfull \hbox (59.71254pt too wide) in paragraph at lines 362--363
  [][] 
  []
 
-<tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Family.png, id=68, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Family.png Graphic file (type png)
-<use tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Family.png>
-Package pdftex.def Info: tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Family.png  used on input line 369.
+<reporte_tomate1.csv_NA_relative_abundance_Phylum.png, id=67, 505.89pt x 505.89pt>
+File: reporte_tomate1.csv_NA_relative_abundance_Phylum.png Graphic file (type png)
+<use reporte_tomate1.csv_NA_relative_abundance_Phylum.png>
+Package pdftex.def Info: reporte_tomate1.csv_NA_relative_abundance_Phylum.png  used on input line 368.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
-Overfull \hbox (59.71254pt too wide) in paragraph at lines 369--370
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 368--369
  [][] 
  []
 
-<tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Family.png, id=69, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Family.png Graphic file (type png)
-<use tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Family.png>
-Package pdftex.def Info: tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Family.png  used on input line 376.
+<otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png, id=68, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png  used on input line 374.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
-Overfull \hbox (59.71254pt too wide) in paragraph at lines 376--377
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 374--375
  [][] 
  []
 
-<tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Family.png, id=70, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Family.png Graphic file (type png)
-<use tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Family.png>
-Package pdftex.def Info: tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Family.png  used on input line 383.
+<otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Family.png, id=69, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Family.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Family.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Family.png  used on input line 381.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
-Overfull \hbox (59.71254pt too wide) in paragraph at lines 383--384
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 381--382
  [][] 
  []
 
-<tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Family.png, id=71, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Family.png Graphic file (type png)
-<use tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Family.png>
-Package pdftex.def Info: tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Family.png  used on input line 390.
+<otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Family.png, id=70, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Family.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Family.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Family.png  used on input line 388.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
-Overfull \hbox (59.71254pt too wide) in paragraph at lines 390--391
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 388--389
  [][] 
  []
 
-<tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Family.png, id=72, 505.89pt x 505.89pt>
-File: tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Family.png Graphic file (type png)
-<use tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Family.png>
-Package pdftex.def Info: tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Family.png  used on input line 397.
+<otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Family.png, id=71, 505.89pt x 505.89pt>
+File: otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Family.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Family.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Family.png  used on input line 395.
 (pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
 
-Overfull \hbox (59.71254pt too wide) in paragraph at lines 397--398
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 395--396
  [][] 
  []
 
-[14] [15 <./tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png (PNG copy)>] [16 <./tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png (PNG copy)>] [17 <./tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png (PNG copy)>] [18 <./tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png (PNG copy)>] [19 <./tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Phylum.png (PNG copy)>] [20 <./tomate_aleatorio1_1.csv_tomate_aleatorio1_2.csv_relative_abundance_Family.png (PNG copy)>] [21 <./tomate_aleatorio1_3.csv_tomate_aleatorio1_4.csv_relative_abundance_Family.png (PNG copy)>] [22 <./tomate_aleatorio1_5.csv_tomate_aleatorio1_6.csv_relative_abundance_Family.png (PNG copy)>] [23 <./tomate_aleatorio1_7.csv_tomate_aleatorio1_8.csv_relative_abundance_Family.png (PNG copy)>] [24 <./tomate_aleatorio1_9.csv_tomate_aleatorio1_10.csv_relative_abundance_Family.png (PNG copy)>] [25] [26] [27] (./otus_centrales_tomate_desarrollo.aux)
+File: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png Graphic file (type png)
+<use otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png>
+Package pdftex.def Info: otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png  used on input line 402.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 402--403
+ [][] 
+ []
+
+<reporte_tomate1.csv_NA_relative_abundance_Family.png, id=72, 505.89pt x 505.89pt>
+File: reporte_tomate1.csv_NA_relative_abundance_Family.png Graphic file (type png)
+<use reporte_tomate1.csv_NA_relative_abundance_Family.png>
+Package pdftex.def Info: reporte_tomate1.csv_NA_relative_abundance_Family.png  used on input line 408.
+(pdftex.def)             Requested size: 404.71254pt x 404.71254pt.
+
+Overfull \hbox (59.71254pt too wide) in paragraph at lines 408--409
+ [][] 
+ []
+
+[14] [15 <./otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Phylum.png (PNG copy)>] [16 <./otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Phylum.png (PNG copy)>] [17 <./otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Phylum.png (PNG copy)>] [18 <./otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Phylum.png (PNG copy)>] [19] [20 <./reporte_tomate1.csv_NA_relative_abundance_Phylum.png (PNG copy)>] [21 <./otus_centrales_tomate_aleatorio1_1.csv_otus_centrales_tomate_aleatorio1_2.csv_relative_abundance_Family.png (PNG copy)>] [22 <./otus_centrales_tomate_aleatorio1_3.csv_otus_centrales_tomate_aleatorio1_4.csv_relative_abundance_Family.png (PNG copy)>] [23 <./otus_centrales_tomate_aleatorio1_5.csv_otus_centrales_tomate_aleatorio1_6.csv_relative_abundance_Family.png (PNG copy)>] [24 <./otus_centrales_tomate_aleatorio1_7.csv_otus_centrales_tomate_aleatorio1_8.csv_relative_abundance_Family.png (PNG copy)>] [25] [26 <./reporte_tomate1.csv_NA_relative_abundance_Family.png (PNG copy)>] [27] [28] [29] (./otus_centrales_tomate_desarrollo.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
  1180 strings out of 476931
- 28637 string characters out of 5825239
- 397212 words of memory out of 5000000
+ 29953 string characters out of 5825239
+ 397242 words of memory out of 5000000
  22443 multiletter control sequences out of 15000+600000
  473592 words of font info for 42 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  55i,8n,62p,484b,225s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/mario/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on otus_centrales_tomate_desarrollo.pdf (27 pages, 5031675 bytes).
+Output written on otus_centrales_tomate_desarrollo.pdf (29 pages, 4693101 bytes).
 PDF statistics:
- 144 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 150 PDF objects out of 1000 (max. 8388607)
+ 83 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  116 words of extra memory for PDF output out of 10000 (max. 10000000)
 
