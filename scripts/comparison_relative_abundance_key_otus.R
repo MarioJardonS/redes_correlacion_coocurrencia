@@ -68,11 +68,14 @@ if (nivel == "Phylum"){
   nivel0 <- "ta3"
   
 } else {
+  if (nivel == "Order"){
+    nivel0 <- "ta5"
+  } else {
   if (nivel == "Family"){
     nivel0 <- "ta6"
   } else {
     nivel0 <- "ta7"
-  }
+  }}
 }
 
 ##utilización de tipo para sacar samp_data desde metadata
@@ -219,6 +222,35 @@ if (nivel == "Phylum"){
   
   
 } else {
+  if (nivel == "Order"){
+    for (i in 1:length(lista)){
+      rp_i <- paste0("rp_" , as.character(i))  
+      nombres <- c(nombres , rp_i)
+      
+      relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Order))  +
+        geom_bar(aes(), stat="identity", position="stack")+
+        scale_fill_manual(values = colors_rel[levels(df[ , nivel])] , drop = FALSE)+ 
+        theme(axis.text.x = element_text(angle = 45, hjust = 1) )
+      lista_rp[[i]] <- relative_plot_i
+    }
+    
+    
+    names(lista_rp) <- nombres  
+    
+    impar <- which(1:length(lista) %% 2 == 1)
+    
+    
+    for (i in impar){
+      if (is.element(i+1 , 1:length(lista))){
+        plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+        plot <- plot + plot_layout(ncol = 1) 
+      } else {
+        plot <- lista_rp[[i]]
+      }
+      
+      ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
+    }
+  } else {
   if (nivel == "Family"){
     for (i in 1:length(lista)){
       rp_i <- paste0("rp_" , as.character(i))  
@@ -278,7 +310,7 @@ if (nivel == "Phylum"){
       
       ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
     }
-    
+  }
   }
 }
 
