@@ -140,8 +140,8 @@ for (i in 1:(length(lista))){
     il <- 0
     #il <- summary(abundance)["1st Qu."] 
   } else {
-    il <- 0
-     # il <- summary(abundance)["1st Qu."] 
+    #il <- 0.025
+      il <- summary(abundance)["Median"] 
     
   }
   print(il)

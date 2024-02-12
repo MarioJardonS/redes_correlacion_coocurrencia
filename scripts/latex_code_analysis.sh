@@ -84,3 +84,4 @@ echo  "  \label{fig:"$2"_pcoa_key_otus}">> ../results/analisis/$1.tex
 
 echo "\end{figure}">> ../results/analisis/$1.tex
 
+
