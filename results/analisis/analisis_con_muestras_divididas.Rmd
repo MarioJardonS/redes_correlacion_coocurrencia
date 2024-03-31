@@ -229,7 +229,9 @@ for (i in 1:106){
     familias_comunes <- c(familias_comunes , i)} }
 
 data_familias_comunes <- data_familias[ familias_comunes , ]
-upset(data_familias_comunes , nsets = 11)
+familias_comunes <- upset(data_familias_comunes , nsets = 11)
+familias_comunes
+#ggplot2::ggsave("familias_comunes.png" , familias_comunes , device = "png" )
 ```
 
 Acetobacteraceae y Pseudomonadaceae son las familias rescatadas en los 10 submuestreos aleatorios así como en el original. Burkholderiaceae solo no fue encontrado en uno de los analisis aleatorios. Corynebacteriaceae fue encnontrada en 9 de los análisis aleatorios, pero no el original. Enterobacteriaceae fue encontrado en 8 de los submuestreos aleatorios, pero no en el análisis original, aunque estaba presente en el de muestras de "desarrollo".

@@ -19,6 +19,7 @@ metadata <- paste0("../data/metadata/" , args[4] ) #los argumentos deberían de 
 #correspondiente
 tipo <- args[5] #nombre de la columna de metadatos a considerar
 
+prefijo_muestra <- args[6]
 ##carga de los argumentos a dataframes de R
 key_otus <- read.csv(key_otus , row.names = 1 ) #se asume que es una tabla de salida del script ./first_analysis.R
 
@@ -75,11 +76,22 @@ for (i in 1:dim(metadata)[1]){
 ###se restringen los metadatos a las muestras usadas en el análisis de OTUs clave
 metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(key_otus) )) ,  ]
 
-tipo <- data.frame( ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
+###se cambian los nombres de las muestras para sam_table y otu_table
+
+dic <- c()
+for (i in which(is.element(metadata[ , "ID"], colnames(key_otus) ))){
+  dic_i <- paste0( args[6] , "_" , as.character(i) )
+  dic <- c(dic , dic_i)
+  
+}
+
+
+tipo <- data.frame( DIC = dic ,  ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
 
 tipo <- sample_data(tipo)
 
 ##obtención de tax_table y otu_table desde key_otus, data y taxonomy
+
 o_table_key <- otu_table(key_otus[intersect(row.names(key_otus) , row.names(taxonomy)) ,  intersect(row.names(tipo) , colnames(key_otus))  ] , taxa_are_rows = TRUE)  
 
 
