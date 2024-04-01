@@ -73,20 +73,33 @@ for (i in 1:dim(metadata)[1]){
   metadata[i , "ID"] <- make.names(metadata[i , "ID"])
 }
 
-###se restringen los metadatos a las muestras usadas en el análisis de OTUs clave
-metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(key_otus) )) ,  ]
 
-###se cambian los nombres de las muestras para sam_table y otu_table
 
-dic <- c()
+###se cambian los nombres de las muestras para sam_table 
+
+dic_sam <- c()
 for (i in which(is.element(metadata[ , "ID"], colnames(key_otus) ))){
   dic_i <- paste0( args[6] , "_" , as.character(i) )
-  dic <- c(dic , dic_i)
+  dic_sam <- c(dic_sam , dic_i)
   
 }
 
+###se restringen los metadatos a las muestras usadas en el análisis de OTUs clave
+metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(key_otus) )) ,  ]
 
-tipo <- data.frame( DIC = dic ,  ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
+
+### los nombres del diccionario anterior se llevan a la tabla de otus
+dic_otu <- c()
+for (i in 1:length(colnames(key_otus)) ){
+  dic_i <- dic_sam[which( metadata[ , "ID"] == colnames(key_otus)[i] )]
+  dic_otu <- c(dic_otu , dic_i)
+  
+}
+
+colnames(key_otus) <- dic_otu
+
+#tipo <- data.frame( DIC = dic ,  ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
+tipo <- data.frame( ID = dic_sam, Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
 
 tipo <- sample_data(tipo)
 
