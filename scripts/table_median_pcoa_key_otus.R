@@ -9,7 +9,7 @@ args = commandArgs(trailingOnly=TRUE)
 library(phyloseq)
 library(xtable)
 library(ggplot2)
-
+#library(svglite)
 #construcción de phyloseqs desde argumentos 
 
 key_otus <- paste0( "../results/central_otus/" , args[1] )
@@ -37,12 +37,12 @@ colnames(key_otus) <- c(coln , colnames(key_otus)[(length(colnames(key_otus))-3)
 
 
 
-#if (substr( data ,  length(data) - 3 , length(data)  ) == ".csv"){
+if (substr( data ,  length(data) - 3 , length(data)  ) == ".csv"){
 data <- read.csv( data , row.names = 1 , header = TRUE )
-#} else {
-  #data <- read.table( data , row.names = 1 , header = TRUE , sep = "" )
-#}
-
+} else {
+  data <- read.table( data , row.names = 1 , header = TRUE , sep = "" )
+}
+#head(data)
 
 #arreglar nombres de tabla de muestras
 col <- c()
@@ -64,7 +64,7 @@ metadata <- read.csv(metadata ,  colClasses = "character")
 
 
 
-
+data <- data[ , intersect(colnames(data), colnames(key_otus))  ]
 ##utilización de tipo para sacar samp_data desde metadata
 
 ###los nombres de las muestras están en una columna llamada "ID"
@@ -89,26 +89,44 @@ metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(key_otus) )) ,
 
 
 ### los nombres del diccionario anterior se llevan a la tabla de otus
-dic_otu <- c()
+dic_key_otu <- c()
 for (i in 1:length(colnames(key_otus)) ){
   dic_i <- dic_sam[which( metadata[ , "ID"] == colnames(key_otus)[i] )]
-  dic_otu <- c(dic_otu , dic_i)
+  dic_key_otu <- c(dic_key_otu , dic_i)
   
 }
 
-colnames(key_otus) <- dic_otu
+colnames(key_otus) <- dic_key_otu
+
+
+
+dic_otu <- c()
+for (i in 1:length(colnames(data)) ){
+  dic_i <- dic_sam[which( metadata[ , "ID"] == colnames(data)[i] )]
+  dic_otu <- c(dic_otu , dic_i)
+  print(dic_i)
+}
+
+colnames(data) <- dic_otu
+#print(key_otus)
 
 #tipo <- data.frame( DIC = dic ,  ID = metadata[ , "ID"], Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
-tipo <- data.frame( ID = dic_sam, Type = metadata [ , tipo ],row.names = metadata[ , "ID"])
+tipo <- data.frame( ID = dic_sam, Type = metadata [ , tipo ],row.names = dic_sam)
+
+#print(tipo)
 
 tipo <- sample_data(tipo)
 
 ##obtención de tax_table y otu_table desde key_otus, data y taxonomy
 
-o_table_key <- otu_table(key_otus[intersect(row.names(key_otus) , row.names(taxonomy)) ,  intersect(row.names(tipo) , colnames(key_otus))  ] , taxa_are_rows = TRUE)  
+#print(colnames(key_otus))
+#print(as.character(tipo$ID))
+#print(intersect(as.vector(tipo[ , "ID"]) , colnames(key_otus)) )
 
+o_table_key <- otu_table(key_otus[intersect(row.names(key_otus) , row.names(taxonomy)) ,  intersect(as.character(tipo$ID) , colnames(key_otus))  ] , taxa_are_rows = TRUE)  
 
-o_table <- otu_table(data[ intersect(row.names(data) , row.names(taxonomy)) ,  intersect(row.names(tipo) ,colnames(key_otus)) ], taxa_are_rows = TRUE)
+o_table <- otu_table(data[  ,  intersect(as.character(tipo$ID)  , colnames(key_otus))  ] , taxa_are_rows = TRUE)  
+#o_table <- otu_table(data[ intersect(row.names(data) , row.names(taxonomy)) ,  intersect(as.character(tipo$ID)  , colnames(key_otus))  ] , taxa_are_rows = TRUE)  
 
 
 taxonomy <- taxonomy[ intersect(row.names(taxonomy) ,  row.names(key_otus) ) , ]
@@ -140,7 +158,7 @@ for (i in row.names(taxonomy)){
     otu <- c(otu , as.character(taxonomy[i, "V9"]))
     #print(taxonomy[i, "V9"])
   } else {
-    otu <- c(otu ,as.character(taxonomy[i, "V8"]))
+    otu <- c(otu , as.character(taxonomy[i, "V8"]))
    # print(as.character(taxonomy[i, "V8"]))
   }
   

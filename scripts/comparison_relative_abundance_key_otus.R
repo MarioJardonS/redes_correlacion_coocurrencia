@@ -71,11 +71,11 @@ if (nivel == "Phylum"){
   if (nivel == "Order"){
     nivel0 <- "ta5"
   } else {
-  if (nivel == "Family"){
-    nivel0 <- "ta6"
-  } else {
-    nivel0 <- "ta7"
-  }}
+    if (nivel == "Family"){
+      nivel0 <- "ta6"
+    } else {
+      nivel0 <- "ta7"
+    }}
 }
 
 ##utilización de tipo para sacar samp_data desde metadata
@@ -126,59 +126,59 @@ for (i in 1:(length(lista))){
 
 ##poco abundante
 
-  abundance <- c()
-  #tax_niv <- c()
-  for (i in 1:length(levels(df[ , nivel]))){
-    which_i <- which(as.vector(df[ , nivel]) == levels(df[ , nivel])[i])
-    #print(which_i)
-    sum_i <- sum(as.vector(df[which_i,]$Abundance))
-    abundance <- c(abundance , sum_i)
-    #tax_niv <- c(tax_niv , levels(df[ , nivel])[i])
-  }
+abundance <- c()
+#tax_niv <- c()
+for (i in 1:length(levels(df[ , nivel]))){
+  which_i <- which(as.vector(df[ , nivel]) == levels(df[ , nivel])[i])
+  #print(which_i)
+  sum_i <- sum(as.vector(df[which_i,]$Abundance))
+  abundance <- c(abundance , sum_i)
+  #tax_niv <- c(tax_niv , levels(df[ , nivel])[i])
+}
+
+if (nivel == "Phylum"){
+  il <- 0
+  #il <- summary(abundance)["1st Qu."] 
+} else {
+  #il <- 0.025
+  il <- summary(abundance)["Median"] 
   
-  if (nivel == "Phylum"){
-    il <- 0
-    #il <- summary(abundance)["1st Qu."] 
-  } else {
-    #il <- 0.025
-      il <- summary(abundance)["Median"] 
-    
-  }
-  print(il)
-  
-  nivel_abundante <- which(abundance >= il )
-  nivel_abundante <- levels(df_key[ , nivel])[nivel_abundante]
-  #print(nivel_abundante)
+}
+print(il)
+
+nivel_abundante <- which(abundance >= il )
+nivel_abundante <- levels(df_key[ , nivel])[nivel_abundante]
+#print(nivel_abundante)
 
 
-  for (i in 1:length(lista)){
-    ab_i <- c()
-    for (j in 1:dim(lista_df[[i]])[1]){
-      if (is.element(as.vector(lista_df[[i]][ , nivel])[j] , nivel_abundante )){
-        ab_i <- c(ab_i , as.vector(lista_df[[i]][ , nivel])[j]   )
-      } else {
-        ab_i <- c(ab_i , "Other")
-      }
-    }
-    
-    lista_df[[i]][ , nivel] <- ab_i
-    lista_df[[i]][ , nivel] <- as.factor(lista_df[[i]][ , nivel ])
-  }
-  
-  ab <- c()
-  for (j in 1:dim(df)[1]){
-    if (is.element(as.vector(df[ , nivel])[j] , nivel_abundante )){
-      ab <- c(ab , as.vector(df[ , nivel])[j]   )
+for (i in 1:length(lista)){
+  ab_i <- c()
+  for (j in 1:dim(lista_df[[i]])[1]){
+    if (is.element(as.vector(lista_df[[i]][ , nivel])[j] , nivel_abundante )){
+      ab_i <- c(ab_i , as.vector(lista_df[[i]][ , nivel])[j]   )
     } else {
-      ab <- c(ab , "Other")
+      ab_i <- c(ab_i , "Other")
     }
   }
-  df[ , nivel] <- ab
-    
-  df[ , nivel] <- as.factor(df[ , nivel ])
-      
   
-    
+  lista_df[[i]][ , nivel] <- ab_i
+  lista_df[[i]][ , nivel] <- as.factor(lista_df[[i]][ , nivel ])
+}
+
+ab <- c()
+for (j in 1:dim(df)[1]){
+  if (is.element(as.vector(df[ , nivel])[j] , nivel_abundante )){
+    ab <- c(ab , as.vector(df[ , nivel])[j]   )
+  } else {
+    ab <- c(ab , "Other")
+  }
+}
+df[ , nivel] <- ab
+
+df[ , nivel] <- as.factor(df[ , nivel ])
+
+
+
 
 
 
@@ -192,32 +192,32 @@ lista_rp <- list()
 nombres <- c()
 if (nivel == "Phylum"){
   for (i in 1:length(lista)){
-  rp_i <- paste0("rp_" , as.character(i))  
-  nombres <- c(nombres , rp_i)
-  
-  relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Phylum))  +
+    rp_i <- paste0("rp_" , as.character(i))  
+    nombres <- c(nombres , rp_i)
+    
+    relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Phylum))  +
       geom_bar(aes(), stat="identity", position="stack")+
       scale_fill_manual(values = colors_rel[levels(df[ , nivel])] , drop = FALSE)+ 
       theme(axis.text.x = element_text(angle = 45, hjust = 1) )
-  lista_rp[[i]] <- relative_plot_i
-
+    lista_rp[[i]] <- relative_plot_i
+    
   }
-
+  
   names(lista_rp) <- nombres  
   impar <- which(1:length(lista) %% 2 == 1)
   
   
   for (i in impar){
     if (is.element(i+1 , 1:length(lista))){
-    plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
-    plot <- plot + plot_layout(ncol = 1) 
+      plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+      plot <- plot + plot_layout(ncol = 1) 
     } else {
       plot <- lista_rp[[i]]
     }
     
     ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
   }
-    
+  
   
   
   
@@ -251,74 +251,66 @@ if (nivel == "Phylum"){
       ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
     }
   } else {
-  if (nivel == "Family"){
-    for (i in 1:length(lista)){
-      rp_i <- paste0("rp_" , as.character(i))  
-      nombres <- c(nombres , rp_i)
-      
-      relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Family))  +
-        geom_bar(aes(), stat="identity", position="stack")+
-        scale_fill_manual(values = colors_rel[levels(df[ , nivel])] , drop = FALSE)+ 
-        theme(axis.text.x = element_text(angle = 45, hjust = 1) )
-      lista_rp[[i]] <- relative_plot_i
-      }
-    
-    
-    names(lista_rp) <- nombres  
-    
-    impar <- which(1:length(lista) %% 2 == 1)
-    
-    
-    for (i in impar){
-      if (is.element(i+1 , 1:length(lista))){
-        plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
-        plot <- plot + plot_layout(ncol = 1) 
-      } else {
-        plot <- lista_rp[[i]]
+    if (nivel == "Family"){
+      for (i in 1:length(lista)){
+        rp_i <- paste0("rp_" , as.character(i))  
+        nombres <- c(nombres , rp_i)
+        
+        relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Family))  +
+          geom_bar(aes(), stat="identity", position="stack")+
+          scale_fill_manual(values = colors_rel[levels(df[ , nivel])] , drop = FALSE)+ 
+          theme(axis.text.x = element_text(angle = 45, hjust = 1) )
+        lista_rp[[i]] <- relative_plot_i
       }
       
-      ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
-    }
-    
-    
-    
-    
-  } else {
-    for (i in 1:length(lista)){
-      rp_i <- paste0("rp_" , as.character(i))  
-      nombres <- c(nombres , rp_i)
       
-      relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Genus))  +
-        geom_bar(aes(), stat="identity", position="stack")+
-        scale_fill_manual(values = colors_rel , drop = FALSE)+ 
-        theme(axis.text.x = element_text(angle = 45, hjust = 1) )
-      lista_rp[[i]] <- relative_plot_i
-    }
-    
-    
-    names(lista_rp) <- nombres  
-    impar <- which(1:length(lista) %% 2 == 1)
-    
-    
-    for (i in impar){
-      if (is.element(i+1 , 1:length(lista))){
-        plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
-        plot <- plot + plot_layout(ncol = 1) 
-      } else {
-        plot <- lista_rp[[i]]
+      names(lista_rp) <- nombres  
+      
+      impar <- which(1:length(lista) %% 2 == 1)
+      
+      
+      for (i in impar){
+        if (is.element(i+1 , 1:length(lista))){
+          plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+          plot <- plot + plot_layout(ncol = 1) 
+        } else {
+          plot <- lista_rp[[i]]
+        }
+        
+        ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
       }
       
-      ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
+      
+      
+      
+    } else {
+      for (i in 1:length(lista)){
+        rp_i <- paste0("rp_" , as.character(i))  
+        nombres <- c(nombres , rp_i)
+        
+        relative_plot_i <- ggplot( lista_df[[i]] ,  aes(x=Sample, y=Abundance, fill=Genus))  +
+          geom_bar(aes(), stat="identity", position="stack")+
+          scale_fill_manual(values = colors_rel , drop = FALSE)+ 
+          theme(axis.text.x = element_text(angle = 45, hjust = 1) )
+        lista_rp[[i]] <- relative_plot_i
+      }
+      
+      
+      names(lista_rp) <- nombres  
+      impar <- which(1:length(lista) %% 2 == 1)
+      
+      
+      for (i in impar){
+        if (is.element(i+1 , 1:length(lista))){
+          plot <- ggplot_add(lista_rp[[i+1]]  , lista_rp[[i]] , names(lista_rp)[i+1])
+          plot <- plot + plot_layout(ncol = 1) 
+        } else {
+          plot <- lista_rp[[i]]
+        }
+        
+        ggsave( paste0("../results/analisis/",args[4+i] , "_" , args[4+i+1] , "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
+      }
     }
-  }
   }
 }
-
-
-#ggsave( paste0("../results/analisis/", args[5], args[6], "_relative_abundance_" , nivel  , ".png") , plot , device = 'png' )
-
-#ggsave( paste0("../results/analisis/" ,as.character(length(lista)), "_relative_abundance_" , nivel  , ".png") , relative_plot , device = 'png' )
-
-
-
 
