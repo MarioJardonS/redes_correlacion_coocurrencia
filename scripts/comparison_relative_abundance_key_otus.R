@@ -28,8 +28,8 @@ nivel <- args[4]
 #lista de tablas de otus a comparar´
 
 lista <- list()
-for (i in 5:length(args)){
-  lista[[i-4]] <- args[i]
+for (i in 6:length(args)){
+  lista[[i-5]] <- args[i]
 }
 
 
@@ -50,7 +50,7 @@ for (i in 1:length(lista)){
   }
   
   colnames(data) <- col
-  lista_data[[i]] <- data
+  lista_data[[i]] <- data[ , 1:(dim(data)[2]-4)]
   
 }
 
@@ -86,6 +86,29 @@ for (i in 1:dim(metadata)[1]){
   metadata[i , "ID"] <- make.names(metadata[i , "ID"])
 }
 
+for (j in 1:length(lista)){
+  dic_sam_j <- c()
+  for (i in which(is.element(metadata[ , "ID"], colnames(lista_data[[j]]) ))){
+    dic_i <- paste0( args[5] , "_" , as.character(i) )
+    dic_sam_j <- c(dic_sam_j , dic_i)
+    
+  }
+  
+  metadata_j <- metadata[which(is.element(metadata[ , "ID"], colnames(lista_data[[j]]) )) ,  ]
+  
+  dic_otu_j <- c()
+  for (i in 1:length(colnames(lista_data[[j]])) ){
+    dic_i <- dic_sam[which( metadata_j[ , "ID"] == colnames(lista_data[[j]])[i] )]
+    dic_otu_j <- c(dic_otu_j , dic_i)
+    
+  }
+  
+  colnames(lista_data[[j]]) <- dic_otu_j
+  
+}
+
+
+
 ###se restringen los metadatos a las muestras usadas en el análisis de OTUs clave
 #metadata <- metadata[which(is.element(metadata[ , "ID"], colnames(tabla) )) ,  ]
 
@@ -98,7 +121,7 @@ lista_phy <- list()
 
 for (i in 1:length(lista)){
   
-  o_table_i <- otu_table(lista_data[[i]][ intersect(row.names(lista_data[[i]]) , row.names(taxonomy)) , intersect( colnames(lista_data[[i]]) , metadata[ , "ID"] )  ], taxa_are_rows = TRUE)
+  o_table_i <- otu_table(lista_data[[i]][ intersect(row.names(lista_data[[i]]) , row.names(taxonomy)) , ], taxa_are_rows = TRUE)
   
   
   taxonomy_i <- taxonomy[ intersect(row.names(taxonomy) ,  row.names(lista_data[[i]]) ) , ]
