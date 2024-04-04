@@ -98,7 +98,7 @@ for (j in 1:length(lista)){
   
   dic_otu_j <- c()
   for (i in 1:length(colnames(lista_data[[j]])) ){
-    dic_i <- dic_sam[which( metadata_j[ , "ID"] == colnames(lista_data[[j]])[i] )]
+    dic_i <- dic_sam_j[which( metadata_j[ , "ID"] == colnames(lista_data[[j]])[i] )]
     dic_otu_j <- c(dic_otu_j , dic_i)
     
   }
